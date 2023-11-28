@@ -1,0 +1,20 @@
+import { ValidationError } from '../../../src/presentation/errors/validation-error'
+import { SignUpController } from './../../../src/presentation/controller/signup/signup-controller'
+
+describe('SignUp Controller', () => {
+  test('should return status 400 if name is required', async () => {
+    const sut = new SignUpController()
+    const httpRequest = {
+      body: {
+        email: 'any_email@mail.com',
+        password: 'any_password',
+        Phone: 'any_telefone'
+      }
+    }
+    const httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse).toEqual({
+      statusCode: 400,
+      body: new ValidationError('name is required. Please write name')
+    })
+  })
+})
