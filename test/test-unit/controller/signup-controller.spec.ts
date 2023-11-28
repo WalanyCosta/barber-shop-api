@@ -17,4 +17,21 @@ describe('SignUp Controller', () => {
       body: new ValidationError('name is required. Please write name')
     })
   })
+
+  test('should return status 400 if name is empty', async () => {
+    const sut = new SignUpController()
+    const httpRequest = {
+      body: {
+        name: '',
+        email: 'any_email@mail.com',
+        password: 'any_password',
+        Phone: 'any_telefone'
+      }
+    }
+    const httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse).toEqual({
+      statusCode: 400,
+      body: new ValidationError('name is empty. Please write name')
+    })
+  })
 })
