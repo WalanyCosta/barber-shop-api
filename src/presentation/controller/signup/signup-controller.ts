@@ -5,6 +5,7 @@ import * as z from 'zod'
 export class SignUpController implements Controller {
   validationschema = z.object({
     name: z.string({ required_error: 'name is required. Please write name' })
+      .min(1, { message: 'name is empty. Please write name' })
   })
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
