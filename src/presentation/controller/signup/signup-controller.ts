@@ -7,6 +7,7 @@ export class SignUpController implements Controller {
     name: z.string({ required_error: 'name is required. Please write name' })
       .min(1, { message: 'name is empty. Please write name' }),
     email: z.string({ required_error: 'email is required. Please write email' })
+      .min(1, { message: 'email is empty. Please write email' })
   })
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
