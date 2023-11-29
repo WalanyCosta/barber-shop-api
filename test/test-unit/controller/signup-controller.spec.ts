@@ -67,4 +67,21 @@ describe('SignUp Controller', () => {
       body: new ValidationError('email is empty. Please write email')
     })
   })
+
+  test('should return status 400 if email is invalid', async () => {
+    const sut = new SignUpController()
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        email: 'any_email',
+        password: 'any_password',
+        Phone: 'any_telefone'
+      }
+    }
+    const httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse).toEqual({
+      statusCode: 400,
+      body: new ValidationError('email is invalid. Please write email correctly')
+    })
+  })
 })
