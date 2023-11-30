@@ -88,4 +88,17 @@ describe('SignUp Controller', () => {
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse).toEqual(badRequest('email is invalid. Please write email correctly'))
   })
+
+  test('should return status 400 password is required', async () => {
+    const { sut } = makeSut()
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        email: 'any_email@mail.com',
+        Phone: 'any_telefone'
+      }
+    }
+    const httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse).toEqual(badRequest('Password is invalid. Please write password'))
+  })
 })
