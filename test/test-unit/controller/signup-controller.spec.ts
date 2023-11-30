@@ -1,9 +1,28 @@
 import { ValidationError } from '../../../src/presentation/errors/validation-error'
 import { SignUpController } from './../../../src/presentation/controller/signup/signup-controller'
 
+interface SutTypes {
+  sut: SignUpController
+}
+
+const makeSut = (): SutTypes => {
+  const sut = new SignUpController()
+
+  return {
+    sut
+  }
+}
+
+const badRequest = (message: string): any => {
+  return {
+    statusCode: 400,
+    body: new ValidationError(message)
+  }
+}
+
 describe('SignUp Controller', () => {
   test('should return status 400 if name is required', async () => {
-    const sut = new SignUpController()
+    const { sut } = makeSut()
     const httpRequest = {
       body: {
         email: 'any_email@mail.com',
@@ -12,14 +31,11 @@ describe('SignUp Controller', () => {
       }
     }
     const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse).toEqual({
-      statusCode: 400,
-      body: new ValidationError('name is required. Please write name')
-    })
+    expect(httpResponse).toEqual(badRequest('name is required. Please write name'))
   })
 
   test('should return status 400 if name is empty', async () => {
-    const sut = new SignUpController()
+    const { sut } = makeSut()
     const httpRequest = {
       body: {
         name: '',
@@ -29,14 +45,11 @@ describe('SignUp Controller', () => {
       }
     }
     const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse).toEqual({
-      statusCode: 400,
-      body: new ValidationError('name is empty. Please write name')
-    })
+    expect(httpResponse).toEqual(badRequest('name is empty. Please write name'))
   })
 
   test('should return status 400 if email is required', async () => {
-    const sut = new SignUpController()
+    const { sut } = makeSut()
     const httpRequest = {
       body: {
         name: 'any_name',
@@ -45,14 +58,11 @@ describe('SignUp Controller', () => {
       }
     }
     const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse).toEqual({
-      statusCode: 400,
-      body: new ValidationError('email is required. Please write email')
-    })
+    expect(httpResponse).toEqual(badRequest('email is required. Please write email'))
   })
 
   test('should return status 400 if email is empty', async () => {
-    const sut = new SignUpController()
+    const { sut } = makeSut()
     const httpRequest = {
       body: {
         name: 'any_name',
@@ -62,14 +72,11 @@ describe('SignUp Controller', () => {
       }
     }
     const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse).toEqual({
-      statusCode: 400,
-      body: new ValidationError('email is empty. Please write email')
-    })
+    expect(httpResponse).toEqual(badRequest('email is empty. Please write email'))
   })
 
   test('should return status 400 if email is invalid', async () => {
-    const sut = new SignUpController()
+    const { sut } = makeSut()
     const httpRequest = {
       body: {
         name: 'any_name',
@@ -79,9 +86,6 @@ describe('SignUp Controller', () => {
       }
     }
     const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse).toEqual({
-      statusCode: 400,
-      body: new ValidationError('email is invalid. Please write email correctly')
-    })
+    expect(httpResponse).toEqual(badRequest('email is invalid. Please write email correctly'))
   })
 })
