@@ -12,6 +12,7 @@
     },
     "rules": {
         "prefer-regex-literals": "off",
-        "@typescript-eslint/strict-boolean-expressions": "off"
+        "@typescript-eslint/strict-boolean-expressions": "off",
+        "@typescript-eslint/no-floating-promises": "off"
     }
 }

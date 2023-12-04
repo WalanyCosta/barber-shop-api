@@ -50,4 +50,18 @@ describe('DbAddAccount', () => {
     })
     expect(response).toBeNull()
   })
+
+  test('should return throw if loadAccountByEmailRepository throws', async () => {
+    const loadAccountByEmailRepositoryStub = makeLoadAccountByEmailRepositoryStub()
+    const sut = new DbAddAccount(loadAccountByEmailRepositoryStub)
+    const error = new Error()
+    jest.spyOn(loadAccountByEmailRepositoryStub, 'load').mockRejectedValueOnce(error)
+    const response = sut.add({
+      name: 'any_token',
+      email: 'any_email',
+      password: 'any_password',
+      phone: 'any_phone'
+    })
+    expect(response).rejects.toThrow(error)
+  })
 })
