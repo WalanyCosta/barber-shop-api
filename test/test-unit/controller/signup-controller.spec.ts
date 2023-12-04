@@ -1,16 +1,30 @@
+import { type AddAccountRepository, type AddAccountParam } from './../../../src/domain/protocols/add-account'
 import { ValidationError } from '../../../src/presentation/errors/validation-error'
 import { SignUpController } from './../../../src/presentation/controller/signup/signup-controller'
 
 interface SutTypes {
   sut: SignUpController
+  addAccountRepositoryStub: AddAccountRepository
 }
 
 const makeSut = (): SutTypes => {
-  const sut = new SignUpController()
+  const addAccountRepositoryStub = makeAddAccountRepositoryStub()
+  const sut = new SignUpController(addAccountRepositoryStub)
 
   return {
-    sut
+    sut,
+    addAccountRepositoryStub
   }
+}
+
+const makeAddAccountRepositoryStub = (): AddAccountRepository => {
+  class AddAccountRepositoryStub implements AddAccountRepository {
+    async add (addAccountParam: AddAccountParam): Promise<string> {
+      return await Promise.resolve('any_token')
+    }
+  }
+
+  return new AddAccountRepositoryStub()
 }
 
 const badRequest = (message: string): any => {
@@ -155,5 +169,21 @@ describe('SignUp Controller', () => {
     }
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse).toEqual(badRequest('phone is empty. Please write phone'))
+  })
+
+  test('should call AddAccountRepository with param correct', async () => {
+    const { sut, addAccountRepositoryStub } = makeSut()
+
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        email: 'any_email@gmail.com',
+        password: 'Password123#',
+        phone: 'any_phone'
+      }
+    }
+    const addSpy = jest.spyOn(addAccountRepositoryStub, 'add')
+    await sut.handle(httpRequest)
+    expect(addSpy).toHaveBeenCalledWith(httpRequest.body)
   })
 })
