@@ -205,4 +205,23 @@ describe('SignUp Controller', () => {
       body: new EmailInUseError()
     })
   })
+
+  test('should return 500 if AddAccountRepository throws', async () => {
+    const { sut, addAccountRepositoryStub } = makeSut()
+    const error = new Error()
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        email: 'any_email@gmail.com',
+        password: 'Password123#',
+        phone: 'any_phone'
+      }
+    }
+    jest.spyOn(addAccountRepositoryStub, 'add').mockRejectedValueOnce(error)
+    const httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse).toEqual({
+      statusCode: 500,
+      body: error
+    })
+  })
 })
