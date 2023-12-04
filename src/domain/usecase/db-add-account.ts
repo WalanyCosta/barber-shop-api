@@ -5,7 +5,8 @@ export class DbAddAccount implements AddAccountRepository {
   constructor (private readonly loadAccountByEmailRepository: LoadAccountByEmailRepository) {}
 
   async add (addAccountParam: AddAccountParam): Promise<string | null> {
-    await this.loadAccountByEmailRepository.load(addAccountParam.email)
-    return 'any_token'
+    const response = await this.loadAccountByEmailRepository.load(addAccountParam.email)
+    if (!response) return 'any_token'
+    return null
   }
 }
