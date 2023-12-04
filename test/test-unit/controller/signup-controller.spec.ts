@@ -1,3 +1,4 @@
+import { EmailInUseError } from './../../../src/presentation/errors/email-in-use-error'
 import { type AddAccountRepository, type AddAccountParam } from './../../../src/domain/protocols/add-account'
 import { ValidationError } from '../../../src/presentation/errors/validation-error'
 import { SignUpController } from './../../../src/presentation/controller/signup/signup-controller'
@@ -19,7 +20,7 @@ const makeSut = (): SutTypes => {
 
 const makeAddAccountRepositoryStub = (): AddAccountRepository => {
   class AddAccountRepositoryStub implements AddAccountRepository {
-    async add (addAccountParam: AddAccountParam): Promise<string> {
+    async add (addAccountParam: AddAccountParam): Promise<string | null> {
       return await Promise.resolve('any_token')
     }
   }
@@ -185,5 +186,23 @@ describe('SignUp Controller', () => {
     const addSpy = jest.spyOn(addAccountRepositoryStub, 'add')
     await sut.handle(httpRequest)
     expect(addSpy).toHaveBeenCalledWith(httpRequest.body)
+  })
+
+  test('should return 403 if AddAccountRepository email already exists', async () => {
+    const { sut, addAccountRepositoryStub } = makeSut()
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        email: 'any_email@gmail.com',
+        password: 'Password123#',
+        phone: 'any_phone'
+      }
+    }
+    jest.spyOn(addAccountRepositoryStub, 'add').mockResolvedValueOnce(null)
+    const httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse).toEqual({
+      statusCode: 403,
+      body: new EmailInUseError()
+    })
   })
 })
