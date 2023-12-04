@@ -33,4 +33,16 @@ describe('DbAddAccount', () => {
     })
     expect(loadSpy).toHaveBeenCalledWith('any_email')
   })
+
+  test('should return null if loadAccountByEmailRepository returns account', async () => {
+    const loadAccountByEmailRepositoryStub = makeLoadAccountByEmailRepositoryStub()
+    const sut = new DbAddAccount(loadAccountByEmailRepositoryStub)
+    const response = await sut.add({
+      name: 'any_token',
+      email: 'any_email',
+      password: 'any_password',
+      phone: 'any_phone'
+    })
+    expect(response).toBeNull()
+  })
 })
