@@ -1,3 +1,4 @@
+import { type AddAccountRepository } from './../../../domain/protocols/add-account'
 import { ValidationError } from '../../errors/validation-error'
 import { type Controller, type HttpRequest, type HttpResponse } from '../../protocols/controller'
 import * as z from 'zod'
@@ -22,6 +23,8 @@ export class SignUpController implements Controller {
       .min(1, 'phone is empty. Please write phone')
   })
 
+  constructor (private readonly addAccountRepository: AddAccountRepository) {}
+
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     const response = this.validationschema.safeParse(httpRequest.body)
 
@@ -32,6 +35,8 @@ export class SignUpController implements Controller {
         body: new ValidationError(ZodError[0].message)
       }
     }
+
+    await this.addAccountRepository.add(httpRequest.body)
 
     return {
       statusCode: 200
