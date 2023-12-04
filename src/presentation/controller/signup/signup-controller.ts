@@ -10,6 +10,8 @@ export class SignUpController implements Controller {
       .min(1, { message: 'email is empty. Please write email' })
       .email({ message: 'email is invalid. Please write email correctly' }),
     password: z.string({ required_error: 'Password is invalid. Please write password' })
+      .regex(new RegExp("(.*[A-Z].*) | (.*[a-z].*) | (.*\\d.*) | (.*[`~<>?,./!@#$%^&*()\\-_+=\"'|{}\\[\\];:\\\\].*)"),
+        'Password is weak. Please write password')
   })
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
