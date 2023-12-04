@@ -142,4 +142,18 @@ describe('SignUp Controller', () => {
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse).toEqual(badRequest('phone is required. Please write phone'))
   })
+
+  test('should return status 400 if phone is empty', async () => {
+    const { sut } = makeSut()
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        email: 'any_email@gmail.com',
+        password: 'Password123#',
+        phone: ''
+      }
+    }
+    const httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse).toEqual(badRequest('phone is empty. Please write phone'))
+  })
 })
