@@ -19,6 +19,7 @@ export class SignUpController implements Controller {
       )
       .min(8, 'Password must be at least 8 characters in length'),
     phone: z.string({ required_error: 'phone is required. Please write phone' })
+      .min(1, 'phone is empty. Please write phone')
   })
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
