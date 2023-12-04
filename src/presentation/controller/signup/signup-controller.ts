@@ -17,7 +17,8 @@ export class SignUpController implements Controller {
         new RegExp(".*[`~<>?,./!@#$%^&*()\\-_+=\"'|{}\\[\\];:\\\\].*"),
         'Password is weak. Please write password'
       )
-      .min(8, 'Password must be at least 8 characters in length')
+      .min(8, 'Password must be at least 8 characters in length'),
+    phone: z.string({ required_error: 'phone is required. Please write phone' })
   })
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
