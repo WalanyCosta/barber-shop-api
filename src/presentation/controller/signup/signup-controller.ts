@@ -1,7 +1,8 @@
+import { ValidationError } from './../../errors/validation-error'
 import { type AddAccountRepository } from './../../../domain/protocols/add-account'
-import { ValidationError } from '../../errors/validation-error'
 import { type Controller, type HttpRequest, type HttpResponse } from '../../protocols/controller'
 import * as z from 'zod'
+import { EmailInUseError } from '../../errors/email-in-use-error'
 
 export class SignUpController implements Controller {
   validationschema = z.object({
@@ -26,18 +27,24 @@ export class SignUpController implements Controller {
   constructor (private readonly addAccountRepository: AddAccountRepository) {}
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
-    const response = this.validationschema.safeParse(httpRequest.body)
+    const error = this.validationschema.safeParse(httpRequest.body)
 
-    if (!response.success) {
-      const ZodError = JSON.parse(response.error.toString())
+    if (!error.success) {
+      const ZodError = JSON.parse(error.error.toString())
       return {
         statusCode: 400,
         body: new ValidationError(ZodError[0].message)
       }
     }
 
-    await this.addAccountRepository.add(httpRequest.body)
+    const accessToken = await this.addAccountRepository.add(httpRequest.body)
 
+    if (!accessToken) {
+      return {
+        statusCode: 403,
+        body: new EmailInUseError()
+      }
+    }
     return {
       statusCode: 200
     }

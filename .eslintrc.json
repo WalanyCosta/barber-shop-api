@@ -11,6 +11,7 @@
         "project": "./tsconfig.eslint.json"
     },
     "rules": {
-        "prefer-regex-literals": "off"
+        "prefer-regex-literals": "off",
+        "@typescript-eslint/strict-boolean-expressions": "off"
     }
 }

@@ -6,5 +6,5 @@ export interface AddAccountParam {
 }
 
 export interface AddAccountRepository {
-  add: (addAccountParam: AddAccountParam) => Promise<string>
+  add: (addAccountParam: AddAccountParam) => Promise<string | null>
 }
