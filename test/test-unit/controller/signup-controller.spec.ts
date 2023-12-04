@@ -28,6 +28,15 @@ const makeAddAccountRepositoryStub = (): AddAccountRepository => {
   return new AddAccountRepositoryStub()
 }
 
+const fakeHttpRequest = ({
+  body: {
+    name: 'any_name',
+    email: 'any_email@gmail.com',
+    password: 'Password123#',
+    phone: 'any_phone'
+  }
+})
+
 const badRequest = (message: string): any => {
   return {
     statusCode: 400,
@@ -174,32 +183,15 @@ describe('SignUp Controller', () => {
 
   test('should call AddAccountRepository with param correct', async () => {
     const { sut, addAccountRepositoryStub } = makeSut()
-
-    const httpRequest = {
-      body: {
-        name: 'any_name',
-        email: 'any_email@gmail.com',
-        password: 'Password123#',
-        phone: 'any_phone'
-      }
-    }
     const addSpy = jest.spyOn(addAccountRepositoryStub, 'add')
-    await sut.handle(httpRequest)
-    expect(addSpy).toHaveBeenCalledWith(httpRequest.body)
+    await sut.handle(fakeHttpRequest)
+    expect(addSpy).toHaveBeenCalledWith(fakeHttpRequest.body)
   })
 
   test('should return 403 if AddAccountRepository email already exists', async () => {
     const { sut, addAccountRepositoryStub } = makeSut()
-    const httpRequest = {
-      body: {
-        name: 'any_name',
-        email: 'any_email@gmail.com',
-        password: 'Password123#',
-        phone: 'any_phone'
-      }
-    }
     jest.spyOn(addAccountRepositoryStub, 'add').mockResolvedValueOnce(null)
-    const httpResponse = await sut.handle(httpRequest)
+    const httpResponse = await sut.handle(fakeHttpRequest)
     expect(httpResponse).toEqual({
       statusCode: 403,
       body: new EmailInUseError()
@@ -209,16 +201,8 @@ describe('SignUp Controller', () => {
   test('should return 500 if AddAccountRepository throws', async () => {
     const { sut, addAccountRepositoryStub } = makeSut()
     const error = new Error()
-    const httpRequest = {
-      body: {
-        name: 'any_name',
-        email: 'any_email@gmail.com',
-        password: 'Password123#',
-        phone: 'any_phone'
-      }
-    }
     jest.spyOn(addAccountRepositoryStub, 'add').mockRejectedValueOnce(error)
-    const httpResponse = await sut.handle(httpRequest)
+    const httpResponse = await sut.handle(fakeHttpRequest)
     expect(httpResponse).toEqual({
       statusCode: 500,
       body: error

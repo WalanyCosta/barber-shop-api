@@ -7,10 +7,10 @@ import { EmailInUseError } from '../../errors/email-in-use-error'
 export class SignUpController implements Controller {
   validationschema = z.object({
     name: z.string({ required_error: 'name is required. Please write name' })
-      .min(1, { message: 'name is empty. Please write name' }),
+      .min(1, 'name is empty. Please write name'),
     email: z.string({ required_error: 'email is required. Please write email' })
-      .min(1, { message: 'email is empty. Please write email' })
-      .email({ message: 'email is invalid. Please write email correctly' }),
+      .min(1, 'email is empty. Please write email')
+      .email('email is invalid. Please write email correctly'),
     password: z.string({ required_error: 'Password is invalid. Please write password' })
       .regex(new RegExp('.*[A-Z].*'), 'Password is weak. Please write password')
       .regex(new RegExp('.*[a-z].*'), 'Password is weak. Please write password')
