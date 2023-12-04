@@ -27,26 +27,33 @@ export class SignUpController implements Controller {
   constructor (private readonly addAccountRepository: AddAccountRepository) {}
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
-    const error = this.validationschema.safeParse(httpRequest.body)
+    try {
+      const error = this.validationschema.safeParse(httpRequest.body)
 
-    if (!error.success) {
-      const ZodError = JSON.parse(error.error.toString())
-      return {
-        statusCode: 400,
-        body: new ValidationError(ZodError[0].message)
+      if (!error.success) {
+        const ZodError = JSON.parse(error.error.toString())
+        return {
+          statusCode: 400,
+          body: new ValidationError(ZodError[0].message)
+        }
       }
-    }
 
-    const accessToken = await this.addAccountRepository.add(httpRequest.body)
+      const accessToken = await this.addAccountRepository.add(httpRequest.body)
 
-    if (!accessToken) {
-      return {
-        statusCode: 403,
-        body: new EmailInUseError()
+      if (!accessToken) {
+        return {
+          statusCode: 403,
+          body: new EmailInUseError()
+        }
       }
-    }
-    return {
-      statusCode: 200
+      return {
+        statusCode: 200
+      }
+    } catch (error) {
+      return {
+        statusCode: 500,
+        body: error
+      }
     }
   }
 }
