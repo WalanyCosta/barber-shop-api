@@ -1,5 +1,5 @@
 import { ValidationError } from './../../errors/validation-error'
-import { type AddAccountRepository } from './../../../domain/protocols/add-account'
+import { type AddAccount } from './../../../domain/protocols/add-account'
 import { type Controller, type HttpRequest, type HttpResponse } from '../../protocols/controller'
 import * as z from 'zod'
 import { EmailInUseError } from '../../errors/email-in-use-error'
@@ -24,7 +24,7 @@ export class SignUpController implements Controller {
       .min(1, 'phone is empty. Please write phone')
   })
 
-  constructor (private readonly addAccountRepository: AddAccountRepository) {}
+  constructor (private readonly addAccount: AddAccount) {}
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
@@ -38,7 +38,7 @@ export class SignUpController implements Controller {
         }
       }
 
-      const accessToken = await this.addAccountRepository.add(httpRequest.body)
+      const accessToken = await this.addAccount.add(httpRequest.body)
 
       if (!accessToken) {
         return {

@@ -1,11 +1,11 @@
 import { EmailInUseError } from './../../../src/presentation/errors/email-in-use-error'
-import { type AddAccountRepository, type AddAccountParam } from './../../../src/domain/protocols/add-account'
+import { type AddAccount, type AddAccountParam } from './../../../src/domain/protocols/add-account'
 import { ValidationError } from '../../../src/presentation/errors/validation-error'
 import { SignUpController } from './../../../src/presentation/controller/signup/signup-controller'
 
 interface SutTypes {
   sut: SignUpController
-  addAccountRepositoryStub: AddAccountRepository
+  addAccountRepositoryStub: AddAccount
 }
 
 const makeSut = (): SutTypes => {
@@ -18,8 +18,8 @@ const makeSut = (): SutTypes => {
   }
 }
 
-const makeAddAccountRepositoryStub = (): AddAccountRepository => {
-  class AddAccountRepositoryStub implements AddAccountRepository {
+const makeAddAccountRepositoryStub = (): AddAccount => {
+  class AddAccountRepositoryStub implements AddAccount {
     async add (addAccountParam: AddAccountParam): Promise<string | null> {
       return await Promise.resolve('any_token')
     }

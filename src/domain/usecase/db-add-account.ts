@@ -1,8 +1,8 @@
-import { type AddAccountParam, type AddAccountRepository } from '../protocols/add-account'
+import { type AddAccountParam, type AddAccount } from '../protocols/add-account'
 import { type Hasher } from '../protocols/hasher'
 import { type LoadAccountByEmailRepository } from '../protocols/load-account-by-email-repository'
 
-export class DbAddAccount implements AddAccountRepository {
+export class DbAddAccount implements AddAccount {
   constructor (
     private readonly loadAccountByEmailRepository: LoadAccountByEmailRepository,
     private readonly hasher: Hasher) {}

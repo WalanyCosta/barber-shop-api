@@ -5,6 +5,6 @@ export interface AddAccountParam {
   phone: string
 }
 
-export interface AddAccountRepository {
+export interface AddAccount {
   add: (addAccountParam: AddAccountParam) => Promise<string | null>
 }
