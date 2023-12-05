@@ -1,3 +1,4 @@
+import { type Hasher } from './../../../../src/domain/protocols/hasher'
 import { DbAddAccount } from './../../../../src/domain/usecase/db-add-account'
 import { type LoadAccountByEmailRepository } from './../../../../src/domain/protocols/load-account-by-email-repository'
 import { type AccountModel } from './../../../../src/domain/model/account-model'
@@ -5,15 +6,18 @@ import { type AccountModel } from './../../../../src/domain/model/account-model'
 interface SutTypes {
   sut: DbAddAccount
   loadAccountByEmailRepositoryStub: LoadAccountByEmailRepository
+  hasherStub: Hasher
 }
 
 const makeSut = (): SutTypes => {
   const loadAccountByEmailRepositoryStub = makeLoadAccountByEmailRepositoryStub()
-  const sut = new DbAddAccount(loadAccountByEmailRepositoryStub)
+  const hasherStub = makeHasherStub()
+  const sut = new DbAddAccount(loadAccountByEmailRepositoryStub, hasherStub)
 
   return {
     sut,
-    loadAccountByEmailRepositoryStub
+    loadAccountByEmailRepositoryStub,
+    hasherStub
   }
 }
 
@@ -25,6 +29,16 @@ const makeLoadAccountByEmailRepositoryStub = (): LoadAccountByEmailRepository =>
   }
 
   return new LoadAccountByEmailRepositoryStub()
+}
+
+const makeHasherStub = (): Hasher => {
+  class HasherStub implements Hasher {
+    async hash (value: string): Promise<string> {
+      return await Promise.resolve('any_hash')
+    }
+  }
+
+  return new HasherStub()
 }
 
 const fakeResponseAccount: AccountModel = (
@@ -69,5 +83,12 @@ describe('DbAddAccount', () => {
     jest.spyOn(loadAccountByEmailRepositoryStub, 'load').mockRejectedValueOnce(error)
     const response = sut.add(fakeRequestAccount)
     expect(response).rejects.toThrow(error)
+  })
+
+  test('should call Hasher with correct param', async () => {
+    const { sut, hasherStub } = makeSut()
+    const hasherSpy = jest.spyOn(hasherStub, 'hash')
+    await sut.add(fakeRequestAccount)
+    expect(hasherSpy).toHaveBeenCalledWith('any_password')
   })
 })
