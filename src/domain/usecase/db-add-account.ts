@@ -21,8 +21,8 @@ export class DbAddAccount implements AddAccount {
         password: hashed
       })
 
-      await this.encrypter.encrypt(newAccount.id)
-      return 'any_token'
+      const accessToken = await this.encrypter.encrypt(newAccount.id)
+      return accessToken
     }
     return null
   }
