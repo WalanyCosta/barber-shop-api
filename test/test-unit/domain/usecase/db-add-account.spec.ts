@@ -167,4 +167,11 @@ describe('DbAddAccount', () => {
     })
     expect(addSpy).toHaveBeenCalledWith('any_id')
   })
+
+  test('should throw if Encrypter throws', async () => {
+    const { sut, encrypterStub } = makeSut()
+    jest.spyOn(encrypterStub, 'encrypt').mockRejectedValueOnce(new Error())
+    const error = sut.add(fakeRequestAccount)
+    await expect(error).rejects.toThrow(new Error())
+  })
 })
