@@ -129,4 +129,11 @@ describe('DbAddAccount', () => {
       phone: 'any_phone'
     })
   })
+
+  test('should throw if AddAccountRepository throws', async () => {
+    const { sut, addAccountRepositoryStub } = makeSut()
+    jest.spyOn(addAccountRepositoryStub, 'add').mockRejectedValueOnce(new Error())
+    const error = sut.add(fakeRequestAccount)
+    await expect(error).rejects.toThrow(new Error())
+  })
 })
