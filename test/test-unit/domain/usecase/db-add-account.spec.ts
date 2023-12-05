@@ -1,3 +1,4 @@
+import { type AddAccountModel, type AddAccountRepository } from './../../../../src/domain/protocols/add-account-repository'
 import { type Hasher } from './../../../../src/domain/protocols/hasher'
 import { DbAddAccount } from './../../../../src/domain/usecase/db-add-account'
 import { type LoadAccountByEmailRepository } from './../../../../src/domain/protocols/load-account-by-email-repository'
@@ -7,18 +8,31 @@ interface SutTypes {
   sut: DbAddAccount
   loadAccountByEmailRepositoryStub: LoadAccountByEmailRepository
   hasherStub: Hasher
+  addAccountRepositoryStub: AddAccountRepository
 }
 
 const makeSut = (): SutTypes => {
-  const loadAccountByEmailRepositoryStub = makeLoadAccountByEmailRepositoryStub()
   const hasherStub = makeHasherStub()
-  const sut = new DbAddAccount(loadAccountByEmailRepositoryStub, hasherStub)
+  const addAccountRepositoryStub = makeAddAccountRepositoryStub()
+  const loadAccountByEmailRepositoryStub = makeLoadAccountByEmailRepositoryStub()
+  const sut = new DbAddAccount(loadAccountByEmailRepositoryStub, hasherStub, addAccountRepositoryStub)
 
   return {
     sut,
     loadAccountByEmailRepositoryStub,
-    hasherStub
+    hasherStub,
+    addAccountRepositoryStub
   }
+}
+
+const makeAddAccountRepositoryStub = (): AddAccountRepository => {
+  class AddAccountRepositoryStub implements AddAccountRepository {
+    async add (addAccountModel: AddAccountModel): Promise<AccountModel> {
+      return fakeResponseAccount
+    }
+  }
+
+  return new AddAccountRepositoryStub()
 }
 
 const makeLoadAccountByEmailRepositoryStub = (): LoadAccountByEmailRepository => {
@@ -97,5 +111,22 @@ describe('DbAddAccount', () => {
     jest.spyOn(hasherStub, 'hash').mockRejectedValueOnce(new Error())
     const error = sut.add(fakeRequestAccount)
     await expect(error).rejects.toThrow(new Error())
+  })
+
+  test('should call AddAccountRepository with correct param', async () => {
+    const { sut, addAccountRepositoryStub } = makeSut()
+    const addSpy = jest.spyOn(addAccountRepositoryStub, 'add')
+    await sut.add({
+      name: 'any_name',
+      email: 'any_email',
+      password: 'any_password',
+      phone: 'any_phone'
+    })
+    expect(addSpy).toHaveBeenCalledWith({
+      name: 'any_name',
+      email: 'any_email',
+      password: 'any_hash',
+      phone: 'any_phone'
+    })
   })
 })
