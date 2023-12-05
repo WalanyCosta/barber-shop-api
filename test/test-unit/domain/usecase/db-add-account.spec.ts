@@ -1,3 +1,4 @@
+import { type Encrypter } from './../../../../src/domain/protocols/encrypter'
 import { type AddAccountModel, type AddAccountRepository } from './../../../../src/domain/protocols/add-account-repository'
 import { type Hasher } from './../../../../src/domain/protocols/hasher'
 import { DbAddAccount } from './../../../../src/domain/usecase/db-add-account'
@@ -9,19 +10,27 @@ interface SutTypes {
   loadAccountByEmailRepositoryStub: LoadAccountByEmailRepository
   hasherStub: Hasher
   addAccountRepositoryStub: AddAccountRepository
+  encrypterStub: Encrypter
 }
 
 const makeSut = (): SutTypes => {
   const hasherStub = makeHasherStub()
+  const encrypterStub = makeEncrypterStub()
   const addAccountRepositoryStub = makeAddAccountRepositoryStub()
   const loadAccountByEmailRepositoryStub = makeLoadAccountByEmailRepositoryStub()
-  const sut = new DbAddAccount(loadAccountByEmailRepositoryStub, hasherStub, addAccountRepositoryStub)
+  const sut = new DbAddAccount(
+    loadAccountByEmailRepositoryStub,
+    hasherStub,
+    addAccountRepositoryStub,
+    encrypterStub
+  )
 
   return {
     sut,
     loadAccountByEmailRepositoryStub,
     hasherStub,
-    addAccountRepositoryStub
+    addAccountRepositoryStub,
+    encrypterStub
   }
 }
 
@@ -55,15 +64,25 @@ const makeHasherStub = (): Hasher => {
   return new HasherStub()
 }
 
+const makeEncrypterStub = (): Encrypter => {
+  class EncrypterStub implements Encrypter {
+    async encrypt (value: string): Promise<string> {
+      return 'any_token'
+    }
+  }
+
+  return new EncrypterStub()
+}
+
 const fakeResponseAccount: AccountModel = (
   {
     id: 'any_id',
     name: 'any_name',
     email: 'any_email',
-    password: 'any_password',
+    password: 'any_hash',
     phone: 'any_phone',
     avatar: 'any_avatar',
-    accessToken: 'any_token'
+    accessToken: 'any_value'
   }
 )
 
@@ -135,5 +154,17 @@ describe('DbAddAccount', () => {
     jest.spyOn(addAccountRepositoryStub, 'add').mockRejectedValueOnce(new Error())
     const error = sut.add(fakeRequestAccount)
     await expect(error).rejects.toThrow(new Error())
+  })
+
+  test('should call Encrypter with correct param', async () => {
+    const { sut, encrypterStub } = makeSut()
+    const addSpy = jest.spyOn(encrypterStub, 'encrypt')
+    await sut.add({
+      name: 'any_name',
+      email: 'any_email',
+      password: 'any_password',
+      phone: 'any_phone'
+    })
+    expect(addSpy).toHaveBeenCalledWith('any_id')
   })
 })
