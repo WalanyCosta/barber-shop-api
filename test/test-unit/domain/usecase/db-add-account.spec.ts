@@ -174,4 +174,10 @@ describe('DbAddAccount', () => {
     const error = sut.add(fakeRequestAccount)
     await expect(error).rejects.toThrow(new Error())
   })
+
+  test('should return token on success', async () => {
+    const { sut } = makeSut()
+    const accessToken = await sut.add(fakeRequestAccount)
+    expect(accessToken).toBe('any_token')
+  })
 })
