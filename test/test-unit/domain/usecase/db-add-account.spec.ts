@@ -207,4 +207,11 @@ describe('DbAddAccount', () => {
     })
     expect(updateAccessTokenSpy).toHaveBeenCalledWith('any_id', 'any_token')
   })
+
+  test('should throw if UpdateAccessTokenGenerator throws', async () => {
+    const { sut, updateAccessTokenGeneratorStub } = makeSut()
+    jest.spyOn(updateAccessTokenGeneratorStub, 'updateAccessToken').mockRejectedValueOnce(new Error())
+    const error = sut.add(fakeRequestAccount)
+    await expect(error).rejects.toThrow(new Error())
+  })
 })
