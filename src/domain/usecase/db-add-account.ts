@@ -1,3 +1,4 @@
+import { type UpdateAccessTokenGenerator } from './../protocols/update-access-token-generator'
 import { type AddAccountParam, type AddAccount } from '../protocols/add-account'
 import { type AddAccountRepository } from '../protocols/add-account-repository'
 import { type Encrypter } from '../protocols/encrypter'
@@ -9,7 +10,8 @@ export class DbAddAccount implements AddAccount {
     private readonly loadAccountByEmailRepository: LoadAccountByEmailRepository,
     private readonly hasher: Hasher,
     private readonly addAccountRepository: AddAccountRepository,
-    private readonly encrypter: Encrypter
+    private readonly encrypter: Encrypter,
+    private readonly updateAccessTokenGenerator: UpdateAccessTokenGenerator
   ) {}
 
   async add (addAccountParam: AddAccountParam): Promise<string | null> {
@@ -22,6 +24,10 @@ export class DbAddAccount implements AddAccount {
       })
 
       const accessToken = await this.encrypter.encrypt(newAccount.id)
+      await this.updateAccessTokenGenerator.updateAccessToken(
+        newAccount.id,
+        accessToken
+      )
       return accessToken
     }
     return null
