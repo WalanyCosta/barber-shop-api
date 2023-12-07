@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt'
 
 jest.mock('bcrypt', () => ({
   async hash (): Promise<string> {
-    return await Promise.resolve('hash')
+    return await Promise.resolve('any_hash')
   }
 }))
 
@@ -27,5 +27,11 @@ describe('Bcrypt Adapter', () => {
     mockedHash.mockRejectedValueOnce(new Error())
     const error = sut.hash('any_value')
     await expect(error).rejects.toThrow()
+  })
+
+  test('should return a valid hash on success', async () => {
+    const sut = makeSut()
+    const hash = await sut.hash('any_value')
+    expect(hash).toBe('any_hash')
   })
 })
