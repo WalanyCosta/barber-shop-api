@@ -41,4 +41,11 @@ describe('AccountRepository', () => {
     expect(account?.password).toBe('any_password')
     expect(account?.phone).toBe('any_phone')
   })
+
+  test('should return null if loadByEmail fails', async () => {
+    const sut = new AccountRepository()
+    prismaMock.account.findFirst.mockResolvedValueOnce(null)
+    const account = await sut.load('any_email@mail.com')
+    expect(account).toBeFalsy()
+  })
 })
