@@ -29,4 +29,16 @@ describe('AccountRepository', () => {
     expect(account.password).toBe('any_password')
     expect(account.phone).toBe('any_phone')
   })
+
+  test('should return an account on loadByEmail success', async () => {
+    const sut = new AccountRepository()
+    prismaMock.account.findFirst.mockResolvedValueOnce(fakeAccount)
+    const account = await sut.load('any_email@mail.com')
+    expect(account).toBeTruthy()
+    expect(account?.id).toBeTruthy()
+    expect(account?.name).toBe('any_name')
+    expect(account?.email).toBe('any_email@mail.com')
+    expect(account?.password).toBe('any_password')
+    expect(account?.phone).toBe('any_phone')
+  })
 })
