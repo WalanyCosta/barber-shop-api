@@ -2,8 +2,9 @@ import { type LoadAccountByEmailRepository } from './../../../../domain/protocol
 import { type AccountModel } from '../../../../domain/model/account-model'
 import { type AddAccountModel, type AddAccountRepository } from '../../../../domain/protocols/add-account-repository'
 import prisma from '../helpers/client'
+import { type UpdateAccessTokenGenerator } from '../../../../domain/protocols/update-access-token-generator'
 
-export class AccountRepository implements AddAccountRepository, LoadAccountByEmailRepository {
+export class AccountRepository implements AddAccountRepository, LoadAccountByEmailRepository, UpdateAccessTokenGenerator {
   async add (addAccountModel: AddAccountModel): Promise<AccountModel> {
     const account = await prisma.account.create({
       data: {
@@ -21,5 +22,16 @@ export class AccountRepository implements AddAccountRepository, LoadAccountByEma
       }
     })
     return account as AccountModel
+  }
+
+  async updateAccessToken (id: string, accessToken: string): Promise<void> {
+    await prisma.account.update({
+      where: {
+        id
+      },
+      data: {
+        accessToken
+      }
+    })
   }
 }
