@@ -6,7 +6,10 @@ import prisma from '../helpers/client'
 export class AccountRepository implements AddAccountRepository, LoadAccountByEmailRepository {
   async add (addAccountModel: AddAccountModel): Promise<AccountModel> {
     const account = await prisma.account.create({
-      data: addAccountModel
+      data: {
+        ...addAccountModel,
+        accessToken: ''
+      }
     })
     return account as AccountModel
   }

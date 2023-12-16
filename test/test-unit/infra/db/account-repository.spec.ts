@@ -1,21 +1,14 @@
+import { cleanData } from './../../../../src/infra/db/prisma/helpers/prisma-helper'
 import { AccountRepository } from './../../../../src/infra/db/prisma/account/account-repository'
-import { prismaMock } from './../../../../src/infra/db/prisma/helpers/singleton'
-import { type AccountModel } from '../../../../src/domain/model/account-model'
-
-const fakeAccount: AccountModel = ({
-  id: 'any_id',
-  name: 'any_name',
-  email: 'any_email@mail.com',
-  password: 'any_password',
-  phone: 'any_phone',
-  avatar: '',
-  accessToken: ''
-})
+import prisma from '../../../../src/infra/db/prisma/helpers/client'
 
 describe('AccountRepository', () => {
+  beforeEach(async () => {
+    await cleanData()
+  })
+
   test('should return an account on add success', async () => {
     const sut = new AccountRepository()
-    prismaMock.account.create.mockResolvedValueOnce(fakeAccount)
     const account = await sut.add({
       name: 'any_name',
       email: 'any_email@mail.com',
@@ -32,7 +25,15 @@ describe('AccountRepository', () => {
 
   test('should return an account on loadByEmail success', async () => {
     const sut = new AccountRepository()
-    prismaMock.account.findFirst.mockResolvedValueOnce(fakeAccount)
+    await prisma.account.create({
+      data: {
+        name: 'any_name',
+        email: 'any_email@mail.com',
+        password: 'any_password',
+        phone: 'any_phone',
+        accessToken: ''
+      }
+    })
     const account = await sut.load('any_email@mail.com')
     expect(account).toBeTruthy()
     expect(account?.id).toBeTruthy()
@@ -44,7 +45,6 @@ describe('AccountRepository', () => {
 
   test('should return null if loadByEmail fails', async () => {
     const sut = new AccountRepository()
-    prismaMock.account.findFirst.mockResolvedValueOnce(null)
     const account = await sut.load('any_email@mail.com')
     expect(account).toBeFalsy()
   })

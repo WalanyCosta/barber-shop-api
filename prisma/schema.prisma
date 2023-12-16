@@ -16,6 +16,5 @@ model account {
     email       String
     password    String
     phone       String
-    avatar      String @ignore
-    accessToken String @ignore
+    accessToken String
 }
