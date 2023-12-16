@@ -48,4 +48,21 @@ describe('AccountRepository', () => {
     const account = await sut.load('any_email@mail.com')
     expect(account).toBeFalsy()
   })
+
+  test('should update the account AccessToken on updateAccessToken success', async () => {
+    const sut = new AccountRepository()
+    const account = await prisma.account.create({
+      data: {
+        name: 'any_name',
+        email: 'any_email@mail.com',
+        password: 'any_password',
+        phone: 'any_phone',
+        accessToken: ''
+      }
+    })
+    await sut.updateAccessToken(account.id, 'any_token')
+    const accountUpdated = await prisma.account.findUnique({ where: { id: account.id } })
+    expect(accountUpdated).toBeTruthy()
+    expect(accountUpdated?.accessToken).toBe('any_token')
+  })
 })
