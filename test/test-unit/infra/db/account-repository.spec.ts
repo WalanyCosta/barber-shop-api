@@ -1,6 +1,19 @@
 import { cleanData } from './../../../../src/infra/db/prisma/helpers/prisma-helper'
 import { AccountRepository } from './../../../../src/infra/db/prisma/account/account-repository'
 import prisma from '../../../../src/infra/db/prisma/helpers/client'
+import { type AccountModel } from '../../../../src/domain/model/account-model'
+
+const createFakeAccountData = async (): Promise<AccountModel> => {
+  return await prisma.account.create({
+    data: {
+      name: 'any_name',
+      email: 'any_email@mail.com',
+      password: 'any_password',
+      phone: 'any_phone',
+      accessToken: ''
+    }
+  }) as AccountModel
+}
 
 describe('AccountRepository', () => {
   beforeEach(async () => {
@@ -25,15 +38,7 @@ describe('AccountRepository', () => {
 
   test('should return an account on loadByEmail success', async () => {
     const sut = new AccountRepository()
-    await prisma.account.create({
-      data: {
-        name: 'any_name',
-        email: 'any_email@mail.com',
-        password: 'any_password',
-        phone: 'any_phone',
-        accessToken: ''
-      }
-    })
+    await createFakeAccountData()
     const account = await sut.load('any_email@mail.com')
     expect(account).toBeTruthy()
     expect(account?.id).toBeTruthy()
@@ -51,15 +56,7 @@ describe('AccountRepository', () => {
 
   test('should update the account AccessToken on updateAccessToken success', async () => {
     const sut = new AccountRepository()
-    const account = await prisma.account.create({
-      data: {
-        name: 'any_name',
-        email: 'any_email@mail.com',
-        password: 'any_password',
-        phone: 'any_phone',
-        accessToken: ''
-      }
-    })
+    const account = await createFakeAccountData()
     await sut.updateAccessToken(account.id, 'any_token')
     const accountUpdated = await prisma.account.findUnique({ where: { id: account.id } })
     expect(accountUpdated).toBeTruthy()
