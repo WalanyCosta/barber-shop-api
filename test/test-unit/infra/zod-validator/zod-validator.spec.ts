@@ -50,4 +50,47 @@ describe('ZodValidator', () => {
     })
     expect(error).toEqual(new ValidationError('password is required. Please write password'))
   })
+
+  test('should return error password is weak', async () => {
+    const sut = new ZodValidator(signupSchema)
+    const httpResponse = sut.validate({
+      name: 'any_name',
+      email: 'any_email@mail.com',
+      password: 'any_password',
+      Phone: 'any_telefone'
+    })
+    expect(httpResponse).toEqual(new ValidationError('Password is weak. Please write password'))
+  })
+
+  test('should return error if password haven`t least 8 characters in length', async () => {
+    const sut = new ZodValidator(signupSchema)
+    const error = sut.validate({
+      name: 'any_name',
+      email: 'any_email@mail.com',
+      password: 'Pas1#',
+      Phone: 'any_telefone'
+    })
+    expect(error).toEqual(new ValidationError('Password must be at least 8 characters in length'))
+  })
+
+  test('should return error if phone is required', async () => {
+    const sut = new ZodValidator(signupSchema)
+    const httpResponse = sut.validate({
+      name: 'any_name',
+      email: 'any_email@gmail.com',
+      password: 'Password123#'
+    })
+    expect(httpResponse).toEqual(new ValidationError('phone is required. Please write phone'))
+  })
+
+  test('should return error if phone is empty', async () => {
+    const sut = new ZodValidator(signupSchema)
+    const error = sut.validate({
+      name: 'any_name',
+      email: 'any_email@gmail.com',
+      password: 'Password123#',
+      phone: ''
+    })
+    expect(error).toEqual(new ValidationError('phone is empty. Please write phone'))
+  })
 })
