@@ -1,3 +1,4 @@
+import { type Validator } from './../../../src/presentation/protocols/validator'
 import { EmailInUseError } from './../../../src/presentation/errors/email-in-use-error'
 import { type AddAccount, type AddAccountParam } from './../../../src/domain/protocols/add-account'
 import { ValidationError } from '../../../src/presentation/errors/validation-error'
@@ -6,15 +7,28 @@ import { SignUpController } from './../../../src/presentation/controller/signup/
 interface SutTypes {
   sut: SignUpController
   addAccountRepositoryStub: AddAccount
+  validatorStub: Validator
+}
+
+const makeValidatorStub = (): Validator => {
+  class ValidatorStub implements Validator {
+    validate (input: any): Error | null {
+      return null
+    }
+  }
+
+  return new ValidatorStub()
 }
 
 const makeSut = (): SutTypes => {
   const addAccountRepositoryStub = makeAddAccountRepositoryStub()
-  const sut = new SignUpController(addAccountRepositoryStub)
+  const validatorStub = makeValidatorStub()
+  const sut = new SignUpController(addAccountRepositoryStub, validatorStub)
 
   return {
     sut,
-    addAccountRepositoryStub
+    addAccountRepositoryStub,
+    validatorStub
   }
 }
 
@@ -45,140 +59,18 @@ const badRequest = (message: string): any => {
 }
 
 describe('SignUp Controller', () => {
-  test('should return status 400 if name is required', async () => {
-    const { sut } = makeSut()
-    const httpRequest = {
-      body: {
-        email: 'any_email@mail.com',
-        password: 'any_password',
-        Phone: 'any_telefone'
-      }
-    }
-    const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse).toEqual(badRequest('name is required. Please write name'))
+  test('should call Validator with param correct', async () => {
+    const { sut, validatorStub } = makeSut()
+    const addSpy = jest.spyOn(validatorStub, 'validate')
+    await sut.handle(fakeHttpRequest)
+    expect(addSpy).toHaveBeenCalledWith(fakeHttpRequest.body)
   })
 
-  test('should return status 400 if name is empty', async () => {
-    const { sut } = makeSut()
-    const httpRequest = {
-      body: {
-        name: '',
-        email: 'any_email@mail.com',
-        password: 'any_password',
-        Phone: 'any_telefone'
-      }
-    }
-    const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse).toEqual(badRequest('name is empty. Please write name'))
-  })
-
-  test('should return status 400 if email is required', async () => {
-    const { sut } = makeSut()
-    const httpRequest = {
-      body: {
-        name: 'any_name',
-        password: 'any_password',
-        Phone: 'any_telefone'
-      }
-    }
-    const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse).toEqual(badRequest('email is required. Please write email'))
-  })
-
-  test('should return status 400 if email is empty', async () => {
-    const { sut } = makeSut()
-    const httpRequest = {
-      body: {
-        name: 'any_name',
-        email: '',
-        password: 'any_password',
-        Phone: 'any_telefone'
-      }
-    }
-    const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse).toEqual(badRequest('email is empty. Please write email'))
-  })
-
-  test('should return status 400 if email is invalid', async () => {
-    const { sut } = makeSut()
-    const httpRequest = {
-      body: {
-        name: 'any_name',
-        email: 'any_email',
-        password: 'any_password',
-        Phone: 'any_telefone'
-      }
-    }
-    const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse).toEqual(badRequest('email is invalid. Please write email correctly'))
-  })
-
-  test('should return status 400 password is required', async () => {
-    const { sut } = makeSut()
-    const httpRequest = {
-      body: {
-        name: 'any_name',
-        email: 'any_email@mail.com',
-        Phone: 'any_telefone'
-      }
-    }
-    const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse).toEqual(badRequest('Password is invalid. Please write password'))
-  })
-
-  test('should return status 400 password is weak', async () => {
-    const { sut } = makeSut()
-    const httpRequest = {
-      body: {
-        name: 'any_name',
-        email: 'any_email@mail.com',
-        password: 'any_password',
-        Phone: 'any_telefone'
-      }
-    }
-    const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse).toEqual(badRequest('Password is weak. Please write password'))
-  })
-
-  test('should return status 400 if password haven`t least 8 characters in length', async () => {
-    const { sut } = makeSut()
-    const httpRequest = {
-      body: {
-        name: 'any_name',
-        email: 'any_email@mail.com',
-        password: 'Pas1#',
-        Phone: 'any_telefone'
-      }
-    }
-    const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse).toEqual(badRequest('Password must be at least 8 characters in length'))
-  })
-
-  test('should return status 400 if phone is required', async () => {
-    const { sut } = makeSut()
-    const httpRequest = {
-      body: {
-        name: 'any_name',
-        email: 'any_email@gmail.com',
-        password: 'Password123#'
-      }
-    }
-    const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse).toEqual(badRequest('phone is required. Please write phone'))
-  })
-
-  test('should return status 400 if phone is empty', async () => {
-    const { sut } = makeSut()
-    const httpRequest = {
-      body: {
-        name: 'any_name',
-        email: 'any_email@gmail.com',
-        password: 'Password123#',
-        phone: ''
-      }
-    }
-    const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse).toEqual(badRequest('phone is empty. Please write phone'))
+  test('should return status 400 if Validate throws error', async () => {
+    const { sut, validatorStub } = makeSut()
+    jest.spyOn(validatorStub, 'validate').mockReturnValueOnce(new Error('Validation Error'))
+    const httpResponse = await sut.handle(fakeHttpRequest)
+    expect(httpResponse).toEqual(badRequest('Validation Error'))
   })
 
   test('should call AddAccountRepository with param correct', async () => {

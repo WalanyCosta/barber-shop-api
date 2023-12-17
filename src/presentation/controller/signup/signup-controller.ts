@@ -1,40 +1,22 @@
-import { ValidationError } from './../../errors/validation-error'
 import { type AddAccount } from './../../../domain/protocols/add-account'
 import { type Controller, type HttpRequest, type HttpResponse } from '../../protocols/controller'
-import * as z from 'zod'
 import { EmailInUseError } from '../../errors/email-in-use-error'
+import { type Validator } from '../../protocols/validator'
 
 export class SignUpController implements Controller {
-  validationschema = z.object({
-    name: z.string({ required_error: 'name is required. Please write name' })
-      .min(1, 'name is empty. Please write name'),
-    email: z.string({ required_error: 'email is required. Please write email' })
-      .min(1, 'email is empty. Please write email')
-      .email('email is invalid. Please write email correctly'),
-    password: z.string({ required_error: 'Password is invalid. Please write password' })
-      .regex(new RegExp('.*[A-Z].*'), 'Password is weak. Please write password')
-      .regex(new RegExp('.*[a-z].*'), 'Password is weak. Please write password')
-      .regex(new RegExp('.*\\d.*'), 'Password is weak. Please write password')
-      .regex(
-        new RegExp(".*[`~<>?,./!@#$%^&*()\\-_+=\"'|{}\\[\\];:\\\\].*"),
-        'Password is weak. Please write password'
-      )
-      .min(8, 'Password must be at least 8 characters in length'),
-    phone: z.string({ required_error: 'phone is required. Please write phone' })
-      .min(1, 'phone is empty. Please write phone')
-  })
-
-  constructor (private readonly addAccount: AddAccount) {}
+  constructor (
+    private readonly addAccount: AddAccount,
+    private readonly validator: Validator
+  ) {}
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
-      const error = this.validationschema.safeParse(httpRequest.body)
+      const error = this.validator.validate(httpRequest.body)
 
-      if (!error.success) {
-        const ZodError = JSON.parse(error.error.toString())
+      if (error) {
         return {
           statusCode: 400,
-          body: new ValidationError(ZodError[0].message)
+          body: error
         }
       }
 
