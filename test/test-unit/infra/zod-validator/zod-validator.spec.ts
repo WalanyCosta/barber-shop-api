@@ -41,4 +41,13 @@ describe('ZodValidator', () => {
     expect(error).toEqual(new ValidationError(
       'email is invalid. Please write email correctly'))
   })
+
+  test('should return error if password is required', () => {
+    const sut = new ZodValidator(signupSchema)
+    const error = sut.validate({
+      name: 'any_name',
+      email: 'any_email@mail.com'
+    })
+    expect(error).toEqual(new ValidationError('password is required. Please write password'))
+  })
 })
