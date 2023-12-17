@@ -22,4 +22,13 @@ describe('ZodValidator', () => {
     })
     expect(error).toEqual(new ValidationError('email is required. Please write email'))
   })
+
+  test('should return error if email is empty', () => {
+    const sut = new ZodValidator(signupSchema)
+    const error = sut.validate({
+      name: 'any_name',
+      email: ''
+    })
+    expect(error).toEqual(new ValidationError('email is empty. Please write email'))
+  })
 })
