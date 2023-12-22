@@ -7,3 +7,7 @@ export const cleanData = async (): Promise<void> => {
     ]
   )
 }
+
+export const disconnect = async (): Promise<void> => {
+  await prisma.$disconnect()
+}
