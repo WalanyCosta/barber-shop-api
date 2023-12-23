@@ -7,6 +7,7 @@ describe('SignUp Routes', () => {
   })
 
   afterAll(async () => {
+    await cleanData()
     await disconnect()
   })
 
