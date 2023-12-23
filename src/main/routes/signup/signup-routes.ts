@@ -7,7 +7,6 @@ export default (router: Router): void => {
     const httpRequest: HttpRequest = {
       body: req.body
     }
-    console.log(httpRequest)
     const httpResponse = await makeSignUpController().handle(httpRequest)
     if (httpResponse.statusCode === 200) {
       res.status(httpResponse.statusCode).json(httpResponse.body)
