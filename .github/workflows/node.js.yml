@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DATABASE_URL: ${{vars.DATABASE_URL}}
-      PRIVATE_KEY: ${{vars.PRIVATE_KEY}
+      PRIVATE_KEY: ${{vars.PRIVATE_KEY}}
       
     strategy:
       matrix:
