@@ -2,6 +2,8 @@
 
 [![Coverage Status](https://coveralls.io/repos/github/WalanyCosta/barber-shop-api/badge.svg)](https://coveralls.io/github/WalanyCosta/barber-shop-api)
 [![Node.js CI](https://github.com/WalanyCosta/barber-shop-api/actions/workflows/node.js.yml/badge.svg)](https://github.com/WalanyCosta/barber-shop-api/actions/workflows/node.js.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/)
 
 ## Descrição do Projeto
 
