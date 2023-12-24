@@ -1,6 +1,7 @@
 <h1 align='center'>Barber-shop(API)</h1>
 
 [![Coverage Status](https://coveralls.io/repos/github/WalanyCosta/barber-shop-api/badge.svg)](https://coveralls.io/github/WalanyCosta/barber-shop-api)
+[![Node.js CI](https://github.com/WalanyCosta/barber-shop-api/actions/workflows/node.js.yml/badge.svg)](https://github.com/WalanyCosta/barber-shop-api/actions/workflows/node.js.yml)
 
 ## Descrição do Projeto
 
