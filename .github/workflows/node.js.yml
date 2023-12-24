@@ -29,8 +29,8 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm i
-    - run: npx prisma migrate dev
     - run: npx eslint "src/**"
+    - run: npx prisma migrate dev
     - run: npm run test:ci
 
     - name: Coveralls
