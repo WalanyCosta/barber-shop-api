@@ -13,10 +13,13 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-
+    env:
+      DATABASE_URL: ${{vars.DATABASE_URL}}
+      PRIVATE_KEY: ${{vars.PRIVATE_KEY}
+      
     strategy:
       matrix:
-        node-version: [14.x, 16.x, 18.x]
+        node-version: [18.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
