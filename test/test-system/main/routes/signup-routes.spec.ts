@@ -1,6 +1,8 @@
 import { cleanData, disconnect } from './../../../../src/infra/db/prisma/helpers/prisma-helper'
 import request from 'supertest'
 import app from '../../../../src/main/config/app'
+import prisma from '../../../../src/infra/db/prisma/helpers/client'
+
 describe('SignUp Routes', () => {
   beforeEach(async () => {
     await cleanData()
@@ -18,8 +20,29 @@ describe('SignUp Routes', () => {
         name: 'any_name',
         email: 'any_email@mail.com',
         password: 'anyPass#1',
-        phone: 'any_phone'
+        phone: '999888777'
       })
       .expect(200)
+  })
+
+  test('should return 403 if email is exists', async () => {
+    await prisma.account.create({
+      data: {
+        name: 'any_name',
+        email: 'any_email@mail.com',
+        password: 'anyPass#1',
+        phone: 'any_phone',
+        accessToken: 'any_phone'
+      }
+    })
+    await request(app)
+      .post('/api/signup')
+      .send({
+        name: 'other_name',
+        email: 'any_email@mail.com',
+        password: 'Pass#1234',
+        phone: 'any_phone'
+      })
+      .expect(403)
   })
 })
