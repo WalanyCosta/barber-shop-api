@@ -1,0 +1,10 @@
+
+POST http://localhost:3333/api/signup
+content-type: application/json
+
+{
+    "name": "any_name",
+    "email": "wesleyemail@mail.com",
+    "password": "Pass123#",
+    "phone": "any_phone"
+}
