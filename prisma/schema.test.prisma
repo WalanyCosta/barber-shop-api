@@ -3,9 +3,10 @@ generator client {
 }
 
 datasource db {
-    provider = "postgresql"
+    provider = "sqlite"
     url      = env("DATABASE_URL")
 }
+
 model account {
     id          String @id @default(uuid())
     name        String
@@ -14,3 +15,5 @@ model account {
     phone       String
     accessToken String
 }
+
+

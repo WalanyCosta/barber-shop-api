@@ -2,3 +2,4 @@ node_modules
 coverage
 src/infra/db/prisma/database/**
 dist
+prisma-file-union.ts
