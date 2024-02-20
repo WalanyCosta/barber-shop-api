@@ -9,13 +9,13 @@
     "migrate:dev": "npm run union:test && prisma migrate dev --schema='./prisma/schema.test.prisma'",
     "migrate:prod": "npm run union:test && prisma migrate deploy --schema='./prisma/schema.prisma'",
     "build": "rimraf dist && tsc",
-    "start": "node dist/main/server.js",
+    "start": "npm run migrate:prod && node dist/main/server.js",
     "dev": "tsx watch src/main/server.ts",
     "test": "jest --passWithNoTests --silent --noStackTrace --runInBand",
     "test:watch": "npm test -- --watch",
     "test:staged": "npm test -- --findRelatedTests",
     "test:ci": "npm test -- --coverage",
-    "prepare": "husky install"
+    "prepared": "husky install"
   },
   "keywords": [],
   "author": "",
@@ -40,11 +40,11 @@
     "rimraf": "^5.0.5",
     "supertest": "^6.3.3",
     "ts-jest": "^29.1.1",
-    "tsx": "^4.7.0",
     "typescript": "^5.2.2"
-  },
-  "dependencies": {
+},
+"dependencies": {
     "@prisma/client": "^5.7.0",
+    "tsx": "^4.7.0",
     "bcrypt": "^5.1.1",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
