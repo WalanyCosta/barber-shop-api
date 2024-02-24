@@ -4,12 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "union:test": "DESTY_PATH='schema.test.prisma' tsx prisma-file-union.ts",
-    "union:prod": "DESTY_PATH='schema.prisma' tsx prisma-file-union.ts",
-    "migrate:dev": "npm run union:test && prisma migrate dev --schema='./prisma/schema.test.prisma'",
-    "migrate:prod": "npm run union:test && prisma migrate deploy --schema='./prisma/schema.prisma'",
     "build": "rimraf dist && tsc",
-    "start": "npm run migrate:prod && node dist/main/server.js",
+    "start": "prisma migrate dev && node dist/main/server.js",
     "dev": "tsx watch src/main/server.ts",
     "test": "jest --passWithNoTests --silent --noStackTrace --runInBand",
     "test:watch": "npm test -- --watch",

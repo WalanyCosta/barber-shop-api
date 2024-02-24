@@ -7,9 +7,9 @@ services:
     environment:
       - POSTGRES_USER=docker
       - POSTGRES_PASSWORD=docker
-      - POSTGRES_DB=polls
+      - POSTGRES_DB=barber-shop
     volumes:
-      - polls_pg_data:/bitnami/postgresql
+      - barber_pg_data:/bitnami/postgresql
     ports:
       - "5432:5432"
   
@@ -24,8 +24,10 @@ services:
        - ./prisma:/usr/src/barber-shop-api/prisma
     ports: 
       - '3333:3333'
+    links:
+        - postgres
     depends_on:
       - postgres   
 
 volumes:
-  polls_pg_data:
+  barber_pg_data:
