@@ -4,51 +4,50 @@
 name: Node.js CI
 
 on:
-  push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
+    push:
+        branches: ["master"]
+    pull_request:
+        branches: ["master"]
 
 jobs:
-  build:
-
-    runs-on: ubuntu-latest
-    env:
-      DATABASE_URL: ${{vars.DATABASE_URL}}
-      PRIVATE_KEY: ${{vars.PRIVATE_KEY}}
-      
-    strategy:
-      matrix:
-        node-version: [18.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
-     services:
-      postgres:
-        image: postgres
+    build:
+        runs-on: ubuntu-latest
         env:
-          POSTGRES_USER: docker
-          POSTGRES_PASSWORD: docker
-          POSTGRES_DB: barber-shop
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 5432:5432
+            DATABASE_URL: ${{vars.DATABASE_URL}}
+            PRIVATE_KEY: ${{vars.PRIVATE_KEY}}
 
-    steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-    - run: npm i
-    - run: npx eslint "src/**"
-    - run: npx prisma migrate dev
-    - run: npm run test:ci
+        strategy:
+            matrix:
+                node-version: [18.x]
+                # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
-    - name: Coveralls
-      uses: coverallsapp/github-action@v2
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
+        services:
+            postgres:
+                image: postgres
+                env:
+                    POSTGRES_USER: docker
+                    POSTGRES_PASSWORD: docker
+                    POSTGRES_DB: barber-shop
+                options: >-
+                    --health-cmd pg_isready
+                    --health-interval 10s
+                    --health-timeout 5s
+                    --health-retries 5
+                ports:
+                    - 5432:5432
+
+        steps:
+            - uses: actions/checkout@v3
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v3
+              with:
+                  node-version: ${{ matrix.node-version }}
+            - run: npm i
+            - run: npx eslint "src/**"
+            - run: npx prisma migrate dev
+            - run: npm run test:ci
+
+            - name: Coveralls
+              uses: coverallsapp/github-action@v2
+              with:
+                  github-token: ${{ secrets.GITHUB_TOKEN }}
