@@ -19,7 +19,6 @@ jobs:
         strategy:
             matrix:
                 node-version: [18.x]
-                # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
         services:
             postgres:
@@ -48,6 +47,7 @@ jobs:
             - run: npm run test:ci
 
     deploy:
+        needs: [test]
         runs-on: ubuntu-latest
         steps:
             - name: Deploy to production
