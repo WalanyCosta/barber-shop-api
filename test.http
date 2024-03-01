@@ -1,5 +1,5 @@
 
-POST http://localhost:3333/api/signup
+POST https://barber-shop-api.onrender.com/api/signup
 content-type: application/json
 
 {
