@@ -1,18 +1,22 @@
 import { LoginController } from './../../../src/presentation/controller/login/login-controller'
 import { type Validator } from '../../../src/presentation/protocols/validator'
+import { type Authentication, type AuthenticationParam } from '../../../src/domain/protocols/authentication'
 
 interface SutTypes {
   sut: LoginController
   validatorStub: Validator
+  authenticationStub: Authentication
 }
 
 const makeSut = (): SutTypes => {
+  const authenticationStub = makeAuthentication()
   const validatorStub = makeValidator()
-  const sut = new LoginController(validatorStub)
+  const sut = new LoginController(validatorStub, authenticationStub)
 
   return {
     sut,
-    validatorStub
+    validatorStub,
+    authenticationStub
   }
 }
 
@@ -31,6 +35,16 @@ const makeValidator = (): Validator => {
   }
 
   return new ValidatorStub()
+}
+
+const makeAuthentication = (): Authentication => {
+  class AuthenticationStub implements Authentication {
+    async auth (param: AuthenticationParam): Promise<string> {
+      return 'any_token'
+    }
+  }
+
+  return new AuthenticationStub()
 }
 
 describe('Login Controller', () => {
@@ -56,5 +70,12 @@ describe('Login Controller', () => {
       statusCode: 400,
       body: error
     })
+  })
+
+  test('should call Authentication with correct params', async () => {
+    const { sut, authenticationStub } = makeSut()
+    const authSpy = jest.spyOn(authenticationStub, 'auth')
+    await sut.handle(fakeHttpRequest)
+    expect(authSpy).toHaveBeenCalledWith(fakeHttpRequest.body)
   })
 })
