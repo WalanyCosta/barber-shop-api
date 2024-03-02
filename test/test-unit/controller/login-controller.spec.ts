@@ -82,8 +82,25 @@ describe('Login Controller', () => {
 
   test('should return 401 if auth returns null', async () => {
     const { sut, authenticationStub } = makeSut()
-    const error = new UnauthorizedError()
+    const error = new UnauthorizedError('User not exists')
     jest.spyOn(authenticationStub, 'auth').mockResolvedValueOnce(null)
+    const fakeHttpRequest = {
+      body: {
+        email: 'any_email@mail.com',
+        password: 'any_password'
+      }
+    }
+    const httpResponse = await sut.handle(fakeHttpRequest)
+    expect(httpResponse).toEqual({
+      statusCode: 401,
+      body: error
+    })
+  })
+
+  test('should return 401 if auth password is invalid', async () => {
+    const { sut, authenticationStub } = makeSut()
+    const error = new UnauthorizedError('Invalid password')
+    jest.spyOn(authenticationStub, 'auth').mockRejectedValueOnce(error)
     const fakeHttpRequest = {
       body: {
         email: 'any_email@mail.com',
