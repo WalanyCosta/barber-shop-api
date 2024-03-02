@@ -27,7 +27,10 @@ export class LoginController implements Controller {
           body: new UnauthorizedError('User not exists')
         }
       }
-      return await Promise.resolve(httpRequest.body)
+      return {
+        statusCode: 200,
+        body: accessToken
+      }
     } catch (err) {
       if (err instanceof UnauthorizedError) {
         return {
