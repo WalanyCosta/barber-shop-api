@@ -124,4 +124,13 @@ describe('Login Controller', () => {
       body: error
     })
   })
+
+  test('should return 200 on success', async () => {
+    const { sut } = makeSut()
+    const httpResponse = await sut.handle(fakeHttpRequest)
+    expect(httpResponse).toEqual({
+      statusCode: 200,
+      body: 'any_token'
+    })
+  })
 })
