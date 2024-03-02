@@ -5,7 +5,13 @@ export class LoginController implements Controller {
   constructor (private readonly validator: Validator) {}
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
-    this.validator.validate(httpRequest.body)
+    const error = this.validator.validate(httpRequest.body)
+    if (error) {
+      return {
+        statusCode: 400,
+        body: error
+      }
+    }
     return await Promise.resolve(httpRequest.body)
   }
 }
