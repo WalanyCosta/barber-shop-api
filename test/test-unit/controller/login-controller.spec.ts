@@ -1,6 +1,7 @@
 import { LoginController } from './../../../src/presentation/controller/login/login-controller'
 import { type Validator } from '../../../src/presentation/protocols/validator'
 import { type Authentication, type AuthenticationParam } from '../../../src/domain/protocols/authentication'
+import { UnauthorizedError } from '../../../src/presentation/errors/unauthorized-error'
 
 interface SutTypes {
   sut: LoginController
@@ -77,5 +78,22 @@ describe('Login Controller', () => {
     const authSpy = jest.spyOn(authenticationStub, 'auth')
     await sut.handle(fakeHttpRequest)
     expect(authSpy).toHaveBeenCalledWith(fakeHttpRequest.body)
+  })
+
+  test('should return 401 if auth returns null', async () => {
+    const { sut, authenticationStub } = makeSut()
+    const error = new UnauthorizedError()
+    jest.spyOn(authenticationStub, 'auth').mockResolvedValueOnce(null)
+    const fakeHttpRequest = {
+      body: {
+        email: 'any_email@mail.com',
+        password: 'any_password'
+      }
+    }
+    const httpResponse = await sut.handle(fakeHttpRequest)
+    expect(httpResponse).toEqual({
+      statusCode: 401,
+      body: error
+    })
   })
 })
