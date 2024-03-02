@@ -10,22 +10,29 @@ export class LoginController implements Controller {
   ) {}
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
-    const error = this.validator.validate(httpRequest.body)
-    if (error) {
-      return {
-        statusCode: 400,
-        body: error
+    try {
+      const error = this.validator.validate(httpRequest.body)
+      if (error) {
+        return {
+          statusCode: 400,
+          body: error
+        }
       }
-    }
 
-    const accessToken = await this.authentication.auth(httpRequest.body)
+      const accessToken = await this.authentication.auth(httpRequest.body)
 
-    if (!accessToken) {
+      if (!accessToken) {
+        return {
+          statusCode: 401,
+          body: new UnauthorizedError('User not exists')
+        }
+      }
+      return await Promise.resolve(httpRequest.body)
+    } catch (err) {
       return {
         statusCode: 401,
-        body: new UnauthorizedError()
+        body: err
       }
     }
-    return await Promise.resolve(httpRequest.body)
   }
 }
