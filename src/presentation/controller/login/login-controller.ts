@@ -29,8 +29,15 @@ export class LoginController implements Controller {
       }
       return await Promise.resolve(httpRequest.body)
     } catch (err) {
+      if (err instanceof UnauthorizedError) {
+        return {
+          statusCode: 401,
+          body: err
+        }
+      }
+
       return {
-        statusCode: 401,
+        statusCode: 500,
         body: err
       }
     }
