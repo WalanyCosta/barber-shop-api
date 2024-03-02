@@ -1,4 +1,5 @@
 import { type Authentication } from '../../../domain/protocols/authentication'
+import { UnauthorizedError } from '../../errors/unauthorized-error'
 import { type Controller, type HttpRequest, type HttpResponse } from '../../protocols/controller'
 import { type Validator } from '../../protocols/validator'
 
@@ -17,8 +18,14 @@ export class LoginController implements Controller {
       }
     }
 
-    await this.authentication.auth(httpRequest.body)
+    const accessToken = await this.authentication.auth(httpRequest.body)
 
+    if (!accessToken) {
+      return {
+        statusCode: 401,
+        body: new UnauthorizedError()
+      }
+    }
     return await Promise.resolve(httpRequest.body)
   }
 }
