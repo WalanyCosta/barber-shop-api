@@ -60,12 +60,6 @@ describe('Login Controller', () => {
     const { sut, validatorStub } = makeSut()
     const error = new Error()
     jest.spyOn(validatorStub, 'validate').mockReturnValue(error)
-    const fakeHttpRequest = {
-      body: {
-        email: 'any_email@mail.com',
-        password: 'any_password'
-      }
-    }
     const httpResponse = await sut.handle(fakeHttpRequest)
     expect(httpResponse).toEqual({
       statusCode: 400,
@@ -80,16 +74,10 @@ describe('Login Controller', () => {
     expect(authSpy).toHaveBeenCalledWith(fakeHttpRequest.body)
   })
 
-  test('should return 401 if auth returns null', async () => {
+  test('should return 401 if auth email is not exists', async () => {
     const { sut, authenticationStub } = makeSut()
     const error = new UnauthorizedError('User not exists')
-    jest.spyOn(authenticationStub, 'auth').mockResolvedValueOnce(null)
-    const fakeHttpRequest = {
-      body: {
-        email: 'any_email@mail.com',
-        password: 'any_password'
-      }
-    }
+    jest.spyOn(authenticationStub, 'auth').mockRejectedValueOnce(error)
     const httpResponse = await sut.handle(fakeHttpRequest)
     expect(httpResponse).toEqual({
       statusCode: 401,
@@ -101,12 +89,6 @@ describe('Login Controller', () => {
     const { sut, authenticationStub } = makeSut()
     const error = new UnauthorizedError('Invalid password')
     jest.spyOn(authenticationStub, 'auth').mockRejectedValueOnce(error)
-    const fakeHttpRequest = {
-      body: {
-        email: 'any_email@mail.com',
-        password: 'any_password'
-      }
-    }
     const httpResponse = await sut.handle(fakeHttpRequest)
     expect(httpResponse).toEqual({
       statusCode: 401,

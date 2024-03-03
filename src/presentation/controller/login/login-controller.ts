@@ -21,12 +21,6 @@ export class LoginController implements Controller {
 
       const accessToken = await this.authentication.auth(httpRequest.body)
 
-      if (!accessToken) {
-        return {
-          statusCode: 401,
-          body: new UnauthorizedError('User not exists')
-        }
-      }
       return {
         statusCode: 200,
         body: accessToken
