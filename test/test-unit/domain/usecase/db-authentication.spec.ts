@@ -1,3 +1,4 @@
+import { UnauthorizedError } from './../../../../src/presentation/errors/unauthorized-error'
 import { DbAuthentication } from './../../../../src/domain/usecase/db-authentication'
 import { type AccountModel } from '../../../../src/domain/model/account-model'
 import { type LoadAccountByEmailRepository } from '../../../../src/domain/protocols/infra/db/load-account-by-email-repository'
@@ -31,5 +32,17 @@ describe('DbAuthentication', () => {
     const loadSpy = jest.spyOn(loadAccountByEmailRepositoryStub, 'load')
     await sut.auth(fakeRequestAccount)
     expect(loadSpy).toHaveBeenCalledWith('any_email')
+  })
+
+  test('should throw if loadAccountByEmailRepository returns null', async () => {
+    const loadAccountByEmailRepositoryStub = makeLoadAccountByEmailRepository()
+    const sut = new DbAuthentication(loadAccountByEmailRepositoryStub)
+    jest.spyOn(loadAccountByEmailRepositoryStub, 'load').mockResolvedValueOnce(null)
+    const fakeRequestAccount = {
+      email: 'any_email',
+      password: 'any_password'
+    }
+    const error = sut.auth(fakeRequestAccount)
+    expect(error).rejects.toThrow(new UnauthorizedError('user not exists'))
   })
 })
