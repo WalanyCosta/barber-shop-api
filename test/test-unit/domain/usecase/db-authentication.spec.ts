@@ -90,4 +90,12 @@ describe('DbAuthentication', () => {
     const promise = sut.auth(fakeRequestAccount)
     await expect(promise).rejects.toThrow(new UnauthorizedError('password is invalid'))
   })
+
+  test('should throw if hashComparer throws', async () => {
+    const { sut, hashComparerStub } = makeSut()
+    const error = new Error()
+    jest.spyOn(hashComparerStub, 'compare').mockRejectedValueOnce(error)
+    const promise = sut.auth(fakeRequestAccount)
+    await expect(promise).rejects.toThrow(error)
+  })
 })
