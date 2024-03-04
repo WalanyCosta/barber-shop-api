@@ -43,6 +43,19 @@ describe('DbAuthentication', () => {
       password: 'any_password'
     }
     const error = sut.auth(fakeRequestAccount)
-    expect(error).rejects.toThrow(new UnauthorizedError('user not exists'))
+    await expect(error).rejects.toThrow(new UnauthorizedError('user not exists'))
+  })
+
+  test('should throw if loadAccountByEmailRepository throws error', async () => {
+    const loadAccountByEmailRepositoryStub = makeLoadAccountByEmailRepository()
+    const sut = new DbAuthentication(loadAccountByEmailRepositoryStub)
+    const error = new UnauthorizedError('user not exists')
+    jest.spyOn(loadAccountByEmailRepositoryStub, 'load').mockRejectedValueOnce(error)
+    const fakeRequestAccount = {
+      email: 'any_email',
+      password: 'any_password'
+    }
+    const promise = sut.auth(fakeRequestAccount)
+    await expect(promise).rejects.toThrow(error)
   })
 })
