@@ -3,22 +3,26 @@ import { UnauthorizedError } from './../../../../src/presentation/errors/unautho
 import { DbAuthentication } from './../../../../src/domain/usecase/db-authentication'
 import { type AccountModel } from '../../../../src/domain/model/account-model'
 import { type LoadAccountByEmailRepository } from '../../../../src/domain/protocols/infra/db/load-account-by-email-repository'
+import { type Encrypter } from '../../../../src/domain/protocols/infra/crypto/encrypter'
 
 interface SutTypes {
   sut: DbAuthentication
   loadAccountByEmailRepositoryStub: LoadAccountByEmailRepository
   hashComparerStub: HashComparer
+  encrypterStub: Encrypter
 }
 
 const makeSut = (): SutTypes => {
+  const encrypterStub = makeEncrypterStub()
   const hashComparerStub = makeHashCompare()
   const loadAccountByEmailRepositoryStub = makeLoadAccountByEmailRepository()
-  const sut = new DbAuthentication(loadAccountByEmailRepositoryStub, hashComparerStub)
+  const sut = new DbAuthentication(loadAccountByEmailRepositoryStub, hashComparerStub, encrypterStub)
 
   return {
     sut,
     loadAccountByEmailRepositoryStub,
-    hashComparerStub
+    hashComparerStub,
+    encrypterStub
   }
 }
 
@@ -34,6 +38,16 @@ const makeHashCompare = (): HashComparer => {
     }
   }
   return new HashComparerStub()
+}
+
+const makeEncrypterStub = (): Encrypter => {
+  class EncrypterStub implements Encrypter {
+    async encrypt (value: string): Promise<string> {
+      return 'any_token'
+    }
+  }
+
+  return new EncrypterStub()
 }
 
 const makeLoadAccountByEmailRepository = (): LoadAccountByEmailRepository => {
@@ -97,5 +111,12 @@ describe('DbAuthentication', () => {
     jest.spyOn(hashComparerStub, 'compare').mockRejectedValueOnce(error)
     const promise = sut.auth(fakeRequestAccount)
     await expect(promise).rejects.toThrow(error)
+  })
+
+  test('should call Encrypter with correct param', async () => {
+    const { sut, encrypterStub } = makeSut()
+    const addSpy = jest.spyOn(encrypterStub, 'encrypt')
+    await sut.auth(fakeRequestAccount)
+    expect(addSpy).toHaveBeenCalledWith('any_id')
   })
 })
