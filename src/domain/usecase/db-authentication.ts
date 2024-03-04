@@ -1,4 +1,5 @@
 import { UnauthorizedError } from '../../presentation/errors/unauthorized-error'
+import { type Encrypter } from '../protocols/infra/crypto/encrypter'
 import { type HashComparer } from '../protocols/infra/crypto/hash-comparer'
 import { type LoadAccountByEmailRepository } from '../protocols/infra/db/load-account-by-email-repository'
 import { type Authentication, type AuthenticationParam } from '../protocols/presentation/authentication'
@@ -6,7 +7,8 @@ import { type Authentication, type AuthenticationParam } from '../protocols/pres
 export class DbAuthentication implements Authentication {
   constructor (
     private readonly loadAccountByEmailRepository: LoadAccountByEmailRepository,
-    private readonly hashComparer: HashComparer
+    private readonly hashComparer: HashComparer,
+    private readonly encrypter: Encrypter
   ) {}
 
   async auth (param: AuthenticationParam): Promise<string | null> {
@@ -20,6 +22,9 @@ export class DbAuthentication implements Authentication {
     if (!isValid) {
       throw new UnauthorizedError('password is invalid')
     }
+
+    await this.encrypter.encrypt(account.id)
+
     return await Promise.resolve('any_token')
   }
 }
