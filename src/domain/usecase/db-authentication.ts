@@ -2,13 +2,15 @@ import { UnauthorizedError } from '../../presentation/errors/unauthorized-error'
 import { type Encrypter } from '../protocols/infra/crypto/encrypter'
 import { type HashComparer } from '../protocols/infra/crypto/hash-comparer'
 import { type LoadAccountByEmailRepository } from '../protocols/infra/db/load-account-by-email-repository'
+import { type UpdateAccessTokenGenerator } from '../protocols/infra/db/update-access-token-generator'
 import { type Authentication, type AuthenticationParam } from '../protocols/presentation/authentication'
 
 export class DbAuthentication implements Authentication {
   constructor (
     private readonly loadAccountByEmailRepository: LoadAccountByEmailRepository,
     private readonly hashComparer: HashComparer,
-    private readonly encrypter: Encrypter
+    private readonly encrypter: Encrypter,
+    private readonly updateAccessTokenGenerator: UpdateAccessTokenGenerator
   ) {}
 
   async auth (param: AuthenticationParam): Promise<string | null> {
@@ -23,8 +25,8 @@ export class DbAuthentication implements Authentication {
       throw new UnauthorizedError('password is invalid')
     }
 
-    await this.encrypter.encrypt(account.id)
-
+    const accessToken = await this.encrypter.encrypt(account.id)
+    await this.updateAccessTokenGenerator.updateAccessToken(account.id, accessToken)
     return await Promise.resolve('any_token')
   }
 }
