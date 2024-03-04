@@ -1,4 +1,4 @@
-import { type Authentication } from '../../../domain/protocols/authentication'
+import { type Authentication } from '../../../domain/protocols/presentation/authentication'
 import { UnauthorizedError } from '../../errors/unauthorized-error'
 import { type Controller, type HttpRequest, type HttpResponse } from '../../protocols/controller'
 import { type Validator } from '../../protocols/validator'

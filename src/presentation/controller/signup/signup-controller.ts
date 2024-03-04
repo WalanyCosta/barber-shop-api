@@ -1,4 +1,4 @@
-import { type AddAccount } from './../../../domain/protocols/add-account'
+import { type AddAccount } from '../../../domain/protocols/presentation/add-account'
 import { type Controller, type HttpRequest, type HttpResponse } from '../../protocols/controller'
 import { EmailInUseError } from '../../errors/email-in-use-error'
 import { type Validator } from '../../protocols/validator'

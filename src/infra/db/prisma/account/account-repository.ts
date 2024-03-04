@@ -1,8 +1,8 @@
-import { type LoadAccountByEmailRepository } from './../../../../domain/protocols/load-account-by-email-repository'
+import { type LoadAccountByEmailRepository } from '../../../../domain/protocols/infra/db/load-account-by-email-repository'
 import { type AccountModel } from '../../../../domain/model/account-model'
-import { type AddAccountModel, type AddAccountRepository } from '../../../../domain/protocols/add-account-repository'
+import { type AddAccountModel, type AddAccountRepository } from '../../../../domain/protocols/infra/db/add-account-repository'
 import prisma from '../helpers/client'
-import { type UpdateAccessTokenGenerator } from '../../../../domain/protocols/update-access-token-generator'
+import { type UpdateAccessTokenGenerator } from '../../../../domain/protocols/infra/db/update-access-token-generator'
 
 export class AccountRepository implements AddAccountRepository, LoadAccountByEmailRepository, UpdateAccessTokenGenerator {
   async add (addAccountModel: AddAccountModel): Promise<AccountModel> {

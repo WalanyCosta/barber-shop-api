@@ -1,6 +1,6 @@
 import { LoginController } from './../../../src/presentation/controller/login/login-controller'
 import { type Validator } from '../../../src/presentation/protocols/validator'
-import { type Authentication, type AuthenticationParam } from '../../../src/domain/protocols/authentication'
+import { type Authentication, type AuthenticationParam } from '../../../src/domain/protocols/presentation/authentication'
 import { UnauthorizedError } from '../../../src/presentation/errors/unauthorized-error'
 
 interface SutTypes {
