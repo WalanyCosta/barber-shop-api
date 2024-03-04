@@ -14,8 +14,12 @@ export class DbAuthentication implements Authentication {
     if (!account) {
       throw new UnauthorizedError('user not exists')
     }
-    await this.hashComparer.compare(param.password, account.password)
 
+    const isValid = await this.hashComparer.compare(param.password, account.password)
+
+    if (!isValid) {
+      throw new UnauthorizedError('password is invalid')
+    }
     return await Promise.resolve('any_token')
   }
 }
