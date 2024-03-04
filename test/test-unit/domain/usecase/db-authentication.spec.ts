@@ -1,3 +1,4 @@
+import { type HashComparer } from './../../../../src/domain/protocols/infra/crypto/hash-comparer'
 import { UnauthorizedError } from './../../../../src/presentation/errors/unauthorized-error'
 import { DbAuthentication } from './../../../../src/domain/usecase/db-authentication'
 import { type AccountModel } from '../../../../src/domain/model/account-model'
@@ -6,21 +7,33 @@ import { type LoadAccountByEmailRepository } from '../../../../src/domain/protoc
 interface SutTypes {
   sut: DbAuthentication
   loadAccountByEmailRepositoryStub: LoadAccountByEmailRepository
+  hashComparerStub: HashComparer
 }
 
 const makeSut = (): SutTypes => {
+  const hashComparerStub = makeHashCompare()
   const loadAccountByEmailRepositoryStub = makeLoadAccountByEmailRepository()
-  const sut = new DbAuthentication(loadAccountByEmailRepositoryStub)
+  const sut = new DbAuthentication(loadAccountByEmailRepositoryStub, hashComparerStub)
 
   return {
     sut,
-    loadAccountByEmailRepositoryStub
+    loadAccountByEmailRepositoryStub,
+    hashComparerStub
   }
 }
 
 const fakeRequestAccount = {
   email: 'any_email',
   password: 'any_password'
+}
+
+const makeHashCompare = (): HashComparer => {
+  class HashComparerStub implements HashComparer {
+    async compare (value: string, hash: string): Promise<boolean> {
+      return await new Promise(resolve => { resolve(true) })
+    }
+  }
+  return new HashComparerStub()
 }
 
 const makeLoadAccountByEmailRepository = (): LoadAccountByEmailRepository => {
@@ -62,5 +75,12 @@ describe('DbAuthentication', () => {
     jest.spyOn(loadAccountByEmailRepositoryStub, 'load').mockRejectedValueOnce(error)
     const promise = sut.auth(fakeRequestAccount)
     await expect(promise).rejects.toThrow(error)
+  })
+
+  test('should call hashComparer with correct params', async () => {
+    const { sut, hashComparerStub } = makeSut()
+    const compareStub = jest.spyOn(hashComparerStub, 'compare')
+    await sut.auth(fakeRequestAccount)
+    expect(compareStub).toHaveBeenCalledWith('any_password', 'hashed')
   })
 })
