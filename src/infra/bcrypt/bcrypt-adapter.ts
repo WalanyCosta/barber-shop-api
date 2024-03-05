@@ -6,8 +6,8 @@ export class BcryptAdapter implements Hasher, HashComparer {
   constructor (private readonly saltRounds: number) {}
 
   async compare (value: string, hash: string): Promise<boolean> {
-    await compare(value, hash)
-    return await Promise.resolve(false)
+    const isValid = await compare(value, hash)
+    return isValid
   }
 
   async hash (value: string): Promise<string> {
