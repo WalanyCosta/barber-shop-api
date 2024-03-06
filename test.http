@@ -1,5 +1,5 @@
 
-POST https://barber-shop-api.onrender.com/api/signup
+POST http://localhost:5555/api/signup
 content-type: application/json
 
 {
@@ -7,4 +7,14 @@ content-type: application/json
     "email": "wesleyemail@mail.com",
     "password": "Pass123#",
     "phone": "any_phone"
+}
+
+###
+
+POST http://localhost:5555/api/login
+content-type: application/json
+
+{
+    "email": "wesleyemail@mail.com",
+    "password": "Pass123#"
 }
