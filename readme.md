@@ -32,7 +32,8 @@
 > Aqui temos as funcionalidades desenvolvidas nesse projeto:
 
 -   [x] SignUp
--   [] Login
+-   [x] Login
+-   [] findServicesAll
 
 ## 🚀 Começando a usar
 
