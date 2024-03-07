@@ -2,6 +2,21 @@ import { DbLoadServices } from './../../../../src/domain/usecase/load-services-r
 import { type LoadServicesRepository } from './../../../../src/domain/protocols/infra/db/load-service-repository'
 import { StatusService, type ServiceModel } from '../../../../src/domain/model/service-model'
 
+interface SutTypes {
+  sut: DbLoadServices
+  loadServicesRepositoryStub: LoadServicesRepository
+}
+
+const makeSut = (): SutTypes => {
+  const loadServicesRepositoryStub = makeLoadServicesRepository()
+  const sut = new DbLoadServices(loadServicesRepositoryStub)
+
+  return {
+    sut,
+    loadServicesRepositoryStub
+  }
+}
+
 const fakeServicesResponse = ([
   {
     id: 'any_id',
@@ -33,24 +48,21 @@ const makeLoadServicesRepository = (): LoadServicesRepository => {
 
 describe('DbLoadServices', () => {
   test('should call LoadServicesRepository', async () => {
-    const loadServicesRepositoryStub = makeLoadServicesRepository()
-    const sut = new DbLoadServices(loadServicesRepositoryStub)
+    const { sut, loadServicesRepositoryStub } = makeSut()
     const loadSpy = jest.spyOn(loadServicesRepositoryStub, 'load')
     await sut.load()
     expect(loadSpy).toHaveBeenCalled()
   })
 
   test('should return empty LoadServicesRepository returns null', async () => {
-    const loadServicesRepositoryStub = makeLoadServicesRepository()
-    const sut = new DbLoadServices(loadServicesRepositoryStub)
+    const { sut, loadServicesRepositoryStub } = makeSut()
     jest.spyOn(loadServicesRepositoryStub, 'load').mockResolvedValueOnce([])
     const services = await sut.load()
     expect(services).toBe(null)
   })
 
   test('should throw LoadServicesRepository throws', async () => {
-    const loadServicesRepositoryStub = makeLoadServicesRepository()
-    const sut = new DbLoadServices(loadServicesRepositoryStub)
+    const { sut, loadServicesRepositoryStub } = makeSut()
     const error = new Error()
     jest.spyOn(loadServicesRepositoryStub, 'load').mockRejectedValueOnce(error)
     const promise = sut.load()
@@ -58,8 +70,7 @@ describe('DbLoadServices', () => {
   })
 
   test('should return services on success', async () => {
-    const loadServicesRepositoryStub = makeLoadServicesRepository()
-    const sut = new DbLoadServices(loadServicesRepositoryStub)
+    const { sut } = makeSut()
     const services = await sut.load()
     expect(services).toEqual(fakeServicesResponse)
   })
