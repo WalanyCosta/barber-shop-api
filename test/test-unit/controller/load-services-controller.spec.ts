@@ -3,7 +3,7 @@ import { type LoadServices } from './../../../src/domain/protocols/presentation/
 import { type ServiceModel, StatusService } from './../../../src/domain/model/service-model'
 
 class LoadServicesStub implements LoadServices {
-  async load (): Promise<ServiceModel[]> {
+  async load (): Promise<ServiceModel[] | null> {
     return await Promise.resolve([{
       id: 'any_id',
       name: 'any_name',
@@ -22,5 +22,16 @@ describe('LoadServicesController', () => {
     const loadSpy = jest.spyOn(loadServicesStub, 'load')
     await sut.handle({})
     expect(loadSpy).toHaveBeenCalled()
+  })
+
+  test('should return 204 if LoadServices returns null', async () => {
+    const loadServicesStub = new LoadServicesStub()
+    const sut = new LoadServicesController(loadServicesStub)
+    jest.spyOn(loadServicesStub, 'load').mockResolvedValue(null)
+    const httpResponse = await sut.handle({})
+    expect(httpResponse).toEqual({
+      statusCode: 204,
+      body: []
+    })
   })
 })
