@@ -5,7 +5,10 @@ import { type LoadServices } from '../protocols/presentation/load-services'
 export class DbLoadServices implements LoadServices {
   constructor (private readonly loadServicesRepository: LoadServicesRepository) {}
   async load (): Promise<ServiceModel[] | null> {
-    await this.loadServicesRepository.load()
-    return await Promise.resolve(null)
+    const services = await this.loadServicesRepository.load()
+    if (services.length === 0) {
+      return null
+    }
+    return await Promise.resolve([])
   }
 }
