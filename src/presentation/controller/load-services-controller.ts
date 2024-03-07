@@ -5,7 +5,13 @@ export class LoadServicesController implements Controller {
   constructor (private readonly loadServices: LoadServices) {}
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
-    await this.loadServices.load()
+    const services = await this.loadServices.load()
+    if (!services) {
+      return {
+        statusCode: 204,
+        body: []
+      }
+    }
     return await Promise.resolve({
       statusCode: 200
     })
