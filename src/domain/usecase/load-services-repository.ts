@@ -9,6 +9,6 @@ export class DbLoadServices implements LoadServices {
     if (services.length === 0) {
       return null
     }
-    return await Promise.resolve([])
+    return services
   }
 }
