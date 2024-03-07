@@ -47,4 +47,13 @@ describe('DbLoadServices', () => {
     const services = await sut.load()
     expect(services).toBe(null)
   })
+
+  test('should throw LoadServicesRepository throws', async () => {
+    const loadServicesRepositoryStub = makeLoadServicesRepository()
+    const sut = new DbLoadServices(loadServicesRepositoryStub)
+    const error = new Error()
+    jest.spyOn(loadServicesRepositoryStub, 'load').mockRejectedValueOnce(error)
+    const promise = sut.load()
+    await expect(promise).rejects.toThrow(error)
+  })
 })
