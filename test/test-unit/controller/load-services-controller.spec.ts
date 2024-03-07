@@ -17,17 +17,29 @@ const makeSut = (): SutTypes => {
   }
 }
 
+const fakeServicesResponse = ([
+  {
+    id: 'any_id',
+    name: 'any_name',
+    price: 30,
+    star: 5,
+    status: StatusService.active,
+    category: 'any_category'
+  },
+  {
+    id: 'other_id',
+    name: 'other_name',
+    price: 20,
+    star: 3,
+    status: StatusService.disable,
+    category: 'other_category'
+  }
+])
+
 const makeLoadServicesStub = (): LoadServices => {
   class LoadServicesStub implements LoadServices {
     async load (): Promise<ServiceModel[] | null> {
-      return await Promise.resolve([{
-        id: 'any_id',
-        name: 'any_name',
-        price: 30,
-        star: 5,
-        status: StatusService.active,
-        category: 'any_category'
-      }])
+      return await Promise.resolve(fakeServicesResponse)
     }
   }
 
@@ -60,6 +72,26 @@ describe('LoadServicesController', () => {
     expect(httpResponse).toEqual({
       statusCode: 500,
       body: error
+    })
+  })
+
+  test('should return 500 if LoadServices throws', async () => {
+    const { sut, loadServicesStub } = makeSut()
+    const error = new Error()
+    jest.spyOn(loadServicesStub, 'load').mockRejectedValueOnce(error)
+    const httpResponse = await sut.handle({})
+    expect(httpResponse).toEqual({
+      statusCode: 500,
+      body: error
+    })
+  })
+
+  test('should return 200 on success', async () => {
+    const { sut } = makeSut()
+    const httpResponse = await sut.handle({})
+    expect(httpResponse).toEqual({
+      statusCode: 200,
+      body: fakeServicesResponse
     })
   })
 })
