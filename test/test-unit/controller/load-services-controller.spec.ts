@@ -34,4 +34,16 @@ describe('LoadServicesController', () => {
       body: []
     })
   })
+
+  test('should return 500 if LoadServices throws', async () => {
+    const loadServicesStub = new LoadServicesStub()
+    const error = new Error()
+    const sut = new LoadServicesController(loadServicesStub)
+    jest.spyOn(loadServicesStub, 'load').mockRejectedValueOnce(error)
+    const httpResponse = await sut.handle({})
+    expect(httpResponse).toEqual({
+      statusCode: 500,
+      body: error
+    })
+  })
 })
