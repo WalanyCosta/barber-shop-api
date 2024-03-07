@@ -39,4 +39,12 @@ describe('DbLoadServices', () => {
     await sut.load()
     expect(loadSpy).toHaveBeenCalled()
   })
+
+  test('should return empty LoadServicesRepository returns null', async () => {
+    const loadServicesRepositoryStub = makeLoadServicesRepository()
+    const sut = new DbLoadServices(loadServicesRepositoryStub)
+    jest.spyOn(loadServicesRepositoryStub, 'load').mockResolvedValueOnce([])
+    const services = await sut.load()
+    expect(services).toBe(null)
+  })
 })
