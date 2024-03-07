@@ -56,4 +56,11 @@ describe('DbLoadServices', () => {
     const promise = sut.load()
     await expect(promise).rejects.toThrow(error)
   })
+
+  test('should return services on success', async () => {
+    const loadServicesRepositoryStub = makeLoadServicesRepository()
+    const sut = new DbLoadServices(loadServicesRepositoryStub)
+    const services = await sut.load()
+    expect(services).toEqual(fakeServicesResponse)
+  })
 })
