@@ -1,5 +1,5 @@
 export interface HttpRequest {
-  body: any
+  body?: any
 }
 
 export interface HttpResponse {
