@@ -14,9 +14,10 @@ export class LoadServicesController implements Controller {
         }
       }
 
-      return await Promise.resolve({
-        statusCode: 200
-      })
+      return {
+        statusCode: 200,
+        body: services
+      }
     } catch (error) {
       return {
         statusCode: 500,
