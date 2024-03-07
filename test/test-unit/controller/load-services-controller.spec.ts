@@ -3,15 +3,15 @@ import { type LoadServices } from './../../../src/domain/protocols/presentation/
 import { type ServiceModel, StatusService } from './../../../src/domain/model/service-model'
 
 class LoadServicesStub implements LoadServices {
-  async load (): Promise<ServiceModel> {
-    return await Promise.resolve({
+  async load (): Promise<ServiceModel[]> {
+    return await Promise.resolve([{
       id: 'any_id',
       name: 'any_name',
       price: 30,
       star: 5,
       status: StatusService.active,
       category: 'any_category'
-    })
+    }])
   }
 }
 
