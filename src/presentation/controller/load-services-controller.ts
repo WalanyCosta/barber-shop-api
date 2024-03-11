@@ -7,7 +7,7 @@ export class LoadServicesController implements Controller {
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       const services = await this.loadServices.load()
-      if (!services) {
+      if (services?.length === 0) {
         return {
           statusCode: 204,
           body: []

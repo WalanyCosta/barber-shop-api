@@ -54,9 +54,9 @@ describe('LoadServicesController', () => {
     expect(loadSpy).toHaveBeenCalled()
   })
 
-  test('should return 204 if LoadServices returns null', async () => {
+  test('should return 204 if LoadServices returns empty array', async () => {
     const { sut, loadServicesStub } = makeSut()
-    jest.spyOn(loadServicesStub, 'load').mockResolvedValue(null)
+    jest.spyOn(loadServicesStub, 'load').mockResolvedValue([])
     const httpResponse = await sut.handle({})
     expect(httpResponse).toEqual({
       statusCode: 204,
