@@ -1,6 +1,6 @@
 import { DbLoadServices } from './../../../../src/domain/usecase/load-services-repository'
 import { type LoadServicesRepository } from './../../../../src/domain/protocols/infra/db/load-service-repository'
-import { StatusService, type ServiceModel } from '../../../../src/domain/model/service-model'
+import { type ServiceModel } from '../../../../src/domain/model/service-model'
 
 interface SutTypes {
   sut: DbLoadServices
@@ -23,7 +23,7 @@ const fakeServicesResponse = ([
     name: 'any_name',
     price: 30,
     star: 5,
-    status: StatusService.active,
+    status: 'active',
     category: 'any_category'
   },
   {
@@ -31,10 +31,10 @@ const fakeServicesResponse = ([
     name: 'other_name',
     price: 20,
     star: 3,
-    status: StatusService.disable,
+    status: 'disable',
     category: 'other_category'
   }
-])
+] as ServiceModel[])
 
 const makeLoadServicesRepository = (): LoadServicesRepository => {
   class LoadServicesRepositoryStub implements LoadServicesRepository {

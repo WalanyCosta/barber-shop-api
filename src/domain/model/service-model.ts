@@ -1,8 +1,4 @@
-export enum StatusService {
-  active,
-  promotion,
-  disable
-}
+export type StatusService = 'active' | 'promotion' | 'disable'
 
 export interface ServiceModel {
   id: string
