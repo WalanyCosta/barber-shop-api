@@ -1,6 +1,7 @@
 import { LoadServicesController } from './../../../src/presentation/controller/load-services-controller'
 import { type LoadServices } from './../../../src/domain/protocols/presentation/load-services'
 import { type ServiceModel } from './../../../src/domain/model/service-model'
+import { fakeServicesResponse } from '../../helper/fakes'
 
 interface SutTypes {
   sut: LoadServicesController
@@ -16,25 +17,6 @@ const makeSut = (): SutTypes => {
     loadServicesStub
   }
 }
-
-const fakeServicesResponse = ([
-  {
-    id: 'any_id',
-    name: 'any_name',
-    price: 30,
-    star: 5,
-    status: 'active',
-    category: 'any_category'
-  },
-  {
-    id: 'other_id',
-    name: 'other_name',
-    price: 20,
-    star: 3,
-    status: 'disable',
-    category: 'other_category'
-  }
-] as ServiceModel[])
 
 const makeLoadServicesStub = (): LoadServices => {
   class LoadServicesStub implements LoadServices {
