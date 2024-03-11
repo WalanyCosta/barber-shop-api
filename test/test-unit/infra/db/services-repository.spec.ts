@@ -35,4 +35,10 @@ describe('AccountRepository', () => {
     expect(services[0]?.star).toBe(3)
     expect(services[0]?.category).toBe('any_category')
   })
+
+  test('should return empty array if load returns empty', async () => {
+    const sut = new ServicesRepository()
+    const services = await sut.load()
+    expect(services).toEqual([])
+  })
 })
