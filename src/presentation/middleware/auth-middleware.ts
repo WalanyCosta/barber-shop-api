@@ -5,15 +5,19 @@ import { type Middleware } from '../protocols/middlawre'
 
 export class AuthMiddleware implements Middleware {
   constructor (private readonly loadAccountByToken: LoadAccountByToken) {}
-  async handle (HttpRequest: HttpRequest): Promise<HttpResponse> {
+  async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
-      const id = await this.loadAccountByToken.load(HttpRequest.headers['x-access-token'])
+      const accessToken = httpRequest.headers?.['x-access-token']
+      if (accessToken) {
+        const id = await this.loadAccountByToken.load(accessToken)
 
-      if (id) {
-        return await Promise.resolve({
-          statusCode: 200
-        })
+        if (id) {
+          return await Promise.resolve({
+            statusCode: 200
+          })
+        }
       }
+
       return {
         statusCode: 403,
         body: new AccessDeniedError()
