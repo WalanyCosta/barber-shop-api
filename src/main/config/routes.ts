@@ -1,10 +1,14 @@
 import { type Express, Router } from 'express'
-import loginRoutes from '../routes/login/login-routes'
-import serviceRoutes from '../routes/services/services'
+import { readdirSync } from 'node:fs'
+import path from 'node:path'
 
 export default (app: Express): void => {
   const router = Router()
   app.use('/api', router)
-  loginRoutes(router)
-  serviceRoutes(router)
+
+  readdirSync(path.resolve(__dirname, '../routes')).map(async file => {
+    if (!file.includes('.spec.')) {
+      (await import(`../routes/${file}`)).default(router)
+    }
+  })
 }
