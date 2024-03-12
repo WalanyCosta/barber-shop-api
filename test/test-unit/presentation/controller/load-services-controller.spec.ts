@@ -1,7 +1,7 @@
-import { LoadServicesController } from './../../../src/presentation/controller/load-services-controller'
-import { type LoadServices } from './../../../src/domain/protocols/presentation/load-services'
-import { type ServiceModel } from './../../../src/domain/model/service-model'
-import { fakeServicesResponse } from '../../helper/fakes'
+import { LoadServicesController } from './../../../../src/presentation/controller/load-services-controller'
+import { type LoadServices } from './../../../../src/domain/protocols/presentation/load-services'
+import { type ServiceModel } from './../../../../src/domain/model/service-model'
+import { fakeServicesResponse } from '../../../helper/fakes'
 
 interface SutTypes {
   sut: LoadServicesController

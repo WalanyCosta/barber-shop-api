@@ -1,8 +1,8 @@
-import { type Validator } from './../../../src/presentation/protocols/validator'
-import { EmailInUseError } from './../../../src/presentation/errors/email-in-use-error'
-import { type AddAccount, type AddAccountParam } from './../../../src/domain/protocols/presentation/add-account'
-import { ValidationError } from '../../../src/presentation/errors/validation-error'
-import { SignUpController } from './../../../src/presentation/controller/signup/signup-controller'
+import { type Validator } from '../../../../src/presentation/protocols/validator'
+import { EmailInUseError } from '../../../../src/presentation/errors/email-in-use-error'
+import { type AddAccount, type AddAccountParam } from '../../../../src/domain/protocols/presentation/add-account'
+import { ValidationError } from '../../../../src/presentation/errors/validation-error'
+import { SignUpController } from '../../../../src/presentation/controller/signup/signup-controller'
 
 interface SutTypes {
   sut: SignUpController
