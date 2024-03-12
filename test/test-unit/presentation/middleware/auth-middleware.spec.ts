@@ -1,3 +1,4 @@
+import { AccessDeniedError } from './../../../../src/presentation/errors/access-denied-error'
 import { AuthMiddleware } from './../../../../src/presentation/middleware/auth-middleware'
 import { type LoadAccountByToken } from './../../../../src/domain/protocols/presentation/load-account-by-token'
 
@@ -23,5 +24,21 @@ describe('Auth Middleware', () => {
     }
     await sut.handle(httpRequest)
     expect(loadSpy).toHaveBeenCalledWith('any_token')
+  })
+
+  test('should return 403 if LoadAccountByToken returns null', async () => {
+    const loadAccountByTokenStub = makeLoadAccountByToken()
+    const sut = new AuthMiddleware(loadAccountByTokenStub)
+    jest.spyOn(loadAccountByTokenStub, 'load').mockResolvedValueOnce(null)
+    const httpRequest = {
+      headers: {
+        'x-access-token': 'any_token'
+      }
+    }
+    const httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse).toEqual({
+      statusCode: 403,
+      body: new AccessDeniedError()
+    })
   })
 })
