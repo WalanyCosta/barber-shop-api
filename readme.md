@@ -29,11 +29,11 @@
 
 ## 🔨 Features
 
-> Aqui temos as funcionalidades desenvolvidas nesse projeto:
+> Aqui temos as rotas desenvolvidas nesse projeto:
 
--   [x] SignUp
--   [x] Login
--   [] findServicesAll
+-   [x] POST: /SignUp
+-   [x] POST: /Login
+-   [x] GET: /services
 
 ## 🚀 Começando a usar
 
