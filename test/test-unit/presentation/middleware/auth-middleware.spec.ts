@@ -58,4 +58,14 @@ describe('Auth Middleware', () => {
       body: error
     })
   })
+
+  test('should return 403 if no x-access-token in headers', async () => {
+    const loadAccountByTokenStub = makeLoadAccountByToken()
+    const sut = new AuthMiddleware(loadAccountByTokenStub)
+    const httpResponse = await sut.handle({})
+    expect(httpResponse).toEqual({
+      statusCode: 403,
+      body: new AccessDeniedError()
+    })
+  })
 })
