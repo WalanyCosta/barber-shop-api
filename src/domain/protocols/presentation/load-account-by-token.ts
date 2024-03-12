@@ -1,3 +1,3 @@
 export interface LoadAccountByToken {
-  load: (accessToken: string) => Promise<string>
+  load: (accessToken: string) => Promise<string | null>
 }
