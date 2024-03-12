@@ -41,4 +41,21 @@ describe('Auth Middleware', () => {
       body: new AccessDeniedError()
     })
   })
+
+  test('should return 500 if LoadAccountByToken throws', async () => {
+    const loadAccountByTokenStub = makeLoadAccountByToken()
+    const sut = new AuthMiddleware(loadAccountByTokenStub)
+    const error = new Error()
+    jest.spyOn(loadAccountByTokenStub, 'load').mockRejectedValueOnce(error)
+    const httpRequest = {
+      headers: {
+        'x-access-token': 'any_token'
+      }
+    }
+    const httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse).toEqual({
+      statusCode: 500,
+      body: error
+    })
+  })
 })
