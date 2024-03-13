@@ -17,6 +17,12 @@ const makeSut = (): SutTypes => {
   }
 }
 
+const fakeHttpRequest = {
+  headers: {
+    'x-access-token': 'any_token'
+  }
+}
+
 const makeLoadAccountByToken = (): LoadAccountByToken => {
   class LoadAccountByTokenStub implements LoadAccountByToken {
     async load (accessToken: string): Promise<string> {
@@ -31,24 +37,14 @@ describe('Auth Middleware', () => {
   test('should call LoadAccountByToken with correct param', async () => {
     const { sut, loadAccountByTokenStub } = makeSut()
     const loadSpy = jest.spyOn(loadAccountByTokenStub, 'load')
-    const httpRequest = {
-      headers: {
-        'x-access-token': 'any_token'
-      }
-    }
-    await sut.handle(httpRequest)
+    await sut.handle(fakeHttpRequest)
     expect(loadSpy).toHaveBeenCalledWith('any_token')
   })
 
   test('should return 403 if LoadAccountByToken returns null', async () => {
     const { sut, loadAccountByTokenStub } = makeSut()
     jest.spyOn(loadAccountByTokenStub, 'load').mockResolvedValueOnce(null)
-    const httpRequest = {
-      headers: {
-        'x-access-token': 'any_token'
-      }
-    }
-    const httpResponse = await sut.handle(httpRequest)
+    const httpResponse = await sut.handle(fakeHttpRequest)
     expect(httpResponse).toEqual({
       statusCode: 403,
       body: new AccessDeniedError()
@@ -59,12 +55,7 @@ describe('Auth Middleware', () => {
     const { sut, loadAccountByTokenStub } = makeSut()
     const error = new Error()
     jest.spyOn(loadAccountByTokenStub, 'load').mockRejectedValueOnce(error)
-    const httpRequest = {
-      headers: {
-        'x-access-token': 'any_token'
-      }
-    }
-    const httpResponse = await sut.handle(httpRequest)
+    const httpResponse = await sut.handle(fakeHttpRequest)
     expect(httpResponse).toEqual({
       statusCode: 500,
       body: error
@@ -77,6 +68,15 @@ describe('Auth Middleware', () => {
     expect(httpResponse).toEqual({
       statusCode: 403,
       body: new AccessDeniedError()
+    })
+  })
+
+  test('should return 200 on success', async () => {
+    const { sut } = makeSut()
+    const httpResponse = await sut.handle(fakeHttpRequest)
+    expect(httpResponse).toEqual({
+      statusCode: 200,
+      body: 'any_id'
     })
   })
 })
