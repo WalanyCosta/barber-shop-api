@@ -12,9 +12,10 @@ export class AuthMiddleware implements Middleware {
         const id = await this.loadAccountByToken.load(accessToken)
 
         if (id) {
-          return await Promise.resolve({
-            statusCode: 200
-          })
+          return {
+            statusCode: 200,
+            body: id
+          }
         }
       }
 
