@@ -4,7 +4,11 @@ import { type LoadAccountByToken } from '../protocols/presentation/load-account-
 export class DbLoadAccountByToken implements LoadAccountByToken {
   constructor (private readonly decryptor: Decryptor) {}
   async load (accessToken: string): Promise<string | null> {
-    await this.decryptor.decrypt(accessToken)
+    try {
+      await this.decryptor.decrypt(accessToken)
+    } catch (error) {
+
+    }
     return await Promise.resolve(null)
   }
 }
