@@ -29,10 +29,13 @@
 
 ## 🔨 Features
 
-> Aqui temos as funcionalidades desenvolvidas nesse projeto:
+> Aqui temos as rotas desenvolvidas nesse projeto:
 
--   [x] SignUp
--   [] Login
+-   [x] POST: /SignUp
+-   [x] POST: /Login
+-   [x] GET: /services
+
+**Acessa API por esta url** : https://barber-shop-api.onrender.com/api/
 
 ## 🚀 Começando a usar
 
