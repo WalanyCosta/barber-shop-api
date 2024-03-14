@@ -3,14 +3,14 @@ import { AccountRepository } from './../../../../src/infra/db/prisma/account/acc
 import prisma from '../../../../src/infra/db/prisma/helpers/client'
 import { type AccountModel } from '../../../../src/domain/model/account-model'
 
-const createFakeAccountData = async (): Promise<AccountModel> => {
+const createFakeAccountData = async (accessToken = ''): Promise<AccountModel> => {
   return await prisma.account.create({
     data: {
       name: 'any_name',
       email: 'any_email@mail.com',
       password: 'any_password',
       phone: 'any_phone',
-      accessToken: ''
+      accessToken
     }
   }) as AccountModel
 }
@@ -61,5 +61,17 @@ describe('AccountRepository', () => {
     const accountUpdated = await prisma.account.findUnique({ where: { id: account.id } })
     expect(accountUpdated).toBeTruthy()
     expect(accountUpdated?.accessToken).toBe('any_token')
+  })
+
+  test('should return an account on loadByToken success', async () => {
+    const sut = new AccountRepository()
+    await createFakeAccountData('any_token')
+    const account = await sut.loadByToken('any_token')
+    expect(account).toBeTruthy()
+    expect(account?.id).toBeTruthy()
+    expect(account?.name).toBe('any_name')
+    expect(account?.email).toBe('any_email@mail.com')
+    expect(account?.password).toBe('any_password')
+    expect(account?.phone).toBe('any_phone')
   })
 })
