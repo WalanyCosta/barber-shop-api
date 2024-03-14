@@ -1,5 +1,6 @@
 import { type LoadServices } from '../../domain/protocols/presentation/load-services'
-import { type Controller, type HttpRequest, type HttpResponse } from '../protocols/controller'
+import { type Controller } from '../protocols/controller'
+import { type HttpRequest, type HttpResponse } from '../protocols/http'
 
 export class LoadServicesController implements Controller {
   constructor (private readonly loadServices: LoadServices) {}

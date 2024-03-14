@@ -1,7 +1,8 @@
 import { type AddAccount } from '../../../domain/protocols/presentation/add-account'
-import { type Controller, type HttpRequest, type HttpResponse } from '../../protocols/controller'
+import { type Controller } from '../../protocols/controller'
 import { EmailInUseError } from '../../errors/email-in-use-error'
 import { type Validator } from '../../protocols/validator'
+import { type HttpRequest, type HttpResponse } from '../../protocols/http'
 
 export class SignUpController implements Controller {
   constructor (

@@ -1,9 +1,9 @@
-import { type HttpRequest, type Controller } from '../../../presentation/protocols/controller'
+import { type Controller } from '../../../presentation/protocols/controller'
 import { type Request, type Response } from 'express'
 
 export default (controller: Controller) => {
   return async (req: Request, res: Response) => {
-    const httpRequest: HttpRequest = {
+    const httpRequest = {
       body: req.body
     }
     const httpResponse = await controller.handle(httpRequest)
