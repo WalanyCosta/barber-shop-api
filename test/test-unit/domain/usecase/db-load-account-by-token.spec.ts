@@ -51,8 +51,8 @@ const makeLoadAccountByTokenRepository = (): LoadAccountByTokenRepository => {
 describe('DbLoadAccountByToken', () => {
   test('should call decrypter with correct params', async () => {
     const { sut, decryptorStub } = makeSut()
-    const decryptSpy = jest.spyOn(decryptorStub, 'decrypt')
     const accessToken = 'any_token'
+    const decryptSpy = jest.spyOn(decryptorStub, 'decrypt')
     await sut.load(accessToken)
     expect(decryptSpy).toHaveBeenCalledWith(accessToken)
   })
@@ -60,24 +60,22 @@ describe('DbLoadAccountByToken', () => {
   test('should return null if decrypter throws', async () => {
     const { sut, decryptorStub } = makeSut()
     jest.spyOn(decryptorStub, 'decrypt').mockRejectedValueOnce(new Error())
-    const accessToken = 'wrong_token'
-    const response = await sut.load(accessToken)
+    const response = await sut.load('wrong_token')
     expect(response).toBeNull()
   })
 
   test('should call LoadAccountByTokenRepository with correct params', async () => {
     const { sut, loadAccountByTokenRepositoryStub } = makeSut()
-    const decryptSpy = jest.spyOn(loadAccountByTokenRepositoryStub, 'loadByToken')
     const accessToken = 'any_token'
-    await sut.load(accessToken)
+    const decryptSpy = jest.spyOn(loadAccountByTokenRepositoryStub, 'loadByToken')
+    await sut.load('any_token')
     expect(decryptSpy).toHaveBeenCalledWith(accessToken)
   })
 
   test('should return null if LoadAccountByTokenRepository returns null', async () => {
     const { sut, loadAccountByTokenRepositoryStub } = makeSut()
     jest.spyOn(loadAccountByTokenRepositoryStub, 'loadByToken').mockResolvedValueOnce(null)
-    const accessToken = 'any_token'
-    const account = await sut.load(accessToken)
+    const account = await sut.load('any_token')
     expect(account).toBeNull()
   })
 
@@ -85,8 +83,7 @@ describe('DbLoadAccountByToken', () => {
     const { sut, loadAccountByTokenRepositoryStub } = makeSut()
     const error = new Error()
     jest.spyOn(loadAccountByTokenRepositoryStub, 'loadByToken').mockRejectedValueOnce(error)
-    const accessToken = 'any_token'
-    const response = sut.load(accessToken)
+    const response = sut.load('any_token')
     await expect(response).rejects.toThrow(error)
   })
 
