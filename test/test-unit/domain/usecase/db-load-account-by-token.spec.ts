@@ -80,4 +80,13 @@ describe('DbLoadAccountByToken', () => {
     const account = await sut.load(accessToken)
     expect(account).toBeNull()
   })
+
+  test('should throw if LoadAccountByTokenRepository throws', async () => {
+    const { sut, loadAccountByTokenRepositoryStub } = makeSut()
+    const error = new Error()
+    jest.spyOn(loadAccountByTokenRepositoryStub, 'loadByToken').mockRejectedValueOnce(error)
+    const accessToken = 'any_token'
+    const response = sut.load(accessToken)
+    await expect(response).rejects.toThrow(error)
+  })
 })
