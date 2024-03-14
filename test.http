@@ -18,3 +18,8 @@ content-type: application/json
     "email": "wesleyemail@mail.com",
     "password": "Pass123#"
 }
+
+###
+
+GET http://localhost:5555/api/services
+content-type: application/json
