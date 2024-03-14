@@ -69,4 +69,10 @@ describe('Get /services', () => {
       .set('x-access-token', accessToken)
       .expect(200)
   })
+
+  test('should return 403 on load services without accessToken', async () => {
+    await request(app)
+      .get('/api/services')
+      .expect(403)
+  })
 })
