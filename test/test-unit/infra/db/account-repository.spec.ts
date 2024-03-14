@@ -74,4 +74,10 @@ describe('AccountRepository', () => {
     expect(account?.password).toBe('any_password')
     expect(account?.phone).toBe('any_phone')
   })
+
+  test('should return null if loadByToken fails', async () => {
+    const sut = new AccountRepository()
+    const account = await sut.loadByToken('any_token')
+    expect(account).toBeFalsy()
+  })
 })
