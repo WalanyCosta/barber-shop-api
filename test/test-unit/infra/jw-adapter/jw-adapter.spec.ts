@@ -45,4 +45,11 @@ describe('JWT Adapter decrypter', () => {
     await sut.decrypt('token')
     expect(signSpy).toHaveBeenCalledWith('token', privatekey)
   })
+
+  test('should throw if verify throws', async () => {
+    const sut = makeSut()
+    jest.spyOn(jwt, 'verify').mockImplementationOnce(() => { throw new Error() })
+    const error = sut.decrypt('token')
+    await expect(error).rejects.toThrow()
+  })
 })
