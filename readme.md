@@ -35,6 +35,8 @@
 -   [x] POST: /Login
 -   [x] GET: /services
 
+**Acessa API por esta url** : https://barber-shop-api.onrender.com/api/
+
 ## 🚀 Começando a usar
 
 > Para que esse projeto possa funcionar na sua máquina deve-se cumprir os seguintes requisitos
