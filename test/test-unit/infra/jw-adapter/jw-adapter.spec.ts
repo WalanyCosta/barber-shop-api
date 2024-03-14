@@ -37,7 +37,7 @@ describe('JWT Adapter encrypter', () => {
   })
 })
 
-describe('JWT Adapter decrypter', () => {
+describe('JWT Adapter Decryptor', () => {
   test('should call verify with correct params', async () => {
     const privatekey = 'secret'
     const sut = makeSut()
@@ -51,5 +51,11 @@ describe('JWT Adapter decrypter', () => {
     jest.spyOn(jwt, 'verify').mockImplementationOnce(() => { throw new Error() })
     const error = sut.decrypt('token')
     await expect(error).rejects.toThrow()
+  })
+
+  test('should return value on success', async () => {
+    const sut = makeSut()
+    const value = await sut.decrypt('token')
+    expect(value).toBe('any_value')
   })
 })
