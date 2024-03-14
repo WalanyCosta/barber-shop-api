@@ -89,4 +89,10 @@ describe('DbLoadAccountByToken', () => {
     const response = sut.load(accessToken)
     await expect(response).rejects.toThrow(error)
   })
+
+  test('should return accountId on success', async () => {
+    const { sut } = makeSut()
+    const accountId = await sut.load('any_token')
+    expect(accountId).toBe('any_id')
+  })
 })
