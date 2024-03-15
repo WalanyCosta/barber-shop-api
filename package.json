@@ -13,6 +13,9 @@
     "test:ci": "npm test -- --coverage",
     "prepared": "husky install"
   },
+  "prisma": {
+    "seed": "tsx prisma/seeds/seed.ts"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
