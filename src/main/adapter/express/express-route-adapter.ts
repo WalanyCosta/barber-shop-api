@@ -1,4 +1,4 @@
-import { type Controller } from '../../../presentation/protocols/controller'
+import { type Controller } from '@/presentation/protocols/controller'
 import { type Request, type Response } from 'express'
 
 export default (controller: Controller) => {

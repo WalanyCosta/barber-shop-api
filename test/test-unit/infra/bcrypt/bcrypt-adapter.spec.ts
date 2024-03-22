@@ -1,4 +1,4 @@
-import { BcryptAdapter } from './../../../../src/infra/bcrypt/bcrypt-adapter'
+import { BcryptAdapter } from '@/infra/bcrypt/bcrypt-adapter'
 import bcrypt from 'bcrypt'
 
 jest.mock('bcrypt', () => ({

@@ -1,8 +1,8 @@
 import jwt from 'jsonwebtoken'
-import { cleanData, disconnect } from '../../../../src/infra/db/prisma/helpers/prisma-helper'
+import { cleanData, disconnect } from '@/infra/db/prisma/helpers/prisma-helper'
 import request from 'supertest'
-import app from '../../../../src/main/config/app'
-import prisma from '../../../../src/infra/db/prisma/helpers/client'
+import app from '@/main/config/app'
+import prisma from '@/infra/db/prisma/helpers/client'
 
 const mockAccessToken = async (): Promise<string> => {
   const account = await prisma.account.create({

@@ -1,11 +1,11 @@
-import { DbAddAccount } from '../../../domain/usecase/db-add-account'
-import { BcryptAdapter } from '../../../infra/bcrypt/bcrypt-adapter'
-import { AccountRepository } from '../../../infra/db/prisma/account/account-repository'
-import { JwtAdapter } from '../../../infra/jw-adapter/jwt-adapter'
-import { signupSchema } from '../../../infra/validator/schema/signup-schema'
-import { ZodValidator } from '../../../infra/validator/zod-validator'
-import { SignUpController } from '../../../presentation/controller/signup/signup-controller'
-import { type Controller } from '../../../presentation/protocols/controller'
+import { DbAddAccount } from '@/domain/usecase/db-add-account'
+import { BcryptAdapter } from '@/infra/bcrypt/bcrypt-adapter'
+import { AccountRepository } from '@/infra/db/prisma/account/account-repository'
+import { JwtAdapter } from '@/infra/jw-adapter/jwt-adapter'
+import { signupSchema } from '@/infra/validator/schema/signup-schema'
+import { ZodValidator } from '@/infra/validator/zod-validator'
+import { SignUpController } from '@/presentation/controller/signup/signup-controller'
+import { type Controller } from '@/presentation/protocols/controller'
 
 export const makeSignUpController = (): Controller => {
   const salt = 12

@@ -4,3 +4,4 @@ src/infra/db/prisma/database-test/**
 api.http
 .env
 dist
+.vscode

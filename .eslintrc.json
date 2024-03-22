@@ -8,7 +8,7 @@
     "parserOptions": {
         "ecmaVersion": "latest",
         "sourceType": "module",
-        "project": "./tsconfig.eslint.json"
+        "project": "./tsconfig.json"
     },
     "rules": {
         "prefer-regex-literals": "off",

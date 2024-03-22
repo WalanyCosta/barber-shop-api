@@ -1,5 +1,5 @@
-import { ValidationError } from '../../presentation/errors/validation-error'
-import { type Validator } from '../../presentation/protocols/validator'
+import { ValidationError } from '@/presentation/errors/validation-error'
+import { type Validator } from '@/presentation/protocols/validator'
 import type * as z from 'zod'
 
 export class ZodValidator implements Validator {

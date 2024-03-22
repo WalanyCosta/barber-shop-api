@@ -1,6 +1,6 @@
-import { ServicesRepository } from './../../../../src/infra/db/prisma/service/service-repository'
-import { cleanData } from './../../../../src/infra/db/prisma/helpers/prisma-helper'
-import prisma from '../../../../src/infra/db/prisma/helpers/client'
+import { ServicesRepository } from '@/infra/db/prisma/service/service-repository'
+import { cleanData } from '@/infra/db/prisma/helpers/prisma-helper'
+import prisma from '@/infra/db/prisma/helpers/client'
 
 const createFakeServiceData = async (): Promise<void> => {
   await prisma.service.create({

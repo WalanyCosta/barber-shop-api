@@ -1,4 +1,4 @@
-import { type LoadServices } from '../../domain/protocols/presentation/load-services'
+import { type LoadServices } from '@/domain/protocols/presentation/load-services'
 import { type Controller } from '../protocols/controller'
 import { type HttpRequest, type HttpResponse } from '../protocols/http'
 

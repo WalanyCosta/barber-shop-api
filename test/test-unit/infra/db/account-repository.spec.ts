@@ -1,7 +1,7 @@
-import { cleanData } from './../../../../src/infra/db/prisma/helpers/prisma-helper'
-import { AccountRepository } from './../../../../src/infra/db/prisma/account/account-repository'
-import prisma from '../../../../src/infra/db/prisma/helpers/client'
-import { type AccountModel } from '../../../../src/domain/model/account-model'
+import { cleanData } from '@/infra/db/prisma/helpers/prisma-helper'
+import { AccountRepository } from '@/infra/db/prisma/account/account-repository'
+import { type AccountModel } from '@/domain/model/account-model'
+import prisma from '@/infra/db/prisma/helpers/client'
 
 const createFakeAccountData = async (accessToken = ''): Promise<AccountModel> => {
   return await prisma.account.create({

@@ -1,4 +1,4 @@
-import { JwtAdapter } from './../../../../src/infra/jw-adapter/jwt-adapter'
+import { JwtAdapter } from '@/infra/jw-adapter/jwt-adapter'
 import jwt from 'jsonwebtoken'
 
 jest.mock('jsonwebtoken', () => ({

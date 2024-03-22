@@ -1,12 +1,15 @@
 {
-"compilerOptions": {
-  "outDir": "./dist",
-  "target": "es2021",                                  /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
-  "module": "commonjs",                                /* Specify what module code is generated. */
-  "esModuleInterop": true,                             /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables 'allowSyntheticDefaultImports' for type compatibility. */
-  "strict": true,                                      /* Enable all strict type-checking options. */
-},
-"include": [
-  "src"
-]
+    "compilerOptions": {
+        "outDir": "./dist",
+        "target": "es2021" /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */,
+        "module": "commonjs" /* Specify what module code is generated. */,
+        "esModuleInterop": true /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables 'allowSyntheticDefaultImports' for type compatibility. */,
+        "strict": true /* Enable all strict type-checking options. */,
+        "rootDirs": ["src", "test"],
+        "baseUrl": "src",
+        "paths": {
+            "@/*": ["*"],
+        }
+    },
+    "include": ["src", "test"]
 }
