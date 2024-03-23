@@ -1,6 +1,6 @@
 import { DbAuthentication } from '@/domain/usecase/db-authentication'
 import { BcryptAdapter } from '@/infra/bcrypt/bcrypt-adapter'
-import { AccountRepository } from '@/infra/db/prisma/account/account-repository'
+import { AccountRepository } from '@/infra/db/prisma/repositories/account/account-repository'
 import { JwtAdapter } from '@/infra/jw-adapter/jwt-adapter'
 import { LoginSchema } from '@/infra/validator/schema/login-schema'
 import { ZodValidator } from '@/infra/validator/zod-validator'

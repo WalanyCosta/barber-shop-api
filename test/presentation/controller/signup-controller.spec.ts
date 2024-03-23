@@ -1,6 +1,6 @@
 import { type Validator } from '@/presentation/protocols/validator'
 import { EmailInUseError } from '@/presentation/errors/email-in-use-error'
-import { type AddAccount, type AddAccountParam } from '@/domain/protocols/presentation/add-account'
+import { type AddAccount, type AddAccountParam } from '@/domain/protocols/presentation'
 import { ValidationError } from '@/presentation/errors/validation-error'
 import { SignUpController } from '@/presentation/controller/signup/signup-controller'
 

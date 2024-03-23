@@ -1,5 +1,5 @@
-import { LoadServicesController } from '@/presentation/controller/load-services-controller'
-import { type LoadServices } from '@/domain/protocols/presentation/load-services'
+import { LoadServicesController } from '@/presentation/controller/services/load-services-controller'
+import { type LoadServices } from '@/domain/protocols/presentation'
 import { type ServiceModel } from '@/domain/model/service-model'
 import { fakeServicesResponse } from '../../helper/fakes'
 

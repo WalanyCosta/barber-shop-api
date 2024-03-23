@@ -1,4 +1,4 @@
-import { ServicesRepository } from '@/infra/db/prisma/service/service-repository'
+import { ServicesRepository } from '@/infra/db/prisma/repositories/service/service-repository'
 import { cleanData } from '@/infra/db/prisma/helpers/prisma-helper'
 import prisma from '@/infra/db/prisma/helpers/client'
 

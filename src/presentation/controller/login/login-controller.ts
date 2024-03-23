@@ -1,8 +1,8 @@
-import { type Authentication } from '@/domain/protocols/presentation/authentication'
-import { UnauthorizedError } from '../../errors/unauthorized-error'
-import { type Controller } from '../../protocols/controller'
-import { type HttpRequest, type HttpResponse } from '../../protocols/http'
-import { type Validator } from '../../protocols/validator'
+import { type Authentication } from '@/domain/protocols/presentation'
+import { UnauthorizedError } from '@/presentation/errors/unauthorized-error'
+import { type Controller } from '@/presentation/protocols/controller'
+import { type HttpRequest, type HttpResponse } from '@/presentation/protocols/http'
+import { type Validator } from '@/presentation/protocols/validator'
 
 export class LoginController implements Controller {
   constructor (

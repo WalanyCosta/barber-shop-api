@@ -1,5 +1,5 @@
-import { type HashComparer } from '@/domain/protocols/infra/crypto/hash-comparer'
-import { type Hasher } from '@/domain/protocols/infra/crypto/hasher'
+import { type HashComparer } from '@/domain/protocols/infra/crypto/bcrypt/hash-comparer'
+import { type Hasher } from '@/domain/protocols/infra/crypto/bcrypt/hasher'
 import { hash, compare } from 'bcrypt'
 
 export class BcryptAdapter implements Hasher, HashComparer {

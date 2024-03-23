@@ -1,5 +1,5 @@
 import { DbLoadServices } from '@/domain/usecase/load-services-repository'
-import { type LoadServicesRepository } from '@/domain/protocols/infra/db/load-service-repository'
+import { type LoadServicesRepository } from '@/domain/protocols/infra/db/services/load-service-repository'
 import { type ServiceModel } from '@/domain/model/service-model'
 import { fakeServicesResponse } from '../../helper/fakes'
 

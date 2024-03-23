@@ -1,9 +1,9 @@
-import { type UpdateAccessTokenGenerator } from '@/domain/protocols/infra/db/update-access-token-generator'
-import { type Encrypter } from '@/domain/protocols/infra/crypto/encrypter'
-import { type AddAccountModel, type AddAccountRepository } from '@/domain/protocols/infra/db/add-account-repository'
-import { type Hasher } from '@/domain/protocols/infra/crypto/hasher'
+import { type UpdateAccessTokenGenerator } from '@/domain/protocols/infra/db/account/update-access-token-generator'
+import { type Encrypter } from '@/domain/protocols/infra/crypto/jwt/encrypter'
+import { type AddAccountModel, type AddAccountRepository } from '@/domain/protocols/infra/db/account/add-account-repository'
+import { type Hasher } from '@/domain/protocols/infra/crypto/bcrypt/hasher'
 import { DbAddAccount } from '@/domain/usecase/db-add-account'
-import { type LoadAccountByEmailRepository } from '@/domain/protocols/infra/db/load-account-by-email-repository'
+import { type LoadAccountByEmailRepository } from '@/domain/protocols/infra/db/account/load-account-by-email-repository'
 import { type AccountModel } from '@/domain/model/account-model'
 
 interface SutTypes {

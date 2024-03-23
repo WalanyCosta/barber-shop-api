@@ -1,8 +1,8 @@
 import { UnauthorizedError } from '../../presentation/errors/unauthorized-error'
-import { type Encrypter } from '../protocols/infra/crypto/encrypter'
-import { type HashComparer } from '../protocols/infra/crypto/hash-comparer'
-import { type LoadAccountByEmailRepository } from '../protocols/infra/db/load-account-by-email-repository'
-import { type UpdateAccessTokenGenerator } from '../protocols/infra/db/update-access-token-generator'
+import { type Encrypter } from '../protocols/infra/crypto/jwt/encrypter'
+import { type HashComparer } from '../protocols/infra/crypto/bcrypt/hash-comparer'
+import { type LoadAccountByEmailRepository } from '../protocols/infra/db/account/load-account-by-email-repository'
+import { type UpdateAccessTokenGenerator } from '../protocols/infra/db/account/update-access-token-generator'
 import { type Authentication, type AuthenticationParam } from '../protocols/presentation/authentication'
 
 export class DbAuthentication implements Authentication {

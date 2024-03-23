@@ -1,4 +1,4 @@
-import { type LoadAccountByToken } from '../../domain/protocols/presentation/load-account-by-token'
+import { type LoadAccountByToken } from '@/domain/protocols/presentation'
 import { AccessDeniedError } from '../errors/access-denied-error'
 import { type HttpRequest, type HttpResponse } from '../protocols/http'
 import { type Middleware } from '../protocols/middlawre'

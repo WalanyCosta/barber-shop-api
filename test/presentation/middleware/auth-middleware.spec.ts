@@ -1,6 +1,6 @@
 import { AccessDeniedError } from '@/presentation/errors/access-denied-error'
 import { AuthMiddleware } from '@/presentation/middleware/auth-middleware'
-import { type LoadAccountByToken } from '@/domain/protocols/presentation/load-account-by-token'
+import { type LoadAccountByToken } from '@/domain/protocols/presentation'
 
 interface SutTypes {
   sut: AuthMiddleware
