@@ -1,9 +1,12 @@
-import { type LoadAccountByTokenRepository } from '@/domain/protocols/infra/db/account/load-account-by-token-repository'
-import { type LoadAccountByEmailRepository } from '@/domain/protocols/infra/db/account/load-account-by-email-repository'
 import { type AccountModel } from '@/domain/model/account-model'
-import { type AddAccountModel, type AddAccountRepository } from '@/domain/protocols/infra/db/account/add-account-repository'
+import { 
+    type UpdateAccessTokenGenerator,
+    type AddAccountModel, 
+    type AddAccountRepository, 
+    type LoadAccountByTokenRepository, 
+    type LoadAccountByEmailRepository
+} from '@/domain/protocols/infra'
 import prisma from '@/infra/db/prisma/helpers/client'
-import { type UpdateAccessTokenGenerator } from '@/domain/protocols/infra/db/account/update-access-token-generator'
 
 export class AccountRepository implements
     AddAccountRepository, LoadAccountByEmailRepository, UpdateAccessTokenGenerator, LoadAccountByTokenRepository {

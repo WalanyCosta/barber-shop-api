@@ -1,5 +1,5 @@
 import { type Request, type Response, type NextFunction } from 'express'
-import { type Middleware } from '@/presentation/protocols/middlawre'
+import { type Middleware } from '@/presentation/protocols/middleware'
 import { type HttpRequest } from '@/presentation/protocols/http'
 
 export const adaptMiddleware = (middleware: Middleware) => {

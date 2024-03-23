@@ -1,9 +1,6 @@
 import { DbAddAccount } from '@/domain/usecase/db-add-account'
-import { BcryptAdapter } from '@/infra/bcrypt/bcrypt-adapter'
-import { AccountRepository } from '@/infra/db/prisma/repositories/account/account-repository'
-import { JwtAdapter } from '@/infra/jw-adapter/jwt-adapter'
-import { signupSchema } from '@/infra/validator/schema/signup-schema'
-import { ZodValidator } from '@/infra/validator/zod-validator'
+import { AccountRepository } from '@/infra/db/prisma'
+import { JwtAdapter, signupSchema, BcryptAdapter, ZodValidator } from '@/infra/libs'
 import { SignUpController } from '@/presentation/controller/signup/signup-controller'
 import { type Controller } from '@/presentation/protocols/controller'
 

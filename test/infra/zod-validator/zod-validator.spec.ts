@@ -1,7 +1,7 @@
-import { LoginSchema } from '@/infra/validator/schema/login-schema'
+import { LoginSchema } from '@/infra/libs/validator/schema/login-schema'
 import { ValidationError } from '@/presentation/errors/validation-error'
-import { ZodValidator } from '@/infra/validator/zod-validator'
-import { signupSchema } from '@/infra/validator/schema/signup-schema'
+import { ZodValidator } from '@/infra/libs/validator/zod-validator'
+import { signupSchema } from '@/infra/libs/validator/schema/signup-schema'
 
 describe('ZodValidator - signup', () => {
   test('should return error if name is required', () => {

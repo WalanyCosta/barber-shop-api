@@ -1,6 +1,7 @@
 import { type ServiceModel } from '@/domain/model/service-model'
-import { type LoadServicesRepository } from '@/domain/protocols/infra/db/services/load-service-repository'
+import { type LoadServicesRepository } from '@/domain/protocols/infra/'
 import prisma from '@/infra/db/prisma/helpers/client'
+
 export class ServicesRepository implements LoadServicesRepository {
   async load (): Promise<ServiceModel[]> {
     const services = await prisma.service.findMany({

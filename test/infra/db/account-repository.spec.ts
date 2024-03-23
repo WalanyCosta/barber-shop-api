@@ -1,5 +1,5 @@
 import { cleanData } from '@/infra/db/prisma/helpers/prisma-helper'
-import { AccountRepository } from '@/infra/db/prisma/repositories/account/account-repository'
+import { AccountRepository } from '@/infra/db/prisma'
 import { type AccountModel } from '@/domain/model/account-model'
 import prisma from '@/infra/db/prisma/helpers/client'
 
