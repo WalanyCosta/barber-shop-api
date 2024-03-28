@@ -1,7 +1,7 @@
 import { LoadServicesController } from '@/presentation/controller/services/load-services-controller'
 import { type LoadServices } from '@/domain/protocols/presentation'
-import { type ServiceModel } from '@/domain/model/service-model'
-import { fakeServicesResponse } from '../../helper/fakes'
+import { mockServices } from '../../domain/mock/mock-service'
+import { makeLoadServicesStub } from '../mocks/mock-services'
 
 interface SutTypes {
   sut: LoadServicesController
@@ -16,16 +16,6 @@ const makeSut = (): SutTypes => {
     sut,
     loadServicesStub
   }
-}
-
-const makeLoadServicesStub = (): LoadServices => {
-  class LoadServicesStub implements LoadServices {
-    async load (): Promise<ServiceModel[] | null> {
-      return await Promise.resolve(fakeServicesResponse)
-    }
-  }
-
-  return new LoadServicesStub()
 }
 
 describe('LoadServicesController', () => {
@@ -73,7 +63,7 @@ describe('LoadServicesController', () => {
     const httpResponse = await sut.handle({})
     expect(httpResponse).toEqual({
       statusCode: 200,
-      body: fakeServicesResponse
+      body: mockServices
     })
   })
 })

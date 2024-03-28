@@ -3,21 +3,12 @@ import { EmailInUseError } from '@/presentation/errors/email-in-use-error'
 import { type AddAccount, type AddAccountParam } from '@/domain/protocols/presentation'
 import { ValidationError } from '@/presentation/errors/validation-error'
 import { SignUpController } from '@/presentation/controller/signup/signup-controller'
+import { makeValidatorStub } from '../mocks/mock-account'
 
 interface SutTypes {
   sut: SignUpController
   addAccountRepositoryStub: AddAccount
   validatorStub: Validator
-}
-
-const makeValidatorStub = (): Validator => {
-  class ValidatorStub implements Validator {
-    validate (input: any): Error | null {
-      return null
-    }
-  }
-
-  return new ValidatorStub()
 }
 
 const makeSut = (): SutTypes => {
@@ -42,7 +33,7 @@ const makeAddAccountRepositoryStub = (): AddAccount => {
   return new AddAccountRepositoryStub()
 }
 
-const fakeHttpRequest = ({
+const mockSignupParam = ({
   body: {
     name: 'any_name',
     email: 'any_email@gmail.com',
@@ -62,28 +53,28 @@ describe('SignUp Controller', () => {
   test('should call Validator with param correct', async () => {
     const { sut, validatorStub } = makeSut()
     const addSpy = jest.spyOn(validatorStub, 'validate')
-    await sut.handle(fakeHttpRequest)
-    expect(addSpy).toHaveBeenCalledWith(fakeHttpRequest.body)
+    await sut.handle(mockSignupParam)
+    expect(addSpy).toHaveBeenCalledWith(mockSignupParam.body)
   })
 
   test('should return status 400 if Validate throws error', async () => {
     const { sut, validatorStub } = makeSut()
     jest.spyOn(validatorStub, 'validate').mockReturnValueOnce(new Error('Validation Error'))
-    const httpResponse = await sut.handle(fakeHttpRequest)
+    const httpResponse = await sut.handle(mockSignupParam)
     expect(httpResponse).toEqual(badRequest('Validation Error'))
   })
 
   test('should call AddAccountRepository with param correct', async () => {
     const { sut, addAccountRepositoryStub } = makeSut()
     const addSpy = jest.spyOn(addAccountRepositoryStub, 'add')
-    await sut.handle(fakeHttpRequest)
-    expect(addSpy).toHaveBeenCalledWith(fakeHttpRequest.body)
+    await sut.handle(mockSignupParam)
+    expect(addSpy).toHaveBeenCalledWith(mockSignupParam.body)
   })
 
   test('should return 403 if AddAccountRepository email already exists', async () => {
     const { sut, addAccountRepositoryStub } = makeSut()
     jest.spyOn(addAccountRepositoryStub, 'add').mockResolvedValueOnce(null)
-    const httpResponse = await sut.handle(fakeHttpRequest)
+    const httpResponse = await sut.handle(mockSignupParam)
     expect(httpResponse).toEqual({
       statusCode: 403,
       body: new EmailInUseError()
@@ -94,7 +85,7 @@ describe('SignUp Controller', () => {
     const { sut, addAccountRepositoryStub } = makeSut()
     const error = new Error()
     jest.spyOn(addAccountRepositoryStub, 'add').mockRejectedValueOnce(error)
-    const httpResponse = await sut.handle(fakeHttpRequest)
+    const httpResponse = await sut.handle(mockSignupParam)
     expect(httpResponse).toEqual({
       statusCode: 500,
       body: error
@@ -103,7 +94,7 @@ describe('SignUp Controller', () => {
 
   test('should return 200 on success', async () => {
     const { sut } = makeSut()
-    const httpResponse = await sut.handle(fakeHttpRequest)
+    const httpResponse = await sut.handle(mockSignupParam)
     expect(httpResponse).toEqual({
       statusCode: 200,
       body: 'any_token'

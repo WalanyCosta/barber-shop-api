@@ -2,6 +2,7 @@ import { type AccountModel } from '@/domain/model/account-model'
 import { type Decryptor } from '@/domain/protocols/infra/crypto/jwt/decrypter'
 import { DbLoadAccountByToken } from '@/domain/usecase/db-load-account-by-token'
 import { type LoadAccountByTokenRepository } from '@/domain/protocols/infra/db/account/load-account-by-token-repository'
+import { mockAccountModel } from '../mock/mock-account'
 
 interface SutTypes {
   sut: DbLoadAccountByToken
@@ -34,15 +35,7 @@ const makeDecryptor = (): Decryptor => {
 const makeLoadAccountByTokenRepository = (): LoadAccountByTokenRepository => {
   class LoadAccountByTokenRepositoryStub implements LoadAccountByTokenRepository {
     async loadByToken (account: string): Promise<AccountModel> {
-      return await Promise.resolve({
-        id: 'any_id',
-        name: 'any_name',
-        email: 'any_email',
-        password: 'any_password',
-        avatar: 'default_avatar',
-        phone: 'any_phone_number',
-        accessToken: 'any_token'
-      })
+      return await Promise.resolve(mockAccountModel)
     }
   }
   return new LoadAccountByTokenRepositoryStub()
