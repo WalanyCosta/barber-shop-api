@@ -85,15 +85,30 @@
 
 > Durante as bibliotecas que estão sendo usada para desenvolvimento desta api:
 
--   [express](https://expressjs.com/en/starter/installing.html)
--   [bcrypt](https://github.com/kelektiv/node.bcrypt.js)
--   [jwt](https://github.com/auth0/node-jsonwebtoken)
+#### Dependencia de desenvolvimento
+
 -   [prisma](https://www.prisma.io/)
 -   [jest](https://jestjs.io/)
 -   [eslint](https://eslint.org/)
 -   [husky](https://github.com/typicode/husky)
 -   [typescript](https://www.typescriptlang.org/)
 -   [lint-staged](https://github.com/lint-staged/lint-staged)
+-   [rimraf](#)
+-   [semantic-release](#)
+-   [supertest](#)
+-   [tsx](#)
+-   [prisma](#)
+-   [git-commit-msg-linter](#)
+-   [dotenv](#)
+
+#### Dependencia de produção
+
+-   [module-alias](#)
+-   [express](https://expressjs.com/en/starter/installing.html)
+-   [bcrypt](https://github.com/kelektiv/node.bcrypt.js)
+-   [jwt](https://github.com/auth0/node-jsonwebtoken)
+-   [zod](#)
+-   [@prisma/client](#)
 
 ## ✒️ Autores
 
