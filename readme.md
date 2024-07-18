@@ -1,4 +1,4 @@
-<h1 align='center'>Barber-shop(API)</h1>
+<img src="public/barber-shop-api.png" width="100%">
 
 [![Coverage Status](https://coveralls.io/repos/github/WalanyCosta/barber-shop-api/badge.svg)](https://coveralls.io/github/WalanyCosta/barber-shop-api)
 [![Node.js CI](https://github.com/WalanyCosta/barber-shop-api/actions/workflows/node.js.yml/badge.svg)](https://github.com/WalanyCosta/barber-shop-api/actions/workflows/node.js.yml)
@@ -8,7 +8,7 @@
 ## Descrição do Projeto
 
 > Este projeto está repartida em duas partes uma ainda não se começou dar inicio está em stand by que é o app mobile, e essa parte que é backend que tem como finalidade de trabalhar em toda a regra de negocio, se conectar com serviços externo(pagamento, notificações, mensagem), a base de dados, libs entre outros mais. Usando melhor práticas de programação como: BDD, TDD, Arquitetura limpa, CI/CD, SOLID, design patterns, git entre outros, tendo a linguagem javascript para sua implementação em apoio com seu superSet o typescript, nodejs, express, entre outros mais recursos. Para gerencia das tarefas
-> ou as atividades está se utilizando notion que tem-se encaixado como uma luva, caso querem da uma vista de olho cliquem no link: [**barber-shop-notion**](https://pinto-cart-567.notion.site/Barber-Shop-API-7959359584d04ab4b239885e415384c6).
+> ou as atividades está se utilizando notion que tem-se encaixado como uma luva, caso querem da uma vista de olho cliquem no link: [**barber-shop-notion**](#).
 
 ### Sobre este projeto
 
