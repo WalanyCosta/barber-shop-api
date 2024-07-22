@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   postgres:
-    image: bitnami/postgresql:latest
+    image: postgres:16.3-alpine3.19
     restart: 'always'
     environment:
       - POSTGRES_USER=docker
@@ -12,6 +12,8 @@ services:
       - barber_pg_data:/bitnami/postgresql
     ports:
       - "5432:5432"
+    networks:
+      - barber_shop
   
   api:
     container_name: api-container
@@ -19,15 +21,16 @@ services:
     restart: always
     image: barber-shop-api
     command: npm start
-    volumes: 
-       - ./dist:/usr/src/barber-shop-api/dist
-       - ./prisma:/usr/src/barber-shop-api/prisma
     ports: 
       - '3333:3333'
-    links:
-        - postgres
     depends_on:
-      - postgres   
+      - postgres
+    networks:
+      - barber_shop
+
+networks:
+  barber_shop:
+    driver: bridge
 
 volumes:
   barber_pg_data:
