@@ -22,14 +22,16 @@ export class ServicesRepository implements LoadServicesRepository {
       }
     })
 
-    const newServices = services.map(service => {
+    const newServices = services.map((service) => {
       return {
         id: service.id,
-        name: service.name,
+        service: service.service,
         price: service.price,
-        star: service.stars,
+        stars: service.stars,
         status: 'active',
-        category: service.category.category
+        category: service.category.category,
+        duraction: service.duraction,
+        discount: service.discount
       }
     })
 

@@ -52,7 +52,9 @@ describe('Get /services', () => {
 
     await prisma.service.create({
       data: {
-        name: 'any_name',
+        service: 'any_name',
+        discount: 0.0,
+        duraction: 900,
         price: 30.3,
         stars: 3,
         status: 'active',

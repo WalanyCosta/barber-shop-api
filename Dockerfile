@@ -1,6 +1,6 @@
 FROM node:20.15-alpine3.19
 
-WORKDIR /usr/src/barber-shop-api
+WORKDIR /barber-shop-api
 
 COPY package.json .
 
