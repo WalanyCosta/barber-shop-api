@@ -1,6 +1,6 @@
-import { loginPath } from './paths/login-path'
-import { accountSchema, errorSchema, loginParamsSchema } from './schemes'
-import { unauthorized, serverError, badRequest, notFound } from './components'
+import { loginPath, servicesPath } from './paths'
+import { accountSchema, apiKeyAuthSchema, errorSchema, loginParamsSchema, serviceSchema } from './schemes'
+import { unauthorized, serverError, badRequest, notFound, forbidden } from './components'
 
 export default {
   openapi: '3.0.0',
@@ -16,21 +16,28 @@ export default {
   servers: [
     { url: 'http://localhost:5555/api', description: 'DEV' }
   ],
-  tags: [{
-    name: 'Login'
-  }],
+  tags: [
+    { name: 'Login' },
+    { name: 'Serviço' }
+  ],
   paths: {
-    '/login': loginPath
+    '/login': loginPath,
+    '/services': servicesPath
   },
   schemas: {
     account: accountSchema,
     loginParams: loginParamsSchema,
-    error: errorSchema
+    error: errorSchema,
+    service: serviceSchema
   },
   components: {
+    securitySchemes: {
+      apiKeyAuth: apiKeyAuthSchema
+    },
     badRequest,
     serverError,
     unauthorized,
-    notFound
+    notFound,
+    forbidden
   }
 }
