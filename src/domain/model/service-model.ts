@@ -2,9 +2,11 @@ export type StatusService = 'active' | 'promotion' | 'disable'
 
 export interface ServiceModel {
   id: string
-  name: string
+  service: string
   price: number
-  star: number
+  stars: number
   status: StatusService
   category: string
+  discount: number
+  duraction: number
 }

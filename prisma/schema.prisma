@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
     provider = "prisma-client-js"
 }
@@ -11,26 +8,111 @@ datasource db {
 }
 
 model account {
-    id          String @id @default(uuid())
-    name        String
-    email       String
-    password    String
-    phone       String
-    accessToken String
+    id                    String  @id @default(uuid())
+    name                  String
+    email                 String
+    password              String
+    phone                 String
+    accessToken           String
+    subscribeNotification Boolean @default(false)
+
+    notification notification[]
+    schedule     schedule[]
 }
 
 model category {
-    id       Int       @id @default(autoincrement())
+    id       Int    @id @default(autoincrement())
     category String
-    service  service[]
+
+    service service[]
 }
 
 model service {
-    id         String   @id @default(uuid())
-    name       String
-    price      Float
-    stars      Int
-    status     String
-    category   category @relation(fields: [categoryId], references: [id])
+    id        String @id @default(uuid())
+    service   String
+    price     Float
+    stars     Int
+    status    String
+    discount  Float
+    duraction Int
+
     categoryId Int
+    category   category @relation(fields: [categoryId], references: [id])
+
+    schedule_service schedule_service[]
+}
+
+model notification {
+    id        String  @id @default(uuid())
+    title     String
+    body      String
+    date      String
+    status    String
+    reference String?
+
+    accountId String
+    account   account @relation(fields: [accountId], references: [id])
+}
+
+model barber {
+    id              String     @id @default(uuid())
+    name            String
+    birthday        String
+    email           String
+    phone           String
+    experience      String
+    experience_year Int
+    start           Int
+    status          String
+    schedule        schedule[]
+}
+
+model schedule {
+    id         String   @id @default(uuid())
+    total_time Int
+    status     String
+    createAt   DateTime @default(now())
+    updateAt   DateTime @updatedAt
+
+    accountId String
+    account   account @relation(fields: [accountId], references: [id])
+
+    barberId String
+    barber   barber @relation(fields: [barberId], references: [id])
+
+    time_schedule    time_schedule[]
+    payment          payment[]
+    schedule_service schedule_service[]
+}
+
+model time_schedule {
+    id           String @id @default(uuid())
+    dateSchedule String
+    timeSchedule String
+
+    scheduleId String
+    schedule   schedule @relation(fields: [scheduleId], references: [id])
+}
+
+model payment {
+    id        String   @id @default(uuid())
+    type_pay  String
+    amount    Float
+    total     Float
+    status    String
+    create_at DateTime @default(now())
+    update_at DateTime @updatedAt
+
+    scheduleId String
+    schedule   schedule @relation(fields: [scheduleId], references: [id])
+}
+
+model schedule_service {
+    id String @id @default(uuid())
+
+    serviceId String?
+    service   service? @relation(fields: [serviceId], references: [id])
+
+    scheduleId String?
+    schedule   schedule? @relation(fields: [scheduleId], references: [id])
 }

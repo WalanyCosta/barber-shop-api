@@ -5,7 +5,9 @@ import prisma from '@/infra/db/prisma/helpers/client'
 const createFakeServiceData = async (): Promise<void> => {
   await prisma.service.create({
     data: {
-      name: 'any_name',
+      service: 'any_name',
+      discount: 0.0,
+      duraction: 900,
       price: 30.3,
       stars: 3,
       status: 'active',
@@ -29,10 +31,10 @@ describe('AccountRepository', () => {
     const services = await sut.load()
     expect(services[0]).toBeTruthy()
     expect(services[0]?.id).toBeTruthy()
-    expect(services[0]?.name).toBe('any_name')
+    expect(services[0]?.service).toBe('any_name')
     expect(services[0]?.price).toBe(30.3)
     expect(services[0]?.status).toBe('active')
-    expect(services[0]?.star).toBe(3)
+    expect(services[0]?.stars).toBe(3)
     expect(services[0]?.category).toBe('any_category')
   })
 

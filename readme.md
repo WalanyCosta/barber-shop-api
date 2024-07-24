@@ -8,11 +8,16 @@
 ## Descrição do Projeto
 
 > Este projeto está repartida em duas partes uma ainda não se começou dar inicio está em stand by que é o app mobile, e essa parte que é backend que tem como finalidade de trabalhar em toda a regra de negocio, se conectar com serviços externo(pagamento, notificações, mensagem), a base de dados, libs entre outros mais. Usando melhor práticas de programação como: BDD, TDD, Arquitetura limpa, CI/CD, SOLID, design patterns, git entre outros, tendo a linguagem javascript para sua implementação em apoio com seu superSet o typescript, nodejs, express, entre outros mais recursos. Para gerencia das tarefas
-> ou as atividades está se utilizando notion que tem-se encaixado como uma luva, caso querem da uma vista de olho cliquem no link: [**barber-shop-notion**](#).
+> ou as atividades está se utilizando notion que tem-se encaixado como uma luva.
 
 ### Sobre este projeto
 
 > Esse projeto surgiu devido em consequência de um app mobile que eu queria desenvolver que com react-native (barber-shop) que tem como objetivo ajudar o cliente da barbearia que quisessem marcar um dia e hora na semana, no primordios das implementação já sentia que necessitava de um backend ou API para as regras de negocios, visto que o firebase só fornece o serviço de armazenamento e eu não queria a minha regra de negocios estivesse no meu app por causa caso quisesse implementar o projeto futuramente na web não me desse tanto trabalho então vee que a API seria a melhor opção. Mas também pelo gostinho de desenvolver o backend que é a parte de desenvolvimento que mais se encaixa comigo mesmo não tanto amando ela.
+
+### Links
+-   [Documentação da api](http://localhost:5555/api-docs)._Nota:lembrando que o servidor deve estar rodando_
+-   [Notion](#)
+-   [API-HOSPEDADA](#)
 
 <p align='center'>🚧A Barber-Shop(API) 🚀 Em construção... 🚧</p>
 
@@ -31,9 +36,9 @@
 
 > Aqui temos as rotas desenvolvidas nesse projeto:
 
--   [x] POST: /SignUp
--   [x] POST: /Login
--   [x] GET: /services
+-   [x] feat: signUp
+-   [x] feat: login
+-   [x] feat: buscar todos os servicos
 
 **Acessa API por esta url** : https://barber-shop-api.onrender.com/api/
 

@@ -9,25 +9,31 @@ const categoriesDatas = [
 
 const servicesDatas = [
     {
-        name: 'Francês',
+        service: 'Francês',
         price: 700,
         stars: 3,
         status: 'active',
-        categoryId: 1
+        categoryId: 1,
+        discount: 0.0,
+        duraction: 900
     },
     {
-        name: 'careca',
+        service: 'careca',
         price: 2000,
         stars: 3,
+        discount: 0.0,
         status: 'active',
-        categoryId: 1
+        categoryId: 1,
+        duraction: 900
     },
     {
-        name: 'sombra',
+        service: 'sombra',
         price: 1000,
         stars: 3,
+        discount: 0.0,
         status: 'active',
-        categoryId: 2
+        categoryId: 2,
+        duraction: 900
     },
 ]
 

@@ -4,6 +4,5 @@ export interface AccountModel {
   email: string
   password: string
   phone: string
-  avatar: string
   accessToken: string
 }

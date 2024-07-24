@@ -13,7 +13,6 @@ export const mockAccountModel: AccountModel = {
   email: 'any_email',
   password: 'hashed',
   phone: 'any_phone',
-  avatar: 'any_avatar',
   accessToken: 'any_value'
 }
 
