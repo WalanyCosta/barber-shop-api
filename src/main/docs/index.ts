@@ -1,5 +1,5 @@
-import { loginPath, servicesPath } from './paths'
-import { accountSchema, apiKeyAuthSchema, errorSchema, loginParamsSchema, serviceSchema } from './schemes'
+import { loginPath, servicesPath, signupPath } from './paths'
+import { accountSchema, apiKeyAuthSchema, signupParamsSchema, errorSchema, loginParamsSchema, serviceSchema } from './schemes'
 import { unauthorized, serverError, badRequest, notFound, forbidden } from './components'
 
 export default {
@@ -22,13 +22,15 @@ export default {
   ],
   paths: {
     '/login': loginPath,
-    '/services': servicesPath
+    '/services': servicesPath,
+    '/signup': signupPath
   },
   schemas: {
     account: accountSchema,
     loginParams: loginParamsSchema,
     error: errorSchema,
-    service: serviceSchema
+    service: serviceSchema,
+    signupParams: signupParamsSchema
   },
   components: {
     securitySchemes: {
