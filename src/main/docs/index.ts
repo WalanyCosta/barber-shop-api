@@ -1,4 +1,4 @@
-import { loginPath, servicesPath, signupPath } from './paths'
+import { loginPath, servicePath, servicesPath, signupPath } from './paths'
 import { accountSchema, apiKeyAuthSchema, signupParamsSchema, errorSchema, loginParamsSchema, serviceSchema } from './schemes'
 import { unauthorized, serverError, badRequest, notFound, forbidden } from './components'
 
@@ -23,7 +23,8 @@ export default {
   paths: {
     '/login': loginPath,
     '/services': servicesPath,
-    '/signup': signupPath
+    '/signup': signupPath,
+    '/service/{id}': servicePath
   },
   schemas: {
     account: accountSchema,
