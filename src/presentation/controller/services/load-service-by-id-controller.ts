@@ -7,7 +7,16 @@ export class LoadServiceByIdController implements Controller {
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     const { id } = httpRequest.params
-    await this.loadServiceById.loadById(id)
+    const service = await this.loadServiceById.loadById(id)
+
+    if (!service) {
+      return {
+        statusCode: 400,
+        body: {
+          error: 'Serviço não encontrado!'
+        }
+      }
+    }
     return { statusCode: 200, body: null }
   }
 }
