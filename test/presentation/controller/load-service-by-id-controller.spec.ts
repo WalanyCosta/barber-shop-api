@@ -1,5 +1,5 @@
 import { type LoadServiceById } from './../../../src/domain/protocols/presentation/load-service-by-id'
-import { makeLoadServiceByIdStub } from '../mocks'
+import { fakeResponseService, makeLoadServiceByIdStub } from '../mocks'
 import { LoadServiceByIdController } from '@/presentation/controller'
 
 interface SutType {
@@ -62,6 +62,20 @@ describe('LoadServiceByIdController', () => {
       body: {
         error
       }
+    })
+  })
+
+  test('should return 200 on success', async () => {
+    const serviceId = 'any_id'
+    const { sut } = makeSut()
+    const response = await sut.handle({
+      params: {
+        id: serviceId
+      }
+    })
+    expect(response).toEqual({
+      statusCode: 200,
+      body: fakeResponseService
     })
   })
 })
