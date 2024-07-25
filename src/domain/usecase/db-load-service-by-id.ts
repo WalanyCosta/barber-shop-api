@@ -5,7 +5,7 @@ import { type LoadServiceById } from '../protocols/presentation/load-service-by-
 export class DbLoadServiceById implements LoadServiceById {
   constructor (private readonly loadServiceByIdRepository: LoadServiceByIdRepository) {}
   async loadById (serviceId: string): Promise<ServiceModel | null> {
-    await this.loadServiceByIdRepository.loadById(serviceId)
-    return await Promise.resolve(null)
+    const service = await this.loadServiceByIdRepository.loadById(serviceId)
+    return service
   }
 }
