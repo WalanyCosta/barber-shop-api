@@ -16,7 +16,16 @@ export const makeLoadServicesStub = (): LoadServices => {
 export const makeLoadServiceByIdStub = (): LoadServiceById => {
   class LoadServiceByIdStub implements LoadServiceById {
     async loadById (serviceId: string): Promise<ServiceModel | null> {
-      return await Promise.resolve(null)
+      return await Promise.resolve({
+        id: 'any_id',
+        service: 'any_name',
+        price: 30,
+        stars: 5,
+        discount: 0.0,
+        duraction: 900,
+        status: 'active',
+        category: 'any_category'
+      })
     }
   }
 
