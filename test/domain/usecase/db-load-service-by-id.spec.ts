@@ -39,4 +39,19 @@ describe('DbLoadServiceById', () => {
     const error = sut.loadById('any_id')
     expect(error).rejects.toThrow()
   })
+
+  test('should return service on success', async () => {
+    const { sut } = makeSut()
+    const response = await sut.loadById('any_id')
+    expect(response).toEqual({
+      id: 'any_id',
+      service: 'any_name',
+      price: 30,
+      stars: 5,
+      discount: 0.0,
+      duraction: 900,
+      status: 'active',
+      category: 'any_category'
+    })
+  })
 })
