@@ -29,6 +29,24 @@ const mockAccessToken = async (): Promise<string> => {
   return token
 }
 
+const mockCreateService = async (): Promise<any> => {
+  return await prisma.service.create({
+    data: {
+      service: 'any_name',
+      discount: 0.0,
+      duraction: 900,
+      price: 30.3,
+      stars: 3,
+      status: 'active',
+      category: {
+        create: {
+          category: 'any_category'
+        }
+      }
+    }
+  })
+}
+
 describe('Get /services', () => {
   beforeEach(async () => {
     await cleanData()
@@ -49,23 +67,7 @@ describe('Get /services', () => {
 
   test('should return 200 on success', async () => {
     const accessToken = await mockAccessToken()
-
-    await prisma.service.create({
-      data: {
-        service: 'any_name',
-        discount: 0.0,
-        duraction: 900,
-        price: 30.3,
-        stars: 3,
-        status: 'active',
-        category: {
-          create: {
-            category: 'any_category'
-          }
-        }
-      }
-    })
-
+    await mockCreateService()
     await request(app)
       .get('/api/services')
       .set('x-access-token', accessToken)
@@ -76,5 +78,27 @@ describe('Get /services', () => {
     await request(app)
       .get('/api/services')
       .expect(403)
+  })
+})
+
+describe('Get /services/:id', () => {
+  beforeEach(async () => {
+    await cleanData()
+  })
+
+  afterAll(async () => {
+    await cleanData()
+    await disconnect()
+  })
+
+  test('should return 200 on success', async () => {
+    const accessToken = await mockAccessToken()
+
+    const service = await mockCreateService()
+
+    await request(app)
+      .get(`/api/services/${service.id}`)
+      .set('x-access-token', accessToken)
+      .expect(200)
   })
 })
