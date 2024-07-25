@@ -32,4 +32,23 @@ describe('LoadServiceByIdController', () => {
       }
     })
   })
+
+  test('should return 500 if loadById throws', async () => {
+    const serviceId = 'any_id'
+    const loadServiceByIdStub = makeLoadServiceByIdStub()
+    const error = new Error()
+    const sut = new LoadServiceByIdController(loadServiceByIdStub)
+    jest.spyOn(loadServiceByIdStub, 'loadById').mockRejectedValueOnce(new Error())
+    const response = await sut.handle({
+      params: {
+        id: serviceId
+      }
+    })
+    expect(response).toEqual({
+      statusCode: 500,
+      body: {
+        error
+      }
+    })
+  })
 })
