@@ -19,4 +19,13 @@ describe('DbLoadServiceById', () => {
     const response = await sut.loadById(serviceId)
     expect(response).toBe(null)
   })
+
+  test('should throw if loadById throws', async () => {
+    const serviceId = 'any_id'
+    const loadServiceByIdRepositoryStub = makeLoadServiceByIdRepositoryStub()
+    const sut = new DbLoadServiceById(loadServiceByIdRepositoryStub)
+    jest.spyOn(loadServiceByIdRepositoryStub, 'loadById').mockRejectedValueOnce(new Error())
+    const error = sut.loadById(serviceId)
+    expect(error).rejects.toThrow()
+  })
 })
