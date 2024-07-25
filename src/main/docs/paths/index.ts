@@ -1,3 +1,3 @@
 export * from './login-path'
-export * from './service-path'
+export * from './services-path'
 export * from './signup-path'
