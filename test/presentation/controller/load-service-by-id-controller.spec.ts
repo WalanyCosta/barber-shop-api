@@ -1,11 +1,26 @@
+import { type LoadServiceById } from './../../../src/domain/protocols/presentation/load-service-by-id'
 import { makeLoadServiceByIdStub } from '../mocks'
 import { LoadServiceByIdController } from '@/presentation/controller'
+
+interface SutType {
+  sut: LoadServiceByIdController
+  loadServiceByIdStub: LoadServiceById
+}
+
+const makeSut = (): SutType => {
+  const loadServiceByIdStub = makeLoadServiceByIdStub()
+  const sut = new LoadServiceByIdController(loadServiceByIdStub)
+
+  return {
+    sut,
+    loadServiceByIdStub
+  }
+}
 
 describe('LoadServiceByIdController', () => {
   test('should call loadById with correct params', async () => {
     const serviceId = 'any_id'
-    const loadServiceByIdStub = makeLoadServiceByIdStub()
-    const sut = new LoadServiceByIdController(loadServiceByIdStub)
+    const { sut, loadServiceByIdStub } = makeSut()
     const loadByIdSpy = jest.spyOn(loadServiceByIdStub, 'loadById')
     await sut.handle({
       params: {
@@ -17,8 +32,7 @@ describe('LoadServiceByIdController', () => {
 
   test('should return 400 if loadById returns null', async () => {
     const serviceId = 'old_id'
-    const loadServiceByIdStub = makeLoadServiceByIdStub()
-    const sut = new LoadServiceByIdController(loadServiceByIdStub)
+    const { sut, loadServiceByIdStub } = makeSut()
     jest.spyOn(loadServiceByIdStub, 'loadById').mockReturnValueOnce(Promise.resolve(null))
     const response = await sut.handle({
       params: {
@@ -35,9 +49,8 @@ describe('LoadServiceByIdController', () => {
 
   test('should return 500 if loadById throws', async () => {
     const serviceId = 'any_id'
-    const loadServiceByIdStub = makeLoadServiceByIdStub()
     const error = new Error()
-    const sut = new LoadServiceByIdController(loadServiceByIdStub)
+    const { sut, loadServiceByIdStub } = makeSut()
     jest.spyOn(loadServiceByIdStub, 'loadById').mockRejectedValueOnce(new Error())
     const response = await sut.handle({
       params: {
