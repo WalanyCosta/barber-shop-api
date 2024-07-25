@@ -1,8 +1,9 @@
 import { type ServiceModel } from '@/domain/model/service-model'
 import { type LoadServicesRepository } from '@/domain/protocols/infra/'
+import { LoadServiceByIdRepository } from '@/domain/protocols/infra/db/services/load-service-by-id-repository'
 import prisma from '@/infra/db/prisma/helpers/client'
 
-export class ServicesRepository implements LoadServicesRepository {
+export class ServicesRepository implements LoadServicesRepository, LoadServiceByIdRepository {
   async load (): Promise<ServiceModel[]> {
     const services = await prisma.service.findMany({
       include: {
@@ -37,4 +38,21 @@ export class ServicesRepository implements LoadServicesRepository {
 
     return newServices as ServiceModel[]
   }
+
+  async loadById(serviceId: string): Promise<ServiceModel | null>{
+    const service = await prisma.service.findUnique({
+        include: {
+            category: true
+        },
+        where:{
+            id: serviceId
+        }
+    })
+
+    return {
+        ...service,
+        category: service?.category.category
+    } as ServiceModel
+  }
+
 }
