@@ -18,7 +18,10 @@ export class LoadServiceByIdController implements Controller {
           }
         }
       }
-      return { statusCode: 200, body: null }
+      return {
+        statusCode: 200,
+        body: service
+      }
     } catch (error) {
       return {
         statusCode: 500,
