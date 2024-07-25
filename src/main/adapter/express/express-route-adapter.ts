@@ -4,7 +4,8 @@ import { type Request, type Response } from 'express'
 export default (controller: Controller) => {
   return async (req: Request, res: Response) => {
     const httpRequest = {
-      body: req.body
+      body: req.body,
+      params: req.params
     }
     const httpResponse = await controller.handle(httpRequest)
     if (httpResponse.statusCode === 200) {
