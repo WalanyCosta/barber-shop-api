@@ -1,7 +1,7 @@
-import { LoadServicesController } from '@/presentation/controller/services/load-services-controller'
+import { LoadServicesController } from '@/presentation/controller'
 import { type LoadServices } from '@/domain/protocols/presentation'
 import { mockServices } from '../../domain/mock/mock-service'
-import { makeLoadServicesStub } from '../mocks/mock-services'
+import { makeLoadServicesStub } from '../mocks'
 
 interface SutTypes {
   sut: LoadServicesController

@@ -1,5 +1,5 @@
-import { makeLoadServiceByIdStub } from '../mocks/mock-services'
-import { LoadServiceByIdController } from '@/presentation/controller/services/load-service-by-id-controller'
+import { makeLoadServiceByIdStub } from '../mocks'
+import { LoadServiceByIdController } from '@/presentation/controller'
 
 describe('LoadServiceByIdController', () => {
   test('should call loadById with correct params', async () => {
