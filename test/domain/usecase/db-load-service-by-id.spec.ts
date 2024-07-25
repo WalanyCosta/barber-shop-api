@@ -1,31 +1,42 @@
+import { type LoadServiceById } from '@/domain/protocols/presentation/load-service-by-id'
 import { DbLoadServiceById } from '@/domain/usecase/db-load-service-by-id'
 import { makeLoadServiceByIdRepositoryStub } from '../mock/mock-service'
+
+interface SutTypes {
+  sut: DbLoadServiceById
+  loadServiceByIdRepositoryStub: LoadServiceById
+}
+
+const makeSut = (): SutTypes => {
+  const loadServiceByIdRepositoryStub = makeLoadServiceByIdRepositoryStub()
+  const sut = new DbLoadServiceById(loadServiceByIdRepositoryStub)
+
+  return {
+    sut,
+    loadServiceByIdRepositoryStub
+  }
+}
 
 describe('DbLoadServiceById', () => {
   test('should call loadById with correct serviceId', async () => {
     const serviceId = 'any_id'
-    const loadServiceByIdRepositoryStub = makeLoadServiceByIdRepositoryStub()
-    const sut = new DbLoadServiceById(loadServiceByIdRepositoryStub)
+    const { sut, loadServiceByIdRepositoryStub } = makeSut()
     const loadById = jest.spyOn(loadServiceByIdRepositoryStub, 'loadById')
     await sut.loadById(serviceId)
     expect(loadById).toHaveBeenCalledWith(serviceId)
   })
 
   test('should return null if loadById return empty', async () => {
-    const serviceId = 'any_id'
-    const loadServiceByIdRepositoryStub = makeLoadServiceByIdRepositoryStub()
-    const sut = new DbLoadServiceById(loadServiceByIdRepositoryStub)
+    const { sut, loadServiceByIdRepositoryStub } = makeSut()
     jest.spyOn(loadServiceByIdRepositoryStub, 'loadById').mockReturnValueOnce(Promise.resolve(null))
-    const response = await sut.loadById(serviceId)
+    const response = await sut.loadById('any_id')
     expect(response).toBe(null)
   })
 
   test('should throw if loadById throws', async () => {
-    const serviceId = 'any_id'
-    const loadServiceByIdRepositoryStub = makeLoadServiceByIdRepositoryStub()
-    const sut = new DbLoadServiceById(loadServiceByIdRepositoryStub)
+    const { sut, loadServiceByIdRepositoryStub } = makeSut()
     jest.spyOn(loadServiceByIdRepositoryStub, 'loadById').mockRejectedValueOnce(new Error())
-    const error = sut.loadById(serviceId)
+    const error = sut.loadById('any_id')
     expect(error).rejects.toThrow()
   })
 })
