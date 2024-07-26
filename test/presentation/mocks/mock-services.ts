@@ -2,6 +2,7 @@ import { type LoadServices } from '@/domain/protocols/presentation'
 import { mockServices } from '../../domain/mock/mock-service'
 import { type ServiceModel } from '@/domain/model/service-model'
 import { type LoadServiceById } from '@/domain/protocols/presentation/load-service-by-id'
+import { type SearchServices } from '@/domain/protocols/presentation/search-service'
 
 export const fakeResponseService = {
   id: 'any_id',
@@ -32,4 +33,14 @@ export const makeLoadServiceByIdStub = (): LoadServiceById => {
   }
 
   return new LoadServiceByIdStub()
+}
+
+export const makeSearchServicesStub = (): SearchServices => {
+  class SearchServicesStub implements SearchServices {
+    async filter (typeQuery: string, query: string): Promise<ServiceModel[]> {
+      return await Promise.resolve([])
+    }
+  }
+
+  return new SearchServicesStub()
 }
