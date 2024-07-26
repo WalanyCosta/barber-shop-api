@@ -30,4 +30,21 @@ describe('SearchServicesController', () => {
       body: []
     })
   })
+
+  test('should return 500 if filter throws error', async () => {
+    const searchServiceStub = makeSearchServicesStub()
+    const error = new Error()
+    const sut = new SearchServicesController(searchServiceStub)
+    jest.spyOn(searchServiceStub, 'filter').mockRejectedValueOnce(error)
+    const response = await sut.handle({
+      query: {
+        typeQuery: 'service',
+        query: 'any_query'
+      }
+    })
+    expect(response).toEqual({
+      statusCode: 500,
+      body: error
+    })
+  })
 })
