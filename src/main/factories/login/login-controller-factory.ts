@@ -1,7 +1,7 @@
 import { type Controller } from '@/presentation/protocols/controller'
 import { AccountRepository } from '@/infra/db/prisma'
 import { LoginController } from '@/presentation/controller/login/login-controller'
-import { DbAuthentication } from '@/domain/usecase/db-authentication'
+import { DbAuthentication } from '@/domain/usecase/account/db-authentication'
 import {
   JwtAdapter,
   BcryptAdapter,

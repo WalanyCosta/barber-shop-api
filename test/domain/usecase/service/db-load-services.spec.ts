@@ -1,7 +1,7 @@
-import { DbLoadServices } from '@/domain/usecase/load-services-repository'
+import { DbLoadServices } from '@/domain/usecase/service/load-services-repository'
 import { type LoadServicesRepository } from '@/domain/protocols/infra/db/services/load-service-repository'
 import { type ServiceModel } from '@/domain/model/service-model'
-import { mockServices } from '../mock/mock-service'
+import { mockServices } from '../../mock/mock-service'
 
 interface SutTypes {
   sut: DbLoadServices

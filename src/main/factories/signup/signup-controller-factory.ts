@@ -1,4 +1,4 @@
-import { DbAddAccount } from '@/domain/usecase/db-add-account'
+import { DbAddAccount } from '@/domain/usecase/account/db-add-account'
 import { AccountRepository } from '@/infra/db/prisma'
 import { JwtAdapter, signupSchema, BcryptAdapter, ZodValidator } from '@/infra/libs'
 import { SignUpController } from '@/presentation/controller/signup/signup-controller'

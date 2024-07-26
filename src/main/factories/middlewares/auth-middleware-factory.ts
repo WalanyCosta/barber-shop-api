@@ -1,4 +1,4 @@
-import { DbLoadAccountByToken } from '@/domain/usecase/db-load-account-by-token'
+import { DbLoadAccountByToken } from '@/domain/usecase/account/db-load-account-by-token'
 import { AccountRepository } from '@/infra/db/prisma'
 import { JwtAdapter } from '@/infra/libs'
 import { AuthMiddleware } from '@/presentation/middleware/auth-middleware'

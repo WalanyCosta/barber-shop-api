@@ -1,6 +1,6 @@
 import { type LoadServiceById } from '@/domain/protocols/presentation/load-service-by-id'
-import { DbLoadServiceById } from '@/domain/usecase/db-load-service-by-id'
-import { makeLoadServiceByIdRepositoryStub } from '../mock/mock-service'
+import { DbLoadServiceById } from '@/domain/usecase/service/db-load-service-by-id'
+import { makeLoadServiceByIdRepositoryStub } from '../../mock/mock-service'
 
 interface SutTypes {
   sut: DbLoadServiceById

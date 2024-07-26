@@ -1,5 +1,5 @@
-import { type LoadServiceById } from './../../../src/domain/protocols/presentation/load-service-by-id'
-import { fakeResponseService, makeLoadServiceByIdStub } from '../mocks'
+import { type LoadServiceById } from '@/domain/protocols/presentation/load-service-by-id'
+import { fakeResponseService, makeLoadServiceByIdStub } from '../../mocks'
 import { LoadServiceByIdController } from '@/presentation/controller'
 
 interface SutType {

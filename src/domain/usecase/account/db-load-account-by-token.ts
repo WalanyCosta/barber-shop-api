@@ -1,6 +1,6 @@
-import { type Decryptor } from '../protocols/infra/crypto/jwt/decrypter'
-import { type LoadAccountByTokenRepository } from '../protocols/infra/db/account/load-account-by-token-repository'
-import { type LoadAccountByToken } from '../protocols/presentation/load-account-by-token'
+import { type Decryptor } from '../../protocols/infra/crypto/jwt/decrypter'
+import { type LoadAccountByTokenRepository } from '../../protocols/infra/db/account/load-account-by-token-repository'
+import { type LoadAccountByToken } from '../../protocols/presentation/load-account-by-token'
 
 export class DbLoadAccountByToken implements LoadAccountByToken {
   constructor (

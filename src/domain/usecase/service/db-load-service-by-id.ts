@@ -1,6 +1,6 @@
-import { type ServiceModel } from '../model/service-model'
-import { type LoadServiceByIdRepository } from '../protocols/infra/db/services/load-service-by-id-repository'
-import { type LoadServiceById } from '../protocols/presentation/load-service-by-id'
+import { type ServiceModel } from '../../model/service-model'
+import { type LoadServiceByIdRepository } from '../../protocols/infra/db/services/load-service-by-id-repository'
+import { type LoadServiceById } from '../../protocols/presentation/load-service-by-id'
 
 export class DbLoadServiceById implements LoadServiceById {
   constructor (private readonly loadServiceByIdRepository: LoadServiceByIdRepository) {}

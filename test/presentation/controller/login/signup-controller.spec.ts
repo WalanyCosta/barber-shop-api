@@ -3,7 +3,7 @@ import { EmailInUseError } from '@/presentation/errors/email-in-use-error'
 import { type AddAccount, type AddAccountParam } from '@/domain/protocols/presentation'
 import { ValidationError } from '@/presentation/errors/validation-error'
 import { SignUpController } from '@/presentation/controller'
-import { makeValidatorStub } from '../mocks'
+import { makeValidatorStub } from '../../mocks'
 
 interface SutTypes {
   sut: SignUpController

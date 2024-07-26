@@ -2,7 +2,7 @@ import { LoginController } from '@/presentation/controller'
 import { type Validator } from '@/presentation/protocols/validator'
 import { type Authentication } from '@/domain/protocols/presentation'
 import { UnauthorizedError } from '@/presentation/errors/unauthorized-error'
-import { makeAuthentication, makeValidatorStub } from '../mocks'
+import { makeAuthentication, makeValidatorStub } from '../../mocks'
 
 interface SutTypes {
   sut: LoginController

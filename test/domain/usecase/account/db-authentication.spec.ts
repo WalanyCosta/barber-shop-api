@@ -1,10 +1,10 @@
 import { type HashComparer } from '@/domain/protocols/infra/crypto/bcrypt/hash-comparer'
 import { UnauthorizedError } from '@/presentation/errors/unauthorized-error'
-import { DbAuthentication } from '@/domain/usecase/db-authentication'
+import { DbAuthentication } from '@/domain/usecase/account/db-authentication'
 import { type LoadAccountByEmailRepository } from '@/domain/protocols/infra/db/account/load-account-by-email-repository'
 import { type Encrypter } from '@/domain/protocols/infra/crypto/jwt/encrypter'
 import { type UpdateAccessTokenGenerator } from '@/domain/protocols/infra/db/account/update-access-token-generator'
-import { makeEncrypterStub, makeLoadAccountByEmailRepositoryStub, makeUpdateAccessTokenGeneratorStub, mockAccountModel, mockAuthenticationParams } from '../mock/mock-account'
+import { makeEncrypterStub, makeLoadAccountByEmailRepositoryStub, makeUpdateAccessTokenGeneratorStub, mockAccountModel, mockAuthenticationParams } from '../../mock/mock-account'
 
 interface SutTypes {
   sut: DbAuthentication
