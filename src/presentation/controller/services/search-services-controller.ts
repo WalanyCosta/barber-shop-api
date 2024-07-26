@@ -7,11 +7,10 @@ export class SearchServicesController implements Controller {
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     const { typeQuery, query } = httpRequest?.query
-    await this.searchServices.filter(typeQuery, query)
-
+    const services = await this.searchServices.filter(typeQuery, query)
     return await Promise.resolve({
       statusCode: 200,
-      body: null
+      body: services
     })
   }
 }
