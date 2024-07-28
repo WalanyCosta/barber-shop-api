@@ -1,3 +1,4 @@
+import { NotExistsRegister } from '@/presentation/errors'
 import { makeLoadAccountByIdOrEmailStub } from '../../mocks'
 import { LoadAccountByIdController } from '@/presentation/controller/'
 
@@ -28,6 +29,23 @@ describe('LoadAccountByIdController', () => {
     })
     expect(response).toEqual({
       statusCode: 500,
+      body: error
+    })
+  })
+
+  test('should return 400 if loadByIdOrEmail throws', async () => {
+    const id = 'other_id'
+    const error = new NotExistsRegister('This services not exists')
+    const loadAccountByIdOrEmailStub = makeLoadAccountByIdOrEmailStub()
+    const sut = new LoadAccountByIdController(loadAccountByIdOrEmailStub)
+    jest.spyOn(loadAccountByIdOrEmailStub, 'loadByIdOrEmail').mockRejectedValueOnce(error)
+    const response = await sut.handle({
+      params: {
+        id
+      }
+    })
+    expect(response).toEqual({
+      statusCode: 400,
       body: error
     })
   })

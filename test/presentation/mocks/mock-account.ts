@@ -24,7 +24,7 @@ export const makeAddAccountRepositoryStub = (): AddAccount => {
 
 export const makeLoadAccountByIdOrEmailStub = (): LoadAccountByIdOrEmail => {
   class LoadAccountByIdOrEmailStub implements LoadAccountByIdOrEmail {
-    async loadByIdOrEmail (idOrEmail: string): Promise<AccountModel> {
+    async loadByIdOrEmail (idOrEmail: string): Promise<AccountModel | null> {
       return await Promise.resolve({
         id: 'any_id',
         name: 'any_name',
