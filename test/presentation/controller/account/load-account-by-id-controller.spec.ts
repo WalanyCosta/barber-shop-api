@@ -14,4 +14,21 @@ describe('LoadAccountByIdController', () => {
     })
     expect(loadByIdOrEmail).toHaveBeenCalledWith(id)
   })
+
+  test('should return 500 if loadByIdOrEmail throws', async () => {
+    const id = 'any_id'
+    const error = new Error()
+    const loadAccountByIdOrEmailStub = makeLoadAccountByIdOrEmailStub()
+    const sut = new LoadAccountByIdController(loadAccountByIdOrEmailStub)
+    jest.spyOn(loadAccountByIdOrEmailStub, 'loadByIdOrEmail').mockRejectedValueOnce(error)
+    const response = await sut.handle({
+      params: {
+        id
+      }
+    })
+    expect(response).toEqual({
+      statusCode: 500,
+      body: error
+    })
+  })
 })
