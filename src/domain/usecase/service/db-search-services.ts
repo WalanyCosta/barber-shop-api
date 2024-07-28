@@ -6,7 +6,7 @@ export class DbSearchServices implements SearchServices {
   constructor (private readonly searchServicesRepository: SearchServicesRepository) {}
 
   async filter (typeQuery: string, query: string): Promise<ServiceModel[]> {
-    this.searchServicesRepository.filter(typeQuery, query)
+    await this.searchServicesRepository.filter(typeQuery, query)
     return await Promise.resolve([])
   }
 }
