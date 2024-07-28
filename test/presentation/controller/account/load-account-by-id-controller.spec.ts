@@ -1,12 +1,26 @@
 import { NotExistsRegister } from '@/presentation/errors'
 import { makeLoadAccountByIdOrEmailStub } from '../../mocks'
 import { LoadAccountByIdController } from '@/presentation/controller/'
+import { type LoadAccountByIdOrEmail } from '@/domain/protocols/presentation/load-account-by-id'
+
+interface SutTypes {
+  sut: LoadAccountByIdController
+  loadAccountByIdOrEmailStub: LoadAccountByIdOrEmail
+}
+const makeSut = (): SutTypes => {
+  const loadAccountByIdOrEmailStub = makeLoadAccountByIdOrEmailStub()
+  const sut = new LoadAccountByIdController(loadAccountByIdOrEmailStub)
+
+  return {
+    sut,
+    loadAccountByIdOrEmailStub
+  }
+}
 
 describe('LoadAccountByIdController', () => {
   test('should call loadByIdOrEmail with correct params', async () => {
     const id = 'any_id'
-    const loadAccountByIdOrEmailStub = makeLoadAccountByIdOrEmailStub()
-    const sut = new LoadAccountByIdController(loadAccountByIdOrEmailStub)
+    const { sut, loadAccountByIdOrEmailStub } = makeSut()
     const loadByIdOrEmail = jest.spyOn(loadAccountByIdOrEmailStub, 'loadByIdOrEmail')
     await sut.handle({
       params: {
@@ -17,14 +31,12 @@ describe('LoadAccountByIdController', () => {
   })
 
   test('should return 500 if loadByIdOrEmail throws', async () => {
-    const id = 'any_id'
     const error = new Error()
-    const loadAccountByIdOrEmailStub = makeLoadAccountByIdOrEmailStub()
-    const sut = new LoadAccountByIdController(loadAccountByIdOrEmailStub)
+    const { sut, loadAccountByIdOrEmailStub } = makeSut()
     jest.spyOn(loadAccountByIdOrEmailStub, 'loadByIdOrEmail').mockRejectedValueOnce(error)
     const response = await sut.handle({
       params: {
-        id
+        id: 'any_id'
       }
     })
     expect(response).toEqual({
@@ -34,14 +46,12 @@ describe('LoadAccountByIdController', () => {
   })
 
   test('should return 400 if loadByIdOrEmail throws', async () => {
-    const id = 'other_id'
     const error = new NotExistsRegister('This services not exists')
-    const loadAccountByIdOrEmailStub = makeLoadAccountByIdOrEmailStub()
-    const sut = new LoadAccountByIdController(loadAccountByIdOrEmailStub)
+    const { sut, loadAccountByIdOrEmailStub } = makeSut()
     jest.spyOn(loadAccountByIdOrEmailStub, 'loadByIdOrEmail').mockRejectedValueOnce(error)
     const response = await sut.handle({
       params: {
-        id
+        id: 'other_id'
       }
     })
     expect(response).toEqual({
@@ -51,12 +61,10 @@ describe('LoadAccountByIdController', () => {
   })
 
   test('should return 200 on success', async () => {
-    const id = 'other_id'
-    const loadAccountByIdOrEmailStub = makeLoadAccountByIdOrEmailStub()
-    const sut = new LoadAccountByIdController(loadAccountByIdOrEmailStub)
+    const { sut } = makeSut()
     const response = await sut.handle({
       params: {
-        id
+        id: 'any_id'
       }
     })
     expect(response).toEqual({
