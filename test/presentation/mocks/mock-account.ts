@@ -1,15 +1,4 @@
 import { type AddAccount, type AddAccountParam, type Authentication, type AuthenticationParam } from '@/domain/protocols/presentation'
-import { type Validator } from '../protocols/validator'
-
-export const makeValidatorStub = (): Validator => {
-  class ValidatorStub implements Validator {
-    validate (input: any): Error | null {
-      return null
-    }
-  }
-
-  return new ValidatorStub()
-}
 
 export const makeAuthentication = (): Authentication => {
   class AuthenticationStub implements Authentication {
