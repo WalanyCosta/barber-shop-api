@@ -49,4 +49,26 @@ describe('LoadAccountByIdController', () => {
       body: error
     })
   })
+
+  test('should return 200 on success', async () => {
+    const id = 'other_id'
+    const loadAccountByIdOrEmailStub = makeLoadAccountByIdOrEmailStub()
+    const sut = new LoadAccountByIdController(loadAccountByIdOrEmailStub)
+    const response = await sut.handle({
+      params: {
+        id
+      }
+    })
+    expect(response).toEqual({
+      statusCode: 200,
+      body: {
+        id: 'any_id',
+        name: 'any_name',
+        email: 'any_email',
+        password: 'hashed',
+        phone: 'any_phone',
+        accessToken: 'any_value'
+      }
+    })
+  })
 })
