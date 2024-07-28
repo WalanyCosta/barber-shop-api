@@ -119,10 +119,23 @@ describe('Get /services/search', () => {
     await mockCreateService()
 
     const typeQuery = 'service'
-    const query = 'query'
+    const query = 'any_name'
     await request(app)
       .get(`/api/services/search?typeQuery=${typeQuery}&query=${query}`)
       .set('x-access-token', accessToken)
       .expect(200)
+  })
+
+  test('should return 400 if typeQuery have value different of "category" and "service"', async () => {
+    const accessToken = await mockAccessToken()
+
+    await mockCreateService()
+
+    const typeQuery = 'price'
+    const query = 'query'
+    await request(app)
+      .get(`/api/services/search?typeQuery=${typeQuery}&query=${query}`)
+      .set('x-access-token', accessToken)
+      .expect(400)
   })
 })
