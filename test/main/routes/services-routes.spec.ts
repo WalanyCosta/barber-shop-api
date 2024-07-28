@@ -102,3 +102,27 @@ describe('Get /services/:id', () => {
       .expect(200)
   })
 })
+
+describe('Get /services/search', () => {
+  beforeEach(async () => {
+    await cleanData()
+  })
+
+  afterAll(async () => {
+    await cleanData()
+    await disconnect()
+  })
+
+  test('should return 200 on success', async () => {
+    const accessToken = await mockAccessToken()
+
+    await mockCreateService()
+
+    const typeQuery = 'service'
+    const query = 'query'
+    await request(app)
+      .get(`/api/services/search?typeQuery=${typeQuery}&query=${query}`)
+      .set('x-access-token', accessToken)
+      .expect(200)
+  })
+})
