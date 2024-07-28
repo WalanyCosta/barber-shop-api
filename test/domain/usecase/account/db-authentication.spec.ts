@@ -1,14 +1,14 @@
 import { type HashComparer } from '@/domain/protocols/infra/crypto/bcrypt/hash-comparer'
 import { UnauthorizedError } from '@/presentation/errors/unauthorized-error'
 import { DbAuthentication } from '@/domain/usecase/account/db-authentication'
-import { type LoadAccountByEmailRepository } from '@/domain/protocols/infra/db/account/load-account-by-email-repository'
 import { type Encrypter } from '@/domain/protocols/infra/crypto/jwt/encrypter'
 import { type UpdateAccessTokenGenerator } from '@/domain/protocols/infra/db/account/update-access-token-generator'
-import { makeEncrypterStub, makeLoadAccountByEmailRepositoryStub, makeUpdateAccessTokenGeneratorStub, mockAccountModel, mockAuthenticationParams } from '../../mock/mock-account'
+import { makeEncrypterStub, makeLoadAccountByIdOrEmailRepositoryStub, makeUpdateAccessTokenGeneratorStub, mockAccountModel, mockAuthenticationParams } from '../../mock/mock-account'
+import { type LoadAccountByIdOrEmailRepository } from '@/domain/protocols/infra'
 
 interface SutTypes {
   sut: DbAuthentication
-  loadAccountByEmailRepositoryStub: LoadAccountByEmailRepository
+  loadAccountByIdOrEmailRepositoryStub: LoadAccountByIdOrEmailRepository
   hashComparerStub: HashComparer
   encrypterStub: Encrypter
   updateAccessTokenGeneratorStub: UpdateAccessTokenGenerator
@@ -18,12 +18,12 @@ const makeSut = (): SutTypes => {
   const encrypterStub = makeEncrypterStub()
   const hashComparerStub = makeHashCompare()
   const updateAccessTokenGeneratorStub = makeUpdateAccessTokenGeneratorStub()
-  const loadAccountByEmailRepositoryStub = makeLoadAccountByEmailRepositoryStub(mockAccountModel)
-  const sut = new DbAuthentication(loadAccountByEmailRepositoryStub, hashComparerStub, encrypterStub, updateAccessTokenGeneratorStub)
+  const loadAccountByIdOrEmailRepositoryStub = makeLoadAccountByIdOrEmailRepositoryStub(mockAccountModel)
+  const sut = new DbAuthentication(loadAccountByIdOrEmailRepositoryStub, hashComparerStub, encrypterStub, updateAccessTokenGeneratorStub)
 
   return {
     sut,
-    loadAccountByEmailRepositoryStub,
+    loadAccountByIdOrEmailRepositoryStub,
     hashComparerStub,
     encrypterStub,
     updateAccessTokenGeneratorStub
@@ -40,24 +40,24 @@ const makeHashCompare = (): HashComparer => {
 }
 
 describe('DbAuthentication', () => {
-  test('should call loadAccountByEmailRepository with correct param', async () => {
-    const { sut, loadAccountByEmailRepositoryStub } = makeSut()
-    const loadSpy = jest.spyOn(loadAccountByEmailRepositoryStub, 'load')
+  test('should call loadAccountByIdOrEmailRepository with correct param', async () => {
+    const { sut, loadAccountByIdOrEmailRepositoryStub } = makeSut()
+    const loadSpy = jest.spyOn(loadAccountByIdOrEmailRepositoryStub, 'load')
     await sut.auth(mockAuthenticationParams)
     expect(loadSpy).toHaveBeenCalledWith('any_email')
   })
 
-  test('should throw if loadAccountByEmailRepository returns null', async () => {
-    const { sut, loadAccountByEmailRepositoryStub } = makeSut()
-    jest.spyOn(loadAccountByEmailRepositoryStub, 'load').mockResolvedValueOnce(null)
+  test('should throw if loadAccountByIdOrEmailRepository returns null', async () => {
+    const { sut, loadAccountByIdOrEmailRepositoryStub } = makeSut()
+    jest.spyOn(loadAccountByIdOrEmailRepositoryStub, 'load').mockResolvedValueOnce(null)
     const error = sut.auth(mockAuthenticationParams)
     await expect(error).rejects.toThrow(new UnauthorizedError('user not exists'))
   })
 
-  test('should throw if loadAccountByEmailRepository throws error', async () => {
-    const { sut, loadAccountByEmailRepositoryStub } = makeSut()
+  test('should throw if loadAccountByIdOrEmailRepository throws error', async () => {
+    const { sut, loadAccountByIdOrEmailRepositoryStub } = makeSut()
     const error = new UnauthorizedError('user not exists')
-    jest.spyOn(loadAccountByEmailRepositoryStub, 'load').mockRejectedValueOnce(error)
+    jest.spyOn(loadAccountByIdOrEmailRepositoryStub, 'load').mockRejectedValueOnce(error)
     const promise = sut.auth(mockAuthenticationParams)
     await expect(promise).rejects.toThrow(error)
   })

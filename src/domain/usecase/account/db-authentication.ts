@@ -1,20 +1,20 @@
 import { UnauthorizedError } from '../../../presentation/errors/unauthorized-error'
 import { type Encrypter } from '../../protocols/infra/crypto/jwt/encrypter'
 import { type HashComparer } from '../../protocols/infra/crypto/bcrypt/hash-comparer'
-import { type LoadAccountByEmailRepository } from '../../protocols/infra/db/account/load-account-by-email-repository'
+import { type LoadAccountByIdOrEmailRepository } from '../../protocols/infra/db/account/load-account-by-id-or-email-repository'
 import { type UpdateAccessTokenGenerator } from '../../protocols/infra/db/account/update-access-token-generator'
 import { type Authentication, type AuthenticationParam } from '../../protocols/presentation/authentication'
 
 export class DbAuthentication implements Authentication {
   constructor (
-    private readonly loadAccountByEmailRepository: LoadAccountByEmailRepository,
+    private readonly loadAccountByIdOrEmailRepository: LoadAccountByIdOrEmailRepository,
     private readonly hashComparer: HashComparer,
     private readonly encrypter: Encrypter,
     private readonly updateAccessTokenGenerator: UpdateAccessTokenGenerator
   ) {}
 
   async auth (param: AuthenticationParam): Promise<string | null> {
-    const account = await this.loadAccountByEmailRepository.load(param.email)
+    const account = await this.loadAccountByIdOrEmailRepository.load(param.email)
     if (!account) {
       throw new UnauthorizedError('user not exists')
     }

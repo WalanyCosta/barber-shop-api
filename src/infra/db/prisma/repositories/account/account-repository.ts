@@ -4,12 +4,16 @@ import {
     type AddAccountModel, 
     type AddAccountRepository, 
     type LoadAccountByTokenRepository, 
-    type LoadAccountByEmailRepository
+    type LoadAccountByIdOrEmailRepository
 } from '@/domain/protocols/infra'
 import prisma from '@/infra/db/prisma/helpers/client'
 
 export class AccountRepository implements
-    AddAccountRepository, LoadAccountByEmailRepository, UpdateAccessTokenGenerator, LoadAccountByTokenRepository {
+    AddAccountRepository,
+    LoadAccountByIdOrEmailRepository, 
+    UpdateAccessTokenGenerator, 
+    LoadAccountByTokenRepository 
+{
   async add (addAccountModel: AddAccountModel): Promise<AccountModel> {
     const account = await prisma.account.create({
       data: {
@@ -20,10 +24,13 @@ export class AccountRepository implements
     return account as AccountModel
   }
 
-  async load (email: string): Promise<AccountModel | null> {
+  async load (idOrEmail: string): Promise<AccountModel | null> {
     const account = await prisma.account.findFirst({
       where: {
-        email
+        OR:[
+            {id: idOrEmail},
+            {email: idOrEmail}
+        ]
       }
     })
     return account as AccountModel

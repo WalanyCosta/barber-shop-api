@@ -3,7 +3,7 @@ import {
   type AddAccountModel,
   type AddAccountRepository,
   type Encrypter,
-  type LoadAccountByEmailRepository,
+  type LoadAccountByIdOrEmailRepository,
   type UpdateAccessTokenGenerator
 } from '@/domain/protocols/infra'
 
@@ -48,14 +48,14 @@ export const makeUpdateAccessTokenGeneratorStub = (): UpdateAccessTokenGenerator
   return new UpdateAccessTokenGeneratorStub()
 }
 
-export const makeLoadAccountByEmailRepositoryStub = (result: any = null): LoadAccountByEmailRepository => {
-  class LoadAccountByEmailRepositoryStub implements LoadAccountByEmailRepository {
+export const makeLoadAccountByIdOrEmailRepositoryStub = (result: any = null): LoadAccountByIdOrEmailRepository => {
+  class LoadAccountByIdOrEmailRepositoryStub implements LoadAccountByIdOrEmailRepository {
     async load (email: string): Promise<AccountModel | null> {
       return await Promise.resolve(result)
     }
   }
 
-  return new LoadAccountByEmailRepositoryStub()
+  return new LoadAccountByIdOrEmailRepositoryStub()
 }
 
 export const makeEncrypterStub = (): Encrypter => {

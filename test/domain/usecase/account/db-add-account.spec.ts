@@ -3,12 +3,12 @@ import { type Encrypter } from '@/domain/protocols/infra/crypto/jwt/encrypter'
 import { type AddAccountRepository } from '@/domain/protocols/infra/db/account/add-account-repository'
 import { type Hasher } from '@/domain/protocols/infra/crypto/bcrypt/hasher'
 import { DbAddAccount } from '@/domain/usecase/account/db-add-account'
-import { type LoadAccountByEmailRepository } from '@/domain/protocols/infra/db/account/load-account-by-email-repository'
-import { mockAddAccountParams, mockAccountModel, makeAddAccountRepositoryStub, makeEncrypterStub, makeUpdateAccessTokenGeneratorStub, makeLoadAccountByEmailRepositoryStub } from '../../mock/mock-account'
+import { type LoadAccountByIdOrEmailRepository } from '@/domain/protocols/infra/db/account/load-account-by-id-or-email-repository'
+import { mockAddAccountParams, mockAccountModel, makeAddAccountRepositoryStub, makeEncrypterStub, makeUpdateAccessTokenGeneratorStub, makeLoadAccountByIdOrEmailRepositoryStub } from '../../mock/mock-account'
 
 interface SutTypes {
   sut: DbAddAccount
-  loadAccountByEmailRepositoryStub: LoadAccountByEmailRepository
+  loadAccountByIdOrEmailRepositoryStub: LoadAccountByIdOrEmailRepository
   hasherStub: Hasher
   addAccountRepositoryStub: AddAccountRepository
   encrypterStub: Encrypter
@@ -20,9 +20,9 @@ const makeSut = (): SutTypes => {
   const encrypterStub = makeEncrypterStub()
   const addAccountRepositoryStub = makeAddAccountRepositoryStub()
   const updateAccessTokenGeneratorStub = makeUpdateAccessTokenGeneratorStub()
-  const loadAccountByEmailRepositoryStub = makeLoadAccountByEmailRepositoryStub()
+  const loadAccountByIdOrEmailRepositoryStub = makeLoadAccountByIdOrEmailRepositoryStub()
   const sut = new DbAddAccount(
-    loadAccountByEmailRepositoryStub,
+    loadAccountByIdOrEmailRepositoryStub,
     hasherStub,
     addAccountRepositoryStub,
     encrypterStub,
@@ -31,7 +31,7 @@ const makeSut = (): SutTypes => {
 
   return {
     sut,
-    loadAccountByEmailRepositoryStub,
+    loadAccountByIdOrEmailRepositoryStub,
     hasherStub,
     addAccountRepositoryStub,
     encrypterStub,
@@ -50,24 +50,24 @@ export const makeHasherStub = (): Hasher => {
 }
 
 describe('DbAddAccount', () => {
-  test('should call loadAccountByEmailRepository with correct param', async () => {
-    const { sut, loadAccountByEmailRepositoryStub } = makeSut()
-    const loadSpy = jest.spyOn(loadAccountByEmailRepositoryStub, 'load')
+  test('should call loadAccountByIdOrEmailRepository with correct param', async () => {
+    const { sut, loadAccountByIdOrEmailRepositoryStub } = makeSut()
+    const loadSpy = jest.spyOn(loadAccountByIdOrEmailRepositoryStub, 'load')
     await sut.add(mockAddAccountParams)
     expect(loadSpy).toHaveBeenCalledWith('any_email')
   })
 
-  test('should return null if loadAccountByEmailRepository returns account', async () => {
-    const { sut, loadAccountByEmailRepositoryStub } = makeSut()
-    jest.spyOn(loadAccountByEmailRepositoryStub, 'load').mockResolvedValueOnce(mockAccountModel)
+  test('should return null if loadAccountByIdOrEmailRepository returns account', async () => {
+    const { sut, loadAccountByIdOrEmailRepositoryStub } = makeSut()
+    jest.spyOn(loadAccountByIdOrEmailRepositoryStub, 'load').mockResolvedValueOnce(mockAccountModel)
     const response = await sut.add(mockAddAccountParams)
     expect(response).toBeNull()
   })
 
-  test('should return throw if loadAccountByEmailRepository throws', async () => {
-    const { sut, loadAccountByEmailRepositoryStub } = makeSut()
+  test('should return throw if loadAccountByIdOrEmailRepository throws', async () => {
+    const { sut, loadAccountByIdOrEmailRepositoryStub } = makeSut()
     const error = new Error()
-    jest.spyOn(loadAccountByEmailRepositoryStub, 'load').mockRejectedValueOnce(error)
+    jest.spyOn(loadAccountByIdOrEmailRepositoryStub, 'load').mockRejectedValueOnce(error)
     const response = sut.add(mockAddAccountParams)
     expect(response).rejects.toThrow(error)
   })
