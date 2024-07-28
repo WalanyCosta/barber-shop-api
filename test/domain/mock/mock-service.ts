@@ -1,5 +1,6 @@
 import { type LoadServiceByIdRepository } from '@/domain/protocols/infra/db/services/load-service-by-id-repository'
 import { type ServiceModel } from '@/domain/model/service-model'
+import { type SearchServicesRepository } from '../protocols/infra/db/services/search-services-repository'
 
 export const mockServices = ([
   {
@@ -41,4 +42,13 @@ export const makeLoadServiceByIdRepositoryStub = (): LoadServiceByIdRepository =
   }
 
   return new LoadServiceByIdRepositoryStub()
+}
+
+export const makeSearchServicesRepositoryStub = (): SearchServicesRepository => {
+  class SearchServicesRepositoryStub implements SearchServicesRepository {
+    async filter (typeQuery: string, query: string): Promise<ServiceModel[]> {
+      return await Promise.resolve(mockServices)
+    }
+  }
+  return new SearchServicesRepositoryStub()
 }
