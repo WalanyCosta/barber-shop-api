@@ -10,7 +10,6 @@ export class ZodValidator implements Validator {
   validate (input: any): Error | null {
     const response = this.schema.safeParse(input)
     if (!response.success) {
-      console.log(response.error)
       return new ValidationError(JSON.parse(response.error.toString())[0].message)
     }
     return null

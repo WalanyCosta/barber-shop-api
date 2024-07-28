@@ -7,6 +7,6 @@ import { makeSearchServicesFactory } from '../factories/services/search-services
 
 export default (router: Router): void => {
   router.get('/services', auth, adapterRoute(makeLoadServicesController()))
-  router.get('/services/:id', auth, adapterRoute(makeLoadServiceByIdController()))
   router.get('/services/search', auth, adapterRoute(makeSearchServicesFactory()))
+  router.get('/services/:id', auth, adapterRoute(makeLoadServiceByIdController()))
 }
