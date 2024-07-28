@@ -8,7 +8,13 @@ export class SearchServicesController implements Controller {
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
-      this.validator.validate(httpRequest.query)
+      const error = this.validator.validate(httpRequest.query)
+      if (error) {
+        return {
+          statusCode: 400,
+          body: error
+        }
+      }
       const services = await this.searchServices.filter(httpRequest.query?.typeQuery, httpRequest.query?.query)
       return await Promise.resolve({
         statusCode: 200,
