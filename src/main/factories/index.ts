@@ -1,4 +1,4 @@
-export * from './login/login-controller-factory'
-export * from './signup/signup-controller-factory'
-export * from './services/load-services-controller-factory'
+export * from './login/login-factory'
+export * from './signup/signup-factory'
+export * from './services/load-services-factory'
 export * from './middlewares/auth-middleware-factory'
