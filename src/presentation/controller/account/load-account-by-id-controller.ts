@@ -6,11 +6,18 @@ export class LoadAccountByIdController implements Controller {
   constructor (private readonly loadAccountByIdOrEmail: LoadAccountByIdOrEmail) {}
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
-    const { id } = httpRequest.params
-    await this.loadAccountByIdOrEmail.loadByIdOrEmail(id)
-    return await Promise.resolve({
-      statusCode: 400,
-      body: null
-    })
+    try {
+      const { id } = httpRequest.params
+      await this.loadAccountByIdOrEmail.loadByIdOrEmail(id)
+      return await Promise.resolve({
+        statusCode: 400,
+        body: null
+      })
+    } catch (error) {
+      return {
+        statusCode: 500,
+        body: error
+      }
+    }
   }
 }
