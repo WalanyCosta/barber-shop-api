@@ -9,12 +9,12 @@ export class LoadAccountByIdController implements Controller {
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       const { id } = httpRequest.params
-      await this.loadAccountByIdOrEmail.loadByIdOrEmail(id)
+      const account = await this.loadAccountByIdOrEmail.loadByIdOrEmail(id)
 
-      return await Promise.resolve({
-        statusCode: 400,
-        body: null
-      })
+      return {
+        statusCode: 200,
+        body: account
+      }
     } catch (error) {
       if (error instanceof NotExistsRegister) {
         return {
