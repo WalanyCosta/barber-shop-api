@@ -1,12 +1,30 @@
 import { ValidationError } from '@/presentation/errors'
 import { makeSearchServicesStub, makeValidatorStub } from '../../mocks'
 import { SearchServicesController } from '@/presentation/controller'
+import { type Validator } from '@/presentation/protocols/validator'
+import { type SearchServices } from '@/domain/protocols/presentation/search-service'
+
+interface SutTypes {
+  sut: SearchServicesController
+  validatorStub: Validator
+  searchServiceStub: SearchServices
+}
+
+const makeSut = (): SutTypes => {
+  const searchServiceStub = makeSearchServicesStub()
+  const validatorStub = makeValidatorStub()
+  const sut = new SearchServicesController(searchServiceStub, validatorStub)
+
+  return {
+    sut,
+    searchServiceStub,
+    validatorStub
+  }
+}
 
 describe('SearchServicesController', () => {
   test('should call filter with correct params', async () => {
-    const searchServiceStub = makeSearchServicesStub()
-    const validatorStub = makeValidatorStub()
-    const sut = new SearchServicesController(searchServiceStub, validatorStub)
+    const { sut, searchServiceStub } = makeSut()
     const filterSpy = jest.spyOn(searchServiceStub, 'filter')
     await sut.handle({
       query: {
@@ -18,9 +36,7 @@ describe('SearchServicesController', () => {
   })
 
   test('should return 200 if filter returns empty array', async () => {
-    const searchServiceStub = makeSearchServicesStub()
-    const validatorStub = makeValidatorStub()
-    const sut = new SearchServicesController(searchServiceStub, validatorStub)
+    const { sut, searchServiceStub } = makeSut()
     jest.spyOn(searchServiceStub, 'filter').mockReturnValueOnce(Promise.resolve([]))
     const response = await sut.handle({
       query: {
@@ -35,10 +51,8 @@ describe('SearchServicesController', () => {
   })
 
   test('should return 500 if filter throws error', async () => {
-    const searchServiceStub = makeSearchServicesStub()
     const error = new Error()
-    const validatorStub = makeValidatorStub()
-    const sut = new SearchServicesController(searchServiceStub, validatorStub)
+    const { sut, searchServiceStub } = makeSut()
     jest.spyOn(searchServiceStub, 'filter').mockRejectedValueOnce(error)
     const response = await sut.handle({
       query: {
@@ -53,9 +67,7 @@ describe('SearchServicesController', () => {
   })
 
   test('should call validate with correct params', async () => {
-    const searchServiceStub = makeSearchServicesStub()
-    const validatorStub = makeValidatorStub()
-    const sut = new SearchServicesController(searchServiceStub, validatorStub)
+    const { sut, validatorStub } = makeSut()
     const validateSpy = jest.spyOn(validatorStub, 'validate')
     await sut.handle({
       query: {
@@ -70,10 +82,8 @@ describe('SearchServicesController', () => {
   })
 
   test('should return 400 if validate throws', async () => {
-    const searchServiceStub = makeSearchServicesStub()
-    const validatorStub = makeValidatorStub()
     const error = new ValidationError('Ocorreu um error')
-    const sut = new SearchServicesController(searchServiceStub, validatorStub)
+    const { sut, validatorStub } = makeSut()
     jest.spyOn(validatorStub, 'validate').mockReturnValueOnce(error)
     const response = await sut.handle({
       query: {
