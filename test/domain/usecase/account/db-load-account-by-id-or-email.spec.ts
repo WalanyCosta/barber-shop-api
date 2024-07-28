@@ -27,4 +27,12 @@ describe('DbLoadAccountByIdOrEmail', () => {
     const response = sut.loadByIdOrEmail('any_id')
     await expect(response).rejects.toThrow(error)
   })
+
+  test('should return AccountModel on success', async () => {
+    const loadAccountByIdOrEmailRepositoryStub = makeLoadAccountByIdOrEmailRepositoryStub(mockAccountModel)
+    const sut = new DbLoadAccountByIdOrEmail(loadAccountByIdOrEmailRepositoryStub)
+    const response = await sut.loadByIdOrEmail('any_id')
+    expect(response).toEqual(mockAccountModel)
+    expect(response?.password).toBeFalsy()
+  })
 })
