@@ -1,5 +1,5 @@
 import { type SearchServicesRepository } from '@/domain/protocols/infra/db/services/search-services-repository'
-import { makeSearchServicesRepositoryStub } from '../../mock/mock-service'
+import { makeSearchServicesRepositoryStub, mockServices } from '../../mock/mock-service'
 import { DbSearchServices } from '@/domain/usecase/service/db-search-services'
 
 interface SutTypes {
@@ -32,5 +32,11 @@ describe('DbSearchServices', () => {
     jest.spyOn(searchServicesRepositoryStub, 'filter').mockRejectedValueOnce(new Error())
     const error = sut.filter('service', 'any_service')
     expect(error).rejects.toThrow()
+  })
+
+  test('should return ServiceModel array on success', async () => {
+    const { sut } = makeSut()
+    const response = await sut.filter('service', 'any_service')
+    expect(response).toBe(mockServices)
   })
 })
