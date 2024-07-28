@@ -1,5 +1,7 @@
 export type StatusService = 'active' | 'promotion' | 'disable'
 
+export type TypeQueryService = 'service' | 'category'
+
 export interface ServiceModel {
   id: string
   service: string
