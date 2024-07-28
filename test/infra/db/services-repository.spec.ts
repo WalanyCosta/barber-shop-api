@@ -56,4 +56,17 @@ describe('AccountRepository', () => {
     expect(service?.stars).toBe(3)
     expect(service?.category).toBe('any_category')
   })
+
+  test('should return ServiceModel array if filter not returns empty', async () => {
+    const sut = new ServicesRepository()
+    await createFakeServiceData()
+    const services = await sut.filter('service', 'any_name')
+    expect(services[0]).toBeTruthy()
+    expect(services[0]?.id).toBeTruthy()
+    expect(services[0]?.service).toBe('any_name')
+    expect(services[0]?.price).toBe(30.3)
+    expect(services[0]?.status).toBe('active')
+    expect(services[0]?.stars).toBe(3)
+    expect(services[0]?.category).toBe('any_category')
+  })
 })
