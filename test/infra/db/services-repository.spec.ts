@@ -69,4 +69,12 @@ describe('AccountRepository', () => {
     expect(services[0]?.stars).toBe(3)
     expect(services[0]?.category).toBe('any_category')
   })
+
+  test('should return empty array if filter returns empty', async () => {
+    const sut = new ServicesRepository()
+    await createFakeServiceData()
+    const services = await sut.filter('category', 'old_category')
+    expect(services[0]).toBeFalsy()
+    expect(services[0]?.id).toBeFalsy()
+  })
 })
