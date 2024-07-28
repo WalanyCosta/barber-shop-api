@@ -18,4 +18,13 @@ describe('DbLoadAccountByIdOrEmail', () => {
     const response = sut.loadByIdOrEmail('any_id')
     await expect(response).rejects.toThrow(new NotExistsRegister('This services not exists'))
   })
+
+  test('should throw if LoadAccountByIdOrEmailRepository throws', async () => {
+    const error = new Error()
+    const loadAccountByIdOrEmailRepositoryStub = makeLoadAccountByIdOrEmailRepositoryStub(mockAccountModel)
+    const sut = new DbLoadAccountByIdOrEmail(loadAccountByIdOrEmailRepositoryStub)
+    jest.spyOn(loadAccountByIdOrEmailRepositoryStub, 'load').mockRejectedValueOnce(error)
+    const response = sut.loadByIdOrEmail('any_id')
+    await expect(response).rejects.toThrow(error)
+  })
 })
