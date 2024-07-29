@@ -1,5 +1,5 @@
 import { DbLoadCategoryById } from '@/domain/usecase'
-import { makeLoadCategoryByIdRepositoryStub } from '../../mock/mock-category'
+import { makeLoadCategoryByIdRepositoryStub, mockCategoryModel } from '../../mock/mock-category'
 import { type LoadCategoryByIdRepository } from '@/domain/protocols/infra/db/category/load-category-by-id-repository'
 
 interface SutTypes {
@@ -38,5 +38,11 @@ describe('DbLoadCategoryById', () => {
     jest.spyOn(loadCategoryByIdRepositoryStub, 'loadById').mockRejectedValueOnce(new Error())
     const response = sut.loadById('any_id')
     await expect(response).rejects.toThrow()
+  })
+
+  test('should return category on success', async () => {
+    const { sut } = makeSut()
+    const response = await sut.loadById('any_id')
+    expect(response).toEqual(mockCategoryModel)
   })
 })
