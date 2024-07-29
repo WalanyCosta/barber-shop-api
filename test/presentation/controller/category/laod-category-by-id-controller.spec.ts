@@ -1,6 +1,7 @@
 import { LoadCategoryByIdController } from '@/presentation/controller'
 import { type LoadCategoryById } from '@/domain/protocols/presentation'
 import { makeLoadCategoryByIdStub } from '../../mocks/mock-category'
+import { NotExistsRegister } from '@/presentation/errors'
 
 interface SutTypes {
   sut: LoadCategoryByIdController
@@ -27,5 +28,20 @@ describe('LoadCategoriesController', () => {
       }
     })
     expect(loadByIdSpy).toHaveBeenCalled()
+  })
+
+  test('should return 400 if loadById throws notExistsRegister', async () => {
+    const { sut, loadCategoryByIdStub } = makeSut()
+    const error = new NotExistsRegister('not exists register with id')
+    jest.spyOn(loadCategoryByIdStub, 'loadById').mockRejectedValueOnce(error)
+    const response = await sut.handle({
+      params: {
+        id: 'any_id'
+      }
+    })
+    expect(response).toEqual({
+      statusCode: 400,
+      body: error
+    })
   })
 })
