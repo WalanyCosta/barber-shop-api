@@ -44,4 +44,19 @@ describe('LoadCategoriesController', () => {
       body: error
     })
   })
+
+  test('should return 500 if loadById throws', async () => {
+    const { sut, loadCategoryByIdStub } = makeSut()
+    const error = new Error()
+    jest.spyOn(loadCategoryByIdStub, 'loadById').mockRejectedValueOnce(error)
+    const response = await sut.handle({
+      params: {
+        id: 'any_id'
+      }
+    })
+    expect(response).toEqual({
+      statusCode: 500,
+      body: error
+    })
+  })
 })
