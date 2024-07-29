@@ -12,8 +12,6 @@ export class DbLoadAccountByIdOrEmail implements LoadAccountByIdOrEmail {
       throw new NotExistsRegister('This services not exists')
     }
 
-    delete account.password
-
-    return account
+    return Object.assign(account, { password: null })
   }
 }
