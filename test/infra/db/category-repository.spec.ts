@@ -11,6 +11,13 @@ const createFakeCategoriesData = async (): Promise<any> => {
   })
 }
 
+const createFakeCategoryData = async (): Promise<any> => {
+  return await prisma.category.create({
+    data:
+        { id: 'any_id', category: 'any_category' }
+  })
+}
+
 describe('CategoryRepository', () => {
   beforeEach(async () => {
     await cleanData()
@@ -31,5 +38,16 @@ describe('CategoryRepository', () => {
     const sut = new CategoryRepository()
     const services = await sut.load()
     expect(services).toEqual([])
+  })
+
+  test('should return category on success', async () => {
+    const sut = new CategoryRepository()
+    const { id } = await createFakeCategoryData()
+    const category = await sut.loadById(id)
+
+    expect(category).toBeTruthy()
+    expect(category?.id).toBeTruthy()
+    expect(category?.id).toBe('any_id')
+    expect(category?.category).toBe('any_category')
   })
 })
