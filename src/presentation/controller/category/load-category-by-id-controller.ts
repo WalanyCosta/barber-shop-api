@@ -9,10 +9,10 @@ export class LoadCategoryByIdController implements Controller {
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       const { id } = httpRequest.params
-      await this.loadCategoryById.loadById(id)
+      const category = await this.loadCategoryById.loadById(id)
       return {
-        statusCode: 400,
-        body: null
+        statusCode: 200,
+        body: category
       }
     } catch (error) {
       if (error instanceof NotExistsRegister) {
