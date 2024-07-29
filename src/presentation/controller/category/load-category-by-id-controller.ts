@@ -6,11 +6,18 @@ export class LoadCategoryByIdController implements Controller {
   constructor (private readonly loadCategoryById: LoadCategoryById) {}
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
-    const { id } = httpRequest.params
-    await this.loadCategoryById.loadById(id)
-    return {
-      statusCode: 400,
-      body: null
+    try {
+      const { id } = httpRequest.params
+      await this.loadCategoryById.loadById(id)
+      return {
+        statusCode: 400,
+        body: null
+      }
+    } catch (error) {
+      return {
+        statusCode: 400,
+        body: error
+      }
     }
   }
 }
