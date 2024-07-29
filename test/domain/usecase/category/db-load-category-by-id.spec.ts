@@ -25,4 +25,12 @@ describe('DbLoadCategories', () => {
     await sut.loadById(id)
     expect(loadSpy).toHaveBeenCalledWith(id)
   })
+
+  test('should throw if LoadCategoryByIdRepository throws NotExistsRegister', async () => {
+    const id = 'any_id'
+    const { sut, loadCategoryByIdRepositoryStub } = makeSut()
+    jest.spyOn(loadCategoryByIdRepositoryStub, 'loadById').mockResolvedValueOnce(null)
+    const response = sut.loadById(id)
+    await expect(response).rejects.toThrow()
+  })
 })
