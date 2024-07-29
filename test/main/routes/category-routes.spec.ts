@@ -63,3 +63,23 @@ describe('Get /categories', () => {
       .expect(403)
   })
 })
+
+describe('Get /category:id', () => {
+  beforeEach(async () => {
+    await cleanData()
+  })
+
+  afterAll(async () => {
+    await cleanData()
+    await disconnect()
+  })
+
+  test('should return 200 on success', async () => {
+    const accessToken = await mockAccessToken()
+    const { id } = await mockCreateCategory()
+    await request(app)
+      .get(`/api/categories/${id}`)
+      .set('x-access-token', accessToken)
+      .expect(200)
+  })
+})
