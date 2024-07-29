@@ -1,6 +1,6 @@
 import { LoadCategoryByIdController } from '@/presentation/controller'
 import { type LoadCategoryById } from '@/domain/protocols/presentation'
-import { makeLoadCategoryByIdStub } from '../../mocks/mock-category'
+import { makeLoadCategoryByIdStub, mockCategoryModel } from '../../mocks/mock-category'
 import { NotExistsRegister } from '@/presentation/errors'
 
 interface SutTypes {
@@ -57,6 +57,19 @@ describe('LoadCategoriesController', () => {
     expect(response).toEqual({
       statusCode: 500,
       body: error
+    })
+  })
+
+  test('should return 200 on success', async () => {
+    const { sut } = makeSut()
+    const response = await sut.handle({
+      params: {
+        id: 'any_id'
+      }
+    })
+    expect(response).toEqual({
+      statusCode: 200,
+      body: mockCategoryModel
     })
   })
 })
