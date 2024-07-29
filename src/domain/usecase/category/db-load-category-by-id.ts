@@ -10,6 +10,6 @@ export class DbLoadCategoryById implements LoadCategoryById {
     if (!category) {
       throw new NotExistsRegister('Not exists register with this id')
     }
-    return null
+    return category
   }
 }
