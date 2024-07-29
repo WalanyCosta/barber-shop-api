@@ -1,10 +1,18 @@
-import { type UpdateAccessTokenGenerator } from '@/domain/protocols/infra/db/account/update-access-token-generator'
-import { type Encrypter } from '@/domain/protocols/infra/crypto/jwt/encrypter'
-import { type AddAccountRepository } from '@/domain/protocols/infra/db/account/add-account-repository'
-import { type Hasher } from '@/domain/protocols/infra/crypto/bcrypt/hasher'
+import {
+  type UpdateAccessTokenGenerator,
+  type LoadAccountByIdOrEmailRepository,
+  type AddAccountRepository
+} from '@/domain/protocols/infra/db'
+import { type Encrypter, type Hasher } from '@/domain/protocols/infra/crypto'
 import { DbAddAccount } from '@/domain/usecase/account/db-add-account'
-import { type LoadAccountByIdOrEmailRepository } from '@/domain/protocols/infra/db/account/load-account-by-id-or-email-repository'
-import { mockAddAccountParams, mockAccountModel, makeAddAccountRepositoryStub, makeEncrypterStub, makeUpdateAccessTokenGeneratorStub, makeLoadAccountByIdOrEmailRepositoryStub } from '../../mock/mock-account'
+import {
+  mockAddAccountParams,
+  mockAccountModel,
+  makeAddAccountRepositoryStub,
+  makeEncrypterStub,
+  makeUpdateAccessTokenGeneratorStub,
+  makeLoadAccountByIdOrEmailRepositoryStub
+} from '../../mock/mock-account'
 
 interface SutTypes {
   sut: DbAddAccount

@@ -1,4 +1,4 @@
-import { type SearchServices } from '@/domain/protocols/presentation/search-service'
+import { type SearchServices } from '@/domain/protocols/presentation/service/search-service'
 import { type Controller } from '@/presentation/protocols/controller'
 import { type HttpRequest, type HttpResponse } from '@/presentation/protocols/http'
 import { type Validator } from '@/presentation/protocols/validator'

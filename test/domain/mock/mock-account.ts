@@ -2,10 +2,10 @@ import { type AccountModel } from '@/domain/model/account-model'
 import {
   type AddAccountModel,
   type AddAccountRepository,
-  type Encrypter,
   type LoadAccountByIdOrEmailRepository,
   type UpdateAccessTokenGenerator
-} from '@/domain/protocols/infra'
+} from '@/domain/protocols/infra/db'
+import { type Encrypter } from '@/domain/protocols/infra/crypto'
 
 export const mockAccountModel: AccountModel = {
   id: 'any_id',

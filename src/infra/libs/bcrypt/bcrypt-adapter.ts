@@ -1,4 +1,4 @@
-import { type HashComparer, type Hasher } from '@/domain/protocols/infra'
+import { type HashComparer, type Hasher } from '@/domain/protocols/infra/crypto'
 import { hash, compare } from 'bcrypt'
 
 export class BcryptAdapter implements Hasher, HashComparer {

@@ -1,4 +1,4 @@
-import { type Encrypter, type Decryptor } from '@/domain/protocols/infra'
+import { type Encrypter, type Decryptor } from '@/domain/protocols/infra/crypto'
 import jwt from 'jsonwebtoken'
 
 export class JwtAdapter implements Encrypter, Decryptor {

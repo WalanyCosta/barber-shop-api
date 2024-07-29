@@ -1,12 +1,12 @@
 import { type AccountModel } from '@/domain/model/account-model'
+import prisma from '@/infra/db/prisma/helpers/client'
 import { 
     type UpdateAccessTokenGenerator,
     type AddAccountModel, 
     type AddAccountRepository, 
     type LoadAccountByTokenRepository, 
     type LoadAccountByIdOrEmailRepository
-} from '@/domain/protocols/infra'
-import prisma from '@/infra/db/prisma/helpers/client'
+} from '@/domain/protocols/infra/db'
 
 export class AccountRepository implements
     AddAccountRepository,

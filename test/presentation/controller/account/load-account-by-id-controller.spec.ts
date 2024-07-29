@@ -1,7 +1,7 @@
 import { NotExistsRegister } from '@/presentation/errors'
 import { makeLoadAccountByIdOrEmailStub } from '../../mocks'
 import { LoadAccountByIdController } from '@/presentation/controller/'
-import { type LoadAccountByIdOrEmail } from '@/domain/protocols/presentation/load-account-by-id'
+import { type LoadAccountByIdOrEmail } from '@/domain/protocols/presentation/account/load-account-by-id'
 
 interface SutTypes {
   sut: LoadAccountByIdController

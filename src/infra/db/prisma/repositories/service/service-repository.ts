@@ -1,7 +1,9 @@
 import { TypeQueryService, type ServiceModel } from '@/domain/model/service-model'
-import { type LoadServicesRepository } from '@/domain/protocols/infra/'
-import { LoadServiceByIdRepository } from '@/domain/protocols/infra/db/services/load-service-by-id-repository'
-import { SearchServicesRepository } from '@/domain/protocols/infra/db/services/search-services-repository'
+import { 
+    type LoadServicesRepository, 
+    LoadServiceByIdRepository, 
+    SearchServicesRepository 
+} from '@/domain/protocols/infra/db'
 import prisma from '@/infra/db/prisma/helpers/client'
 
 export class ServicesRepository implements 

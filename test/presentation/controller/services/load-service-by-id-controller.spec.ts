@@ -1,4 +1,4 @@
-import { type LoadServiceById } from '@/domain/protocols/presentation/load-service-by-id'
+import { type LoadServiceById } from '@/domain/protocols/presentation/service/load-service-by-id'
 import { fakeResponseService, makeLoadServiceByIdStub } from '../../mocks'
 import { LoadServiceByIdController } from '@/presentation/controller'
 

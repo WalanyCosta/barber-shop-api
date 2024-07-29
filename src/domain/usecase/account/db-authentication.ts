@@ -3,7 +3,7 @@ import { type Encrypter } from '../../protocols/infra/crypto/jwt/encrypter'
 import { type HashComparer } from '../../protocols/infra/crypto/bcrypt/hash-comparer'
 import { type LoadAccountByIdOrEmailRepository } from '../../protocols/infra/db/account/load-account-by-id-or-email-repository'
 import { type UpdateAccessTokenGenerator } from '../../protocols/infra/db/account/update-access-token-generator'
-import { type Authentication, type AuthenticationParam } from '../../protocols/presentation/authentication'
+import { type Authentication, type AuthenticationParam } from '../../protocols/presentation/account/authentication'
 
 export class DbAuthentication implements Authentication {
   constructor (

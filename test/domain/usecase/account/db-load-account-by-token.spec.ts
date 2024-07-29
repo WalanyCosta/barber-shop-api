@@ -1,7 +1,7 @@
 import { type AccountModel } from '@/domain/model/account-model'
 import { type Decryptor } from '@/domain/protocols/infra/crypto/jwt/decrypter'
 import { DbLoadAccountByToken } from '@/domain/usecase/account/db-load-account-by-token'
-import { type LoadAccountByTokenRepository } from '@/domain/protocols/infra/db/account/load-account-by-token-repository'
+import { type LoadAccountByTokenRepository } from '@/domain/protocols/infra/db'
 import { mockAccountModel } from '../../mock/mock-account'
 
 interface SutTypes {

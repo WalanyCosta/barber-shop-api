@@ -1,6 +1,11 @@
 import { type AccountModel } from '@/domain/model/account-model'
-import { type AddAccount, type AddAccountParam, type Authentication, type AuthenticationParam } from '@/domain/protocols/presentation'
-import { type LoadAccountByIdOrEmail } from '@/domain/protocols/presentation/load-account-by-id'
+import {
+  type AddAccount,
+  type AddAccountParam,
+  type Authentication,
+  type AuthenticationParam,
+  type LoadAccountByIdOrEmail
+} from '@/domain/protocols/presentation'
 
 export const makeAuthentication = (): Authentication => {
   class AuthenticationStub implements Authentication {

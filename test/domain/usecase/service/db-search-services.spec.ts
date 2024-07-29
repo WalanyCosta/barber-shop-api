@@ -1,5 +1,5 @@
-import { type SearchServicesRepository } from '@/domain/protocols/infra/db/services/search-services-repository'
-import { makeSearchServicesRepositoryStub, mockServices } from '../../mock/mock-service'
+import { type SearchServicesRepository } from '@/domain/protocols/infra/db'
+import { makeSearchServicesRepositoryStub, mockArrayServiceModel } from '../../mock/mock-service'
 import { DbSearchServices } from '@/domain/usecase/service/db-search-services'
 
 interface SutTypes {
@@ -37,6 +37,6 @@ describe('DbSearchServices', () => {
   test('should return ServiceModel array on success', async () => {
     const { sut } = makeSut()
     const response = await sut.filter('service', 'any_service')
-    expect(response).toBe(mockServices)
+    expect(response).toBe(mockArrayServiceModel)
   })
 })

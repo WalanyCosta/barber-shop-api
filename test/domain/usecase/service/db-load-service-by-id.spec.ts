@@ -1,6 +1,6 @@
-import { type LoadServiceById } from '@/domain/protocols/presentation/load-service-by-id'
+import { type LoadServiceById } from '@/domain/protocols/presentation/service/load-service-by-id'
 import { DbLoadServiceById } from '@/domain/usecase/service/db-load-service-by-id'
-import { makeLoadServiceByIdRepositoryStub } from '../../mock/mock-service'
+import { makeLoadServiceByIdRepositoryStub, mockServiceModel } from '../../mock/mock-service'
 
 interface SutTypes {
   sut: DbLoadServiceById
@@ -43,15 +43,6 @@ describe('DbLoadServiceById', () => {
   test('should return service on success', async () => {
     const { sut } = makeSut()
     const response = await sut.loadById('any_id')
-    expect(response).toEqual({
-      id: 'any_id',
-      service: 'any_name',
-      price: 30,
-      stars: 5,
-      discount: 0.0,
-      duraction: 900,
-      status: 'active',
-      category: 'any_category'
-    })
+    expect(response).toEqual(mockServiceModel)
   })
 })

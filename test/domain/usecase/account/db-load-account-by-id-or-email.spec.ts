@@ -1,7 +1,7 @@
 import { NotExistsRegister } from '@/presentation/errors'
 import { makeLoadAccountByIdOrEmailRepositoryStub, mockAccountModel } from '../../mock/mock-account'
 import { DbLoadAccountByIdOrEmail } from '@/domain/usecase/account/db-load-account-by-id-or-email'
-import { type LoadAccountByIdOrEmailRepository } from '@/domain/protocols/infra'
+import { type LoadAccountByIdOrEmailRepository } from '@/domain/protocols/infra/db'
 
 interface SutTypes {
   sut: DbLoadAccountByIdOrEmail

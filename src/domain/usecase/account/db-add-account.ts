@@ -1,8 +1,16 @@
-import { type Hasher, type Encrypter } from '@/domain/protocols/infra'
-import { type UpdateAccessTokenGenerator } from '../../protocols/infra/db/account/update-access-token-generator'
-import { type AddAccountParam, type AddAccount } from '../../protocols/presentation/add-account'
-import { type AddAccountRepository } from '../../protocols/infra/db/account/add-account-repository'
-import { type LoadAccountByIdOrEmailRepository } from '../../protocols/infra/db/account/load-account-by-id-or-email-repository'
+import {
+  type Hasher,
+  type Encrypter
+} from '@/domain/protocols/infra/crypto'
+import {
+  type UpdateAccessTokenGenerator,
+  type LoadAccountByIdOrEmailRepository,
+  type AddAccountRepository
+} from '@/domain/protocols/infra/db'
+import {
+  type AddAccountParam,
+  type AddAccount
+} from '@/domain/protocols/presentation/account/add-account'
 
 export class DbAddAccount implements AddAccount {
   constructor (

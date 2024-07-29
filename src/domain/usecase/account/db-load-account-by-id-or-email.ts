@@ -1,6 +1,6 @@
 import { type AccountModel } from '@/domain/model/account-model'
-import { type LoadAccountByIdOrEmailRepository } from '@/domain/protocols/infra'
-import { type LoadAccountByIdOrEmail } from '@/domain/protocols/presentation/load-account-by-id'
+import { type LoadAccountByIdOrEmailRepository } from '@/domain/protocols/infra/db'
+import { type LoadAccountByIdOrEmail } from '@/domain/protocols/presentation/account/load-account-by-id'
 import { NotExistsRegister } from '@/presentation/errors'
 
 export class DbLoadAccountByIdOrEmail implements LoadAccountByIdOrEmail {

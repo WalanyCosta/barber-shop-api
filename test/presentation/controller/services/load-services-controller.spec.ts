@@ -1,6 +1,6 @@
 import { LoadServicesController } from '@/presentation/controller'
 import { type LoadServices } from '@/domain/protocols/presentation'
-import { mockServices } from '../../../domain/mock/mock-service'
+import { mockArrayServiceModel } from '../../../domain/mock/mock-service'
 import { makeLoadServicesStub } from '../../mocks'
 
 interface SutTypes {
@@ -63,7 +63,7 @@ describe('LoadServicesController', () => {
     const httpResponse = await sut.handle({})
     expect(httpResponse).toEqual({
       statusCode: 200,
-      body: mockServices
+      body: mockArrayServiceModel
     })
   })
 })

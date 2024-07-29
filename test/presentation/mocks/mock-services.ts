@@ -1,8 +1,10 @@
-import { type LoadServices } from '@/domain/protocols/presentation'
-import { mockServices } from '../../domain/mock/mock-service'
+import { mockArrayServiceModel } from '../../domain/mock/mock-service'
 import { type ServiceModel } from '@/domain/model/service-model'
-import { type LoadServiceById } from '@/domain/protocols/presentation/load-service-by-id'
-import { type SearchServices } from '@/domain/protocols/presentation/search-service'
+import {
+  type LoadServices,
+  type LoadServiceById,
+  type SearchServices
+} from '@/domain/protocols/presentation'
 
 export const fakeResponseService = {
   id: 'any_id',
@@ -18,7 +20,7 @@ export const fakeResponseService = {
 export const makeLoadServicesStub = (): LoadServices => {
   class LoadServicesStub implements LoadServices {
     async load (): Promise<ServiceModel[] | null> {
-      return await Promise.resolve(mockServices)
+      return await Promise.resolve(mockArrayServiceModel)
     }
   }
 

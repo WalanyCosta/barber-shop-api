@@ -1,6 +1,6 @@
 import { type TypeQueryService, type ServiceModel } from '@/domain/model/service-model'
-import { type SearchServicesRepository } from '@/domain/protocols/infra/db/services/search-services-repository'
-import { type SearchServices } from '@/domain/protocols/presentation/search-service'
+import { type SearchServicesRepository } from '@/domain/protocols/infra/db'
+import { type SearchServices } from '@/domain/protocols/presentation'
 
 export class DbSearchServices implements SearchServices {
   constructor (private readonly searchServicesRepository: SearchServicesRepository) {}

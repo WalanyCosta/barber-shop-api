@@ -2,14 +2,25 @@ import { type LoadServiceByIdRepository } from '@/domain/protocols/infra/db/serv
 import { type ServiceModel } from '@/domain/model/service-model'
 import { type SearchServicesRepository } from '../protocols/infra/db/services/search-services-repository'
 
-export const mockServices = ([
+export const mockServiceModel: ServiceModel = ({
+  id: 'any_id',
+  service: 'any_name',
+  price: 30,
+  stars: 5,
+  discount: 0.0,
+  duraction: 900,
+  status: 'active',
+  category: 'any_category'
+})
+
+export const mockArrayServiceModel = ([
   {
     id: 'any_id',
     service: 'any_name',
     price: 30,
-    star: 5,
+    stars: 5,
     discount: 0.0,
-    duration: 900,
+    duraction: 900,
     status: 'active',
     category: 'any_category'
   },
@@ -28,16 +39,7 @@ export const mockServices = ([
 export const makeLoadServiceByIdRepositoryStub = (): LoadServiceByIdRepository => {
   class LoadServiceByIdRepositoryStub implements LoadServiceByIdRepository {
     async loadById (serviceId: string): Promise<ServiceModel | null> {
-      return {
-        id: 'any_id',
-        service: 'any_name',
-        price: 30,
-        stars: 5,
-        discount: 0.0,
-        duraction: 900,
-        status: 'active',
-        category: 'any_category'
-      }
+      return mockServiceModel
     }
   }
 
@@ -47,7 +49,7 @@ export const makeLoadServiceByIdRepositoryStub = (): LoadServiceByIdRepository =
 export const makeSearchServicesRepositoryStub = (): SearchServicesRepository => {
   class SearchServicesRepositoryStub implements SearchServicesRepository {
     async filter (typeQuery: string, query: string): Promise<ServiceModel[]> {
-      return await Promise.resolve(mockServices)
+      return await Promise.resolve(mockArrayServiceModel)
     }
   }
   return new SearchServicesRepositoryStub()

@@ -2,7 +2,7 @@ import { ValidationError } from '@/presentation/errors'
 import { makeSearchServicesStub, makeValidatorStub } from '../../mocks'
 import { SearchServicesController } from '@/presentation/controller'
 import { type Validator } from '@/presentation/protocols/validator'
-import { type SearchServices } from '@/domain/protocols/presentation/search-service'
+import { type SearchServices } from '@/domain/protocols/presentation/service/search-service'
 
 interface SutTypes {
   sut: SearchServicesController

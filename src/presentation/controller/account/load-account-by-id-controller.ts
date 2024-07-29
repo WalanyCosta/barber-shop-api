@@ -1,4 +1,4 @@
-import { type LoadAccountByIdOrEmail } from '@/domain/protocols/presentation/load-account-by-id'
+import { type LoadAccountByIdOrEmail } from '@/domain/protocols/presentation'
 import { NotExistsRegister } from '@/presentation/errors'
 import { type Controller } from '@/presentation/protocols/controller'
 import { type HttpRequest, type HttpResponse } from '@/presentation/protocols/http'
