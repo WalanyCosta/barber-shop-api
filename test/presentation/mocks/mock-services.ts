@@ -40,7 +40,7 @@ export const makeLoadServiceByIdStub = (): LoadServiceById => {
 export const makeSearchServicesStub = (): SearchServices => {
   class SearchServicesStub implements SearchServices {
     async filter (typeQuery: string, query: string): Promise<ServiceModel[]> {
-      return await Promise.resolve([])
+      return await Promise.resolve(mockArrayServiceModel)
     }
   }
 

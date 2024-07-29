@@ -3,6 +3,7 @@ import { makeSearchServicesStub, makeValidatorStub } from '../../mocks'
 import { SearchServicesController } from '@/presentation/controller'
 import { type Validator } from '@/presentation/protocols/validator'
 import { type SearchServices } from '@/domain/protocols/presentation/service/search-service'
+import { mockArrayServiceModel } from '../../../domain/mock/mock-service'
 
 interface SutTypes {
   sut: SearchServicesController
@@ -94,6 +95,20 @@ describe('SearchServicesController', () => {
     expect(response).toEqual({
       statusCode: 400,
       body: error
+    })
+  })
+
+  test('should return 200 on success', async () => {
+    const { sut } = makeSut()
+    const response = await sut.handle({
+      query: {
+        typeQuery: 'service',
+        query: 'any_query'
+      }
+    })
+    expect(response).toEqual({
+      statusCode: 200,
+      body: mockArrayServiceModel
     })
   })
 })
