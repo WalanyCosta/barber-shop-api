@@ -19,15 +19,15 @@ const makeSut = (): SutTypes => {
 
 describe('LoadAccountByIdController', () => {
   test('should call loadByIdOrEmail with correct params', async () => {
-    const id = 'any_id'
+    const userId = 'any_id'
     const { sut, loadAccountByIdOrEmailStub } = makeSut()
     const loadByIdOrEmail = jest.spyOn(loadAccountByIdOrEmailStub, 'loadByIdOrEmail')
     await sut.handle({
       params: {
-        id
+        userId
       }
     })
-    expect(loadByIdOrEmail).toHaveBeenCalledWith(id)
+    expect(loadByIdOrEmail).toHaveBeenCalledWith(userId)
   })
 
   test('should return 500 if loadByIdOrEmail throws', async () => {
@@ -36,7 +36,7 @@ describe('LoadAccountByIdController', () => {
     jest.spyOn(loadAccountByIdOrEmailStub, 'loadByIdOrEmail').mockRejectedValueOnce(error)
     const response = await sut.handle({
       params: {
-        id: 'any_id'
+        userId: 'any_id'
       }
     })
     expect(response).toEqual({
@@ -51,7 +51,7 @@ describe('LoadAccountByIdController', () => {
     jest.spyOn(loadAccountByIdOrEmailStub, 'loadByIdOrEmail').mockRejectedValueOnce(error)
     const response = await sut.handle({
       params: {
-        id: 'other_id'
+        userId: 'other_id'
       }
     })
     expect(response).toEqual({
@@ -64,7 +64,7 @@ describe('LoadAccountByIdController', () => {
     const { sut } = makeSut()
     const response = await sut.handle({
       params: {
-        id: 'any_id'
+        userId: 'any_id'
       }
     })
     expect(response).toEqual({

@@ -8,8 +8,8 @@ export class LoadAccountByIdController implements Controller {
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
-      const { id } = httpRequest.params
-      const account = await this.loadAccountByIdOrEmail.loadByIdOrEmail(id)
+      const { userId } = httpRequest.params
+      const account = await this.loadAccountByIdOrEmail.loadByIdOrEmail(userId)
 
       return {
         statusCode: 200,
