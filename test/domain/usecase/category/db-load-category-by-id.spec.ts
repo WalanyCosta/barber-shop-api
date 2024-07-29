@@ -17,7 +17,7 @@ const makeSut = (): SutTypes => {
   }
 }
 
-describe('DbLoadCategories', () => {
+describe('DbLoadCategoryById', () => {
   test('should call LoadCategoryByIdRepository with correct id', async () => {
     const id = 'any_id'
     const { sut, loadCategoryByIdRepositoryStub } = makeSut()
@@ -27,10 +27,16 @@ describe('DbLoadCategories', () => {
   })
 
   test('should throw if LoadCategoryByIdRepository throws NotExistsRegister', async () => {
-    const id = 'any_id'
     const { sut, loadCategoryByIdRepositoryStub } = makeSut()
     jest.spyOn(loadCategoryByIdRepositoryStub, 'loadById').mockResolvedValueOnce(null)
-    const response = sut.loadById(id)
+    const response = sut.loadById('any_id')
+    await expect(response).rejects.toThrow()
+  })
+
+  test('should throw if LoadCategoryByIdRepository throws', async () => {
+    const { sut, loadCategoryByIdRepositoryStub } = makeSut()
+    jest.spyOn(loadCategoryByIdRepositoryStub, 'loadById').mockRejectedValueOnce(new Error())
+    const response = sut.loadById('any_id')
     await expect(response).rejects.toThrow()
   })
 })
