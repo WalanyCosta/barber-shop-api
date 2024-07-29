@@ -29,7 +29,7 @@ export const makeLoadCategoriesStub = (): LoadCategories => {
 
 export const makeLoadCategoryByIdStub = (): LoadCategoryById => {
   class LoadCategoryByIdStub implements LoadCategoryById {
-    async loadById (id: string): Promise<CategoryModel> {
+    async loadById (id: string): Promise<CategoryModel | null> {
       return await Promise.resolve(mockCategoryModel)
     }
   }
