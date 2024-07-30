@@ -25,4 +25,12 @@ describe('DbLoadBarberById', () => {
     await sut.loadById(id)
     expect(loadByIdSpy).toHaveBeenCalledWith(id)
   })
+
+  test('should throw if LoadBarberByIdRepository returns null', async () => {
+    const id = 'any_id'
+    const { sut, loadBarberByIdRepositoryStub } = makeSut()
+    jest.spyOn(loadBarberByIdRepositoryStub, 'loadById').mockResolvedValueOnce(null)
+    const response = sut.loadById(id)
+    expect(response).rejects.toThrow()
+  })
 })
