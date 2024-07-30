@@ -55,7 +55,7 @@ model notification {
 }
 
 model barber {
-    id              String     @id @default(uuid())
+    id              String @id @default(uuid())
     name            String
     birthday        String
     email           String
@@ -64,7 +64,9 @@ model barber {
     experience_year Int
     start           Int
     status          String
-    schedule        schedule[]
+    image_url       String
+
+    schedule schedule[]
 }
 
 model schedule {
