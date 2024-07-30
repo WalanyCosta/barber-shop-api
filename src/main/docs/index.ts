@@ -1,6 +1,7 @@
-import { loginPath, serviceByIdPath, servicesPath, signupPath, serviceSearchPath } from './paths'
-import { accountSchema, apiKeyAuthSchema, signupParamsSchema, errorSchema, loginParamsSchema, serviceSchema } from './schemes'
-import { unauthorized, serverError, badRequest, notFound, forbidden } from './components'
+import paths from './all-paths'
+import schemas from './all-schemes'
+import components from './all-components'
+import { apiKeyAuthSchema } from './schemes'
 
 export default {
   openapi: '3.0.0',
@@ -20,28 +21,12 @@ export default {
     { name: 'Login' },
     { name: 'Serviço' }
   ],
-  paths: {
-    '/login': loginPath,
-    '/services': servicesPath,
-    '/signup': signupPath,
-    '/service/{id}': serviceByIdPath,
-    '/services/search}': serviceSearchPath
-  },
-  schemas: {
-    account: accountSchema,
-    loginParams: loginParamsSchema,
-    error: errorSchema,
-    service: serviceSchema,
-    signupParams: signupParamsSchema
-  },
+  paths,
+  schemas,
   components: {
     securitySchemes: {
       apiKeyAuth: apiKeyAuthSchema
     },
-    badRequest,
-    serverError,
-    unauthorized,
-    notFound,
-    forbidden
+    ...components
   }
 }
