@@ -5,12 +5,14 @@ import {
   servicesPath,
   serviceSearchPath,
   categoriesByIdPath,
-  categoriesPath
+  categoriesPath,
+  accountByIdPath
 } from './paths'
 
 export default {
   '/login': loginPath,
   '/services': servicesPath,
+  '/account': accountByIdPath,
   '/signup': signupPath,
   '/services/{id}': serviceByIdPath,
   '/services/search}': serviceSearchPath,
