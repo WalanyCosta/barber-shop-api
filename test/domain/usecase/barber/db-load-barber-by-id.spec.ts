@@ -33,4 +33,12 @@ describe('DbLoadBarberById', () => {
     const response = sut.loadById(id)
     expect(response).rejects.toThrow()
   })
+
+  test('should throw if LoadBarberByIdRepository throws', async () => {
+    const id = 'any_id'
+    const { sut, loadBarberByIdRepositoryStub } = makeSut()
+    jest.spyOn(loadBarberByIdRepositoryStub, 'loadById').mockRejectedValueOnce(new Error())
+    const response = sut.loadById(id)
+    expect(response).rejects.toThrow()
+  })
 })
