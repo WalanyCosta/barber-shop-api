@@ -4,7 +4,8 @@ import {
   serviceByIdPath,
   servicesPath,
   serviceSearchPath,
-  categoriesByIdPath
+  categoriesByIdPath,
+  categoriesPath
 } from './paths'
 
 export default {
@@ -13,5 +14,6 @@ export default {
   '/signup': signupPath,
   '/services/{id}': serviceByIdPath,
   '/services/search}': serviceSearchPath,
+  '/categories': categoriesPath,
   '/categories/{id}': categoriesByIdPath
 }
