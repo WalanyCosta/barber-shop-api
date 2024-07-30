@@ -15,7 +15,8 @@
 > Esse projeto surgiu devido em consequência de um app mobile que eu queria desenvolver que com react-native (barber-shop) que tem como objetivo ajudar o cliente da barbearia que quisessem marcar um dia e hora na semana, no primordios das implementação já sentia que necessitava de um backend ou API para as regras de negocios, visto que o firebase só fornece o serviço de armazenamento e eu não queria a minha regra de negocios estivesse no meu app por causa caso quisesse implementar o projeto futuramente na web não me desse tanto trabalho então vee que a API seria a melhor opção. Mas também pelo gostinho de desenvolver o backend que é a parte de desenvolvimento que mais se encaixa comigo mesmo não tanto amando ela.
 
 ### Links
--   [Documentação da api](http://localhost:5555/api-docs)._Nota:lembrando que o servidor deve estar rodando_
+-   [Documentação da api](http://localhost:5555/api-docs).
+_Nota:lembrando que o servidor deve estar rodando_
 -   [Notion](#)
 -   [API-HOSPEDADA](#)
 
@@ -64,7 +65,7 @@
     npm install
 
  # Rodar aplicativo
-    npm start
+    npm start:dev
 
  # Depois scanner o QRcode ou uri para ver o projeto a funcionar
 ```
@@ -83,6 +84,19 @@
 
  # Esse comando permite rodar todos teste e mostra o coverage no final
     npm run test:ci
+
+```
+
+## Para poder ver a documentação
+
+> Para rodar os testes basta seguir os passos descritos em baixo:
+
+```bash
+
+ # Esse comando permite rodar todos os testes tanto de integração como de unidade
+    npm run start:dev
+ # copia o link: 
+ http://localhost:5555/api-docs
 
 ```
 
