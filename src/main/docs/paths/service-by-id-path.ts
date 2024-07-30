@@ -1,4 +1,4 @@
-export const servicePath = {
+export const serviceByIdPath = {
   get: {
     security: [{
       apiKeyAuth: []
