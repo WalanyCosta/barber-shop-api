@@ -5,7 +5,8 @@ export const cleanData = async (): Promise<void> => {
     [
       prisma.account.deleteMany(),
       prisma.service.deleteMany(),
-      prisma.category.deleteMany()
+      prisma.category.deleteMany(),
+      prisma.barber.deleteMany()
     ]
   )
 }
