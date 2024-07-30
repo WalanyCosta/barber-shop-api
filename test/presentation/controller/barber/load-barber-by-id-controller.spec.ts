@@ -1,6 +1,6 @@
 import { type LoadBarberById } from '@/domain/protocols/presentation/barber'
 import { LoadBarberByIdController } from '@/presentation/controller'
-import { makeLoadBarberByIdStub } from '../../mocks/mock-barber'
+import { makeLoadBarberByIdStub, mockBarberModel } from '../../mocks/mock-barber'
 import { NotExistsRegister } from '@/presentation/errors'
 
 interface SutTypes {
@@ -57,6 +57,19 @@ describe('LoadBarberByIdController', () => {
     expect(response).toEqual({
       statusCode: 500,
       body: error
+    })
+  })
+
+  test('should return 200 on success', async () => {
+    const { sut } = makeSut()
+    const response = await sut.handle({
+      params: {
+        id: 'any_id'
+      }
+    })
+    expect(response).toEqual({
+      statusCode: 200,
+      body: mockBarberModel
     })
   })
 })
