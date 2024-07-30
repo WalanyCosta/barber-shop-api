@@ -44,4 +44,19 @@ describe('LoadBarberByIdController', () => {
       body: error
     })
   })
+
+  test('should return 500 if LoadBarberById throws', async () => {
+    const error = new Error()
+    const { sut, loadBarberByIdStub } = makeSut()
+    jest.spyOn(loadBarberByIdStub, 'loadById').mockRejectedValueOnce(error)
+    const response = await sut.handle({
+      params: {
+        id: 'any_id'
+      }
+    })
+    expect(response).toEqual({
+      statusCode: 500,
+      body: error
+    })
+  })
 })
