@@ -19,7 +19,8 @@ export default {
   ],
   tags: [
     { name: 'Login' },
-    { name: 'Serviço' }
+    { name: 'Serviço' },
+    { name: 'Categoria' }
   ],
   paths,
   schemas,

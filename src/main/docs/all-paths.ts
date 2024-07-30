@@ -1,9 +1,17 @@
-import { loginPath, signupPath, serviceByIdPath, servicesPath, serviceSearchPath } from './paths'
+import {
+  loginPath,
+  signupPath,
+  serviceByIdPath,
+  servicesPath,
+  serviceSearchPath,
+  categoriesByIdPath
+} from './paths'
 
 export default {
   '/login': loginPath,
   '/services': servicesPath,
   '/signup': signupPath,
-  '/service/{id}': serviceByIdPath,
-  '/services/search}': serviceSearchPath
+  '/services/{id}': serviceByIdPath,
+  '/services/search}': serviceSearchPath,
+  '/categories/{id}': categoriesByIdPath
 }
