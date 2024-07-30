@@ -10,6 +10,6 @@ export class DbLoadBarberById implements LoadBarberById {
     if (!barber) {
       throw new NotExistsRegister('No exists register with id')
     }
-    return null
+    return barber
   }
 }
