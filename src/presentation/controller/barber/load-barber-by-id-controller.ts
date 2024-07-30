@@ -1,4 +1,5 @@
 import { type LoadBarberById } from '@/domain/protocols/presentation/barber'
+import { NotExistsRegister } from '@/presentation/errors'
 import { type Controller } from '@/presentation/protocols/controller'
 import { type HttpRequest, type HttpResponse } from '@/presentation/protocols/http'
 
@@ -14,8 +15,14 @@ export class LoadBarberByIdController implements Controller {
         body: null
       })
     } catch (error) {
+      if (error instanceof NotExistsRegister) {
+        return {
+          statusCode: 400,
+          body: error
+        }
+      }
       return {
-        statusCode: 400,
+        statusCode: 500,
         body: error
       }
     }
