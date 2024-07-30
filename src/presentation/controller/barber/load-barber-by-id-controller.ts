@@ -9,11 +9,11 @@ export class LoadBarberByIdController implements Controller {
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       const { id } = httpRequest.params
-      await this.loadBarberById.loadById(id)
-      return await Promise.resolve({
-        statusCode: 400,
-        body: null
-      })
+      const barber = await this.loadBarberById.loadById(id)
+      return {
+        statusCode: 200,
+        body: barber
+      }
     } catch (error) {
       if (error instanceof NotExistsRegister) {
         return {
