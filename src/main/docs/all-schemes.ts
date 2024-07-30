@@ -4,7 +4,8 @@ import {
   loginParamsSchema,
   serviceSchema,
   signupParamsSchema,
-  categorySchema
+  categorySchema,
+  barberSchema
 } from './schemes'
 
 export default {
@@ -13,5 +14,6 @@ export default {
   error: errorSchema,
   service: serviceSchema,
   signupParams: signupParamsSchema,
-  category: categorySchema
+  category: categorySchema,
+  barber: barberSchema
 }

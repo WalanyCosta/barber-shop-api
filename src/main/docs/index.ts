@@ -20,7 +20,8 @@ export default {
   tags: [
     { name: 'Login' },
     { name: 'Serviço' },
-    { name: 'Categoria' }
+    { name: 'Categoria' },
+    { name: 'Barbeiro' }
   ],
   paths,
   schemas,

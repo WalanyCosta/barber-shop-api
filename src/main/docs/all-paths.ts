@@ -8,6 +8,7 @@ import {
   categoriesPath,
   accountByIdPath
 } from './paths'
+import { barberByIdPath } from './paths/barber'
 
 export default {
   '/login': loginPath,
@@ -17,5 +18,6 @@ export default {
   '/services/{id}': serviceByIdPath,
   '/services/search}': serviceSearchPath,
   '/categories': categoriesPath,
-  '/categories/{id}': categoriesByIdPath
+  '/categories/{id}': categoriesByIdPath,
+  '/barber/{id}': barberByIdPath
 }
