@@ -1,6 +1,7 @@
 import { LoadCategoriesController } from '@/presentation/controller'
 import { type LoadCategories } from '@/domain/protocols/presentation'
-import { makeLoadCategoriesStub, mockArrayCategoryModel } from '../../mocks/mock-category'
+import { makeLoadCategoriesStub } from '../../mocks/mock-category'
+import { mockArrayCategoryModel } from '../../../helper/mock-category-model'
 
 interface SutTypes {
   sut: LoadCategoriesController
@@ -13,7 +14,7 @@ const makeSut = (): SutTypes => {
 
   return {
     sut,
-    loadCategoriesStub
+    loadCategoriesStub,
   }
 }
 
@@ -32,7 +33,7 @@ describe('LoadCategoriesController', () => {
     const response = await sut.handle({})
     expect(response).toEqual({
       statusCode: 500,
-      body: error
+      body: error,
     })
   })
 
@@ -41,7 +42,7 @@ describe('LoadCategoriesController', () => {
     const response = await sut.handle({})
     expect(response).toEqual({
       statusCode: 200,
-      body: mockArrayCategoryModel
+      body: mockArrayCategoryModel,
     })
   })
 })

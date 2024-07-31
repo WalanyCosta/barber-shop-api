@@ -1,7 +1,7 @@
 import { DbLoadServices } from '@/domain/usecase/service'
 import { type LoadServicesRepository } from '@/domain/protocols/infra/db'
-import { type ServiceModel } from '@/domain/model/service-model'
-import { mockArrayServiceModel } from '../../mock/mock-service'
+import { mockArrayServiceModel } from '../../../helper/mock-service-model'
+import { makeLoadServicesRepository } from '../../mock/mock-service'
 
 interface SutTypes {
   sut: DbLoadServices
@@ -14,18 +14,8 @@ const makeSut = (): SutTypes => {
 
   return {
     sut,
-    loadServicesRepositoryStub
+    loadServicesRepositoryStub,
   }
-}
-
-const makeLoadServicesRepository = (): LoadServicesRepository => {
-  class LoadServicesRepositoryStub implements LoadServicesRepository {
-    async load (): Promise<ServiceModel[]> {
-      return await Promise.resolve(mockArrayServiceModel)
-    }
-  }
-
-  return new LoadServicesRepositoryStub()
 }
 
 describe('DbLoadServices', () => {

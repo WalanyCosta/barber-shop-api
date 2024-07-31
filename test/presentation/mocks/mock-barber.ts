@@ -11,12 +11,12 @@ export const mockBarberModel: BarberModel = {
   experience_year: 3,
   start: 5,
   status: 'any_status',
-  image_url: 'any_image_url'
+  image_url: 'any_image_url',
 }
 
 export const makeLoadBarberByIdStub = (): LoadBarberById => {
   class LoadBarberByIdStub implements LoadBarberById {
-    async loadById (id: string): Promise<BarberModel | null> {
+    async loadById(id: string): Promise<BarberModel | null> {
       return await Promise.resolve(mockBarberModel)
     }
   }

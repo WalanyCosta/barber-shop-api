@@ -4,12 +4,13 @@ import {
   type AddAccountParam,
   type Authentication,
   type AuthenticationParam,
-  type LoadAccountByIdOrEmail
+  type LoadAccountByIdOrEmail,
 } from '@/domain/protocols/presentation'
+import { mockAccountModel } from '../../helper/mock-account-model'
 
 export const makeAuthentication = (): Authentication => {
   class AuthenticationStub implements Authentication {
-    async auth (param: AuthenticationParam): Promise<string> {
+    async auth(param: AuthenticationParam): Promise<string> {
       return 'any_token'
     }
   }
@@ -19,7 +20,7 @@ export const makeAuthentication = (): Authentication => {
 
 export const makeAddAccountRepositoryStub = (): AddAccount => {
   class AddAccountRepositoryStub implements AddAccount {
-    async add (addAccountParam: AddAccountParam): Promise<string | null> {
+    async add(addAccountParam: AddAccountParam): Promise<string | null> {
       return await Promise.resolve('any_token')
     }
   }
@@ -29,15 +30,8 @@ export const makeAddAccountRepositoryStub = (): AddAccount => {
 
 export const makeLoadAccountByIdOrEmailStub = (): LoadAccountByIdOrEmail => {
   class LoadAccountByIdOrEmailStub implements LoadAccountByIdOrEmail {
-    async loadByIdOrEmail (idOrEmail: string): Promise<AccountModel | null> {
-      return await Promise.resolve({
-        id: 'any_id',
-        name: 'any_name',
-        email: 'any_email',
-        password: 'hashed',
-        phone: 'any_phone',
-        accessToken: 'any_value'
-      })
+    async loadByIdOrEmail(idOrEmail: string): Promise<AccountModel | null> {
+      return await Promise.resolve(mockAccountModel)
     }
   }
   return new LoadAccountByIdOrEmailStub()

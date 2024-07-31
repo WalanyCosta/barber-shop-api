@@ -1,6 +1,7 @@
 import { type LoadServiceById } from '@/domain/protocols/presentation/service/load-service-by-id'
-import { fakeResponseService, makeLoadServiceByIdStub } from '../../mocks'
+import { makeLoadServiceByIdStub } from '../../mocks'
 import { LoadServiceByIdController } from '@/presentation/controller'
+import { mockServiceModel } from '../../../helper/mock-service-model'
 
 interface SutType {
   sut: LoadServiceByIdController
@@ -13,7 +14,7 @@ const makeSut = (): SutType => {
 
   return {
     sut,
-    loadServiceByIdStub
+    loadServiceByIdStub,
   }
 }
 
@@ -24,8 +25,8 @@ describe('LoadServiceByIdController', () => {
     const loadByIdSpy = jest.spyOn(loadServiceByIdStub, 'loadById')
     await sut.handle({
       params: {
-        id: serviceId
-      }
+        id: serviceId,
+      },
     })
     expect(loadByIdSpy).toHaveBeenCalledWith(serviceId)
   })
@@ -33,17 +34,19 @@ describe('LoadServiceByIdController', () => {
   test('should return 400 if loadById returns null', async () => {
     const serviceId = 'old_id'
     const { sut, loadServiceByIdStub } = makeSut()
-    jest.spyOn(loadServiceByIdStub, 'loadById').mockReturnValueOnce(Promise.resolve(null))
+    jest
+      .spyOn(loadServiceByIdStub, 'loadById')
+      .mockReturnValueOnce(Promise.resolve(null))
     const response = await sut.handle({
       params: {
-        id: serviceId
-      }
+        id: serviceId,
+      },
     })
     expect(response).toEqual({
       statusCode: 400,
       body: {
-        error: 'Serviço não encontrado!'
-      }
+        error: 'Serviço não encontrado!',
+      },
     })
   })
 
@@ -51,17 +54,19 @@ describe('LoadServiceByIdController', () => {
     const serviceId = 'any_id'
     const error = new Error()
     const { sut, loadServiceByIdStub } = makeSut()
-    jest.spyOn(loadServiceByIdStub, 'loadById').mockRejectedValueOnce(new Error())
+    jest
+      .spyOn(loadServiceByIdStub, 'loadById')
+      .mockRejectedValueOnce(new Error())
     const response = await sut.handle({
       params: {
-        id: serviceId
-      }
+        id: serviceId,
+      },
     })
     expect(response).toEqual({
       statusCode: 500,
       body: {
-        error
-      }
+        error,
+      },
     })
   })
 
@@ -70,12 +75,12 @@ describe('LoadServiceByIdController', () => {
     const { sut } = makeSut()
     const response = await sut.handle({
       params: {
-        id: serviceId
-      }
+        id: serviceId,
+      },
     })
     expect(response).toEqual({
       statusCode: 200,
-      body: fakeResponseService
+      body: mockServiceModel,
     })
   })
 })

@@ -1,18 +1,20 @@
 import {
   type UpdateAccessTokenGenerator,
   type LoadAccountByIdOrEmailRepository,
-  type AddAccountRepository
+  type AddAccountRepository,
 } from '@/domain/protocols/infra/db'
 import { type Encrypter, type Hasher } from '@/domain/protocols/infra/crypto'
 import { DbAddAccount } from '@/domain/usecase/account/db-add-account'
 import {
-  mockAddAccountParams,
-  mockAccountModel,
   makeAddAccountRepositoryStub,
   makeEncrypterStub,
   makeUpdateAccessTokenGeneratorStub,
-  makeLoadAccountByIdOrEmailRepositoryStub
+  makeLoadAccountByIdOrEmailRepositoryStub,
 } from '../../mock/mock-account'
+import {
+  mockAccountModel,
+  mockAddAccountParams,
+} from '../../../helper/mock-account-model'
 
 interface SutTypes {
   sut: DbAddAccount
@@ -28,13 +30,14 @@ const makeSut = (): SutTypes => {
   const encrypterStub = makeEncrypterStub()
   const addAccountRepositoryStub = makeAddAccountRepositoryStub()
   const updateAccessTokenGeneratorStub = makeUpdateAccessTokenGeneratorStub()
-  const loadAccountByIdOrEmailRepositoryStub = makeLoadAccountByIdOrEmailRepositoryStub()
+  const loadAccountByIdOrEmailRepositoryStub =
+    makeLoadAccountByIdOrEmailRepositoryStub()
   const sut = new DbAddAccount(
     loadAccountByIdOrEmailRepositoryStub,
     hasherStub,
     addAccountRepositoryStub,
     encrypterStub,
-    updateAccessTokenGeneratorStub
+    updateAccessTokenGeneratorStub,
   )
 
   return {
@@ -43,13 +46,13 @@ const makeSut = (): SutTypes => {
     hasherStub,
     addAccountRepositoryStub,
     encrypterStub,
-    updateAccessTokenGeneratorStub
+    updateAccessTokenGeneratorStub,
   }
 }
 
 export const makeHasherStub = (): Hasher => {
   class HasherStub implements Hasher {
-    async hash (value: string): Promise<string> {
+    async hash(value: string): Promise<string> {
       return await Promise.resolve('any_hash')
     }
   }
@@ -67,7 +70,9 @@ describe('DbAddAccount', () => {
 
   test('should return null if loadAccountByIdOrEmailRepository returns account', async () => {
     const { sut, loadAccountByIdOrEmailRepositoryStub } = makeSut()
-    jest.spyOn(loadAccountByIdOrEmailRepositoryStub, 'load').mockResolvedValueOnce(mockAccountModel)
+    jest
+      .spyOn(loadAccountByIdOrEmailRepositoryStub, 'load')
+      .mockResolvedValueOnce(mockAccountModel)
     const response = await sut.add(mockAddAccountParams)
     expect(response).toBeNull()
   })
@@ -75,7 +80,9 @@ describe('DbAddAccount', () => {
   test('should return throw if loadAccountByIdOrEmailRepository throws', async () => {
     const { sut, loadAccountByIdOrEmailRepositoryStub } = makeSut()
     const error = new Error()
-    jest.spyOn(loadAccountByIdOrEmailRepositoryStub, 'load').mockRejectedValueOnce(error)
+    jest
+      .spyOn(loadAccountByIdOrEmailRepositoryStub, 'load')
+      .mockRejectedValueOnce(error)
     const response = sut.add(mockAddAccountParams)
     expect(response).rejects.toThrow(error)
   })
@@ -100,13 +107,15 @@ describe('DbAddAccount', () => {
     await sut.add(mockAddAccountParams)
     expect(addSpy).toHaveBeenCalledWith({
       ...mockAddAccountParams,
-      password: 'any_hash'
+      password: 'any_hash',
     })
   })
 
   test('should throw if AddAccountRepository throws', async () => {
     const { sut, addAccountRepositoryStub } = makeSut()
-    jest.spyOn(addAccountRepositoryStub, 'add').mockRejectedValueOnce(new Error())
+    jest
+      .spyOn(addAccountRepositoryStub, 'add')
+      .mockRejectedValueOnce(new Error())
     const error = sut.add(mockAddAccountParams)
     await expect(error).rejects.toThrow(new Error())
   })
@@ -133,14 +142,19 @@ describe('DbAddAccount', () => {
 
   test('should call UpdateAccessTokenGenerator with correct param', async () => {
     const { sut, updateAccessTokenGeneratorStub } = makeSut()
-    const updateAccessTokenSpy = jest.spyOn(updateAccessTokenGeneratorStub, 'updateAccessToken')
+    const updateAccessTokenSpy = jest.spyOn(
+      updateAccessTokenGeneratorStub,
+      'updateAccessToken',
+    )
     await sut.add(mockAddAccountParams)
     expect(updateAccessTokenSpy).toHaveBeenCalledWith('any_id', 'any_token')
   })
 
   test('should throw if UpdateAccessTokenGenerator throws', async () => {
     const { sut, updateAccessTokenGeneratorStub } = makeSut()
-    jest.spyOn(updateAccessTokenGeneratorStub, 'updateAccessToken').mockRejectedValueOnce(new Error())
+    jest
+      .spyOn(updateAccessTokenGeneratorStub, 'updateAccessToken')
+      .mockRejectedValueOnce(new Error())
     const error = sut.add(mockAddAccountParams)
     await expect(error).rejects.toThrow(new Error())
   })

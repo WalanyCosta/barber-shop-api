@@ -1,20 +1,20 @@
 import { cleanData } from '@/infra/db/prisma/helpers/prisma-helper'
 import prisma from '@/infra/db/prisma/helpers/client'
 import { CategoryRepository } from '@/infra/db/prisma/'
+import {
+  mockArrayCategoryModel,
+  mockCategoryModel,
+} from '../../helper/mock-category-model'
 
 const createFakeCategoriesData = async (): Promise<any> => {
   return await prisma.category.createMany({
-    data: [
-      { id: 'any_id', category: 'any_category' },
-      { id: 'other_id', category: 'other_category' }
-    ]
+    data: mockArrayCategoryModel,
   })
 }
 
 const createFakeCategoryData = async (): Promise<any> => {
   return await prisma.category.create({
-    data:
-        { id: 'any_id', category: 'any_category' }
+    data: mockCategoryModel,
   })
 }
 

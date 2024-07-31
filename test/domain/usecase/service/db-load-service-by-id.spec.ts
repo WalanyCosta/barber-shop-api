@@ -1,6 +1,7 @@
 import { type LoadServiceById } from '@/domain/protocols/presentation/service/load-service-by-id'
 import { DbLoadServiceById } from '@/domain/usecase/service/db-load-service-by-id'
-import { makeLoadServiceByIdRepositoryStub, mockServiceModel } from '../../mock/mock-service'
+import { makeLoadServiceByIdRepositoryStub } from '../../mock/mock-service'
+import { mockServiceModel } from '../../../helper/mock-service-model'
 
 interface SutTypes {
   sut: DbLoadServiceById
@@ -13,7 +14,7 @@ const makeSut = (): SutTypes => {
 
   return {
     sut,
-    loadServiceByIdRepositoryStub
+    loadServiceByIdRepositoryStub,
   }
 }
 
@@ -28,14 +29,18 @@ describe('DbLoadServiceById', () => {
 
   test('should return null if loadById return empty', async () => {
     const { sut, loadServiceByIdRepositoryStub } = makeSut()
-    jest.spyOn(loadServiceByIdRepositoryStub, 'loadById').mockReturnValueOnce(Promise.resolve(null))
+    jest
+      .spyOn(loadServiceByIdRepositoryStub, 'loadById')
+      .mockReturnValueOnce(Promise.resolve(null))
     const response = await sut.loadById('any_id')
     expect(response).toBe(null)
   })
 
   test('should throw if loadById throws', async () => {
     const { sut, loadServiceByIdRepositoryStub } = makeSut()
-    jest.spyOn(loadServiceByIdRepositoryStub, 'loadById').mockRejectedValueOnce(new Error())
+    jest
+      .spyOn(loadServiceByIdRepositoryStub, 'loadById')
+      .mockRejectedValueOnce(new Error())
     const error = sut.loadById('any_id')
     expect(error).rejects.toThrow()
   })

@@ -1,6 +1,7 @@
 import { DbLoadCategoryById } from '@/domain/usecase'
-import { makeLoadCategoryByIdRepositoryStub, mockCategoryModel } from '../../mock/mock-category'
+import { makeLoadCategoryByIdRepositoryStub } from '../../mock/mock-category'
 import { type LoadCategoryByIdRepository } from '@/domain/protocols/infra/db/category/load-category-by-id-repository'
+import { mockCategoryModel } from '../../../helper/mock-category-model'
 
 interface SutTypes {
   sut: DbLoadCategoryById
@@ -13,7 +14,7 @@ const makeSut = (): SutTypes => {
 
   return {
     sut,
-    loadCategoryByIdRepositoryStub
+    loadCategoryByIdRepositoryStub,
   }
 }
 
@@ -28,14 +29,18 @@ describe('DbLoadCategoryById', () => {
 
   test('should throw if LoadCategoryByIdRepository throws NotExistsRegister', async () => {
     const { sut, loadCategoryByIdRepositoryStub } = makeSut()
-    jest.spyOn(loadCategoryByIdRepositoryStub, 'loadById').mockResolvedValueOnce(null)
+    jest
+      .spyOn(loadCategoryByIdRepositoryStub, 'loadById')
+      .mockResolvedValueOnce(null)
     const response = sut.loadById('any_id')
     await expect(response).rejects.toThrow()
   })
 
   test('should throw if LoadCategoryByIdRepository throws', async () => {
     const { sut, loadCategoryByIdRepositoryStub } = makeSut()
-    jest.spyOn(loadCategoryByIdRepositoryStub, 'loadById').mockRejectedValueOnce(new Error())
+    jest
+      .spyOn(loadCategoryByIdRepositoryStub, 'loadById')
+      .mockRejectedValueOnce(new Error())
     const response = sut.loadById('any_id')
     await expect(response).rejects.toThrow()
   })

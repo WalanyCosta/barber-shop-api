@@ -3,7 +3,7 @@ import { makeSearchServicesStub, makeValidatorStub } from '../../mocks'
 import { SearchServicesController } from '@/presentation/controller'
 import { type Validator } from '@/presentation/protocols/validator'
 import { type SearchServices } from '@/domain/protocols/presentation/service/search-service'
-import { mockArrayServiceModel } from '../../../domain/mock/mock-service'
+import { mockArrayServiceModel } from '../../../helper/mock-service-model'
 
 interface SutTypes {
   sut: SearchServicesController
@@ -19,7 +19,7 @@ const makeSut = (): SutTypes => {
   return {
     sut,
     searchServiceStub,
-    validatorStub
+    validatorStub,
   }
 }
 
@@ -30,24 +30,26 @@ describe('SearchServicesController', () => {
     await sut.handle({
       query: {
         typeQuery: 'service',
-        query: 'any_query'
-      }
+        query: 'any_query',
+      },
     })
     expect(filterSpy).toHaveBeenCalledWith('service', 'any_query')
   })
 
   test('should return 200 if filter returns empty array', async () => {
     const { sut, searchServiceStub } = makeSut()
-    jest.spyOn(searchServiceStub, 'filter').mockReturnValueOnce(Promise.resolve([]))
+    jest
+      .spyOn(searchServiceStub, 'filter')
+      .mockReturnValueOnce(Promise.resolve([]))
     const response = await sut.handle({
       query: {
         typeQuery: 'service',
-        query: 'any_query'
-      }
+        query: 'any_query',
+      },
     })
     expect(response).toEqual({
       statusCode: 200,
-      body: []
+      body: [],
     })
   })
 
@@ -58,12 +60,12 @@ describe('SearchServicesController', () => {
     const response = await sut.handle({
       query: {
         typeQuery: 'service',
-        query: 'any_query'
-      }
+        query: 'any_query',
+      },
     })
     expect(response).toEqual({
       statusCode: 500,
-      body: error
+      body: error,
     })
   })
 
@@ -73,12 +75,12 @@ describe('SearchServicesController', () => {
     await sut.handle({
       query: {
         typeQuery: 'service',
-        query: 'any_query'
-      }
+        query: 'any_query',
+      },
     })
     expect(validateSpy).toHaveBeenCalledWith({
       typeQuery: 'service',
-      query: 'any_query'
+      query: 'any_query',
     })
   })
 
@@ -89,12 +91,12 @@ describe('SearchServicesController', () => {
     const response = await sut.handle({
       query: {
         typeQuery: 'service',
-        query: ''
-      }
+        query: '',
+      },
     })
     expect(response).toEqual({
       statusCode: 400,
-      body: error
+      body: error,
     })
   })
 
@@ -103,12 +105,12 @@ describe('SearchServicesController', () => {
     const response = await sut.handle({
       query: {
         typeQuery: 'service',
-        query: 'any_query'
-      }
+        query: 'any_query',
+      },
     })
     expect(response).toEqual({
       statusCode: 200,
-      body: mockArrayServiceModel
+      body: mockArrayServiceModel,
     })
   })
 })

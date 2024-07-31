@@ -1,7 +1,8 @@
 import { LoadCategoryByIdController } from '@/presentation/controller'
 import { type LoadCategoryById } from '@/domain/protocols/presentation'
-import { makeLoadCategoryByIdStub, mockCategoryModel } from '../../mocks/mock-category'
+import { makeLoadCategoryByIdStub } from '../../mocks/mock-category'
 import { NotExistsRegister } from '@/presentation/errors'
+import { mockCategoryModel } from '../../../helper/mock-category-model'
 
 interface SutTypes {
   sut: LoadCategoryByIdController
@@ -14,7 +15,7 @@ const makeSut = (): SutTypes => {
 
   return {
     sut,
-    loadCategoryByIdStub
+    loadCategoryByIdStub,
   }
 }
 
@@ -24,8 +25,8 @@ describe('LoadCategoriesController', () => {
     const loadByIdSpy = jest.spyOn(loadCategoryByIdStub, 'loadById')
     await sut.handle({
       params: {
-        id: 'any_id'
-      }
+        id: 'any_id',
+      },
     })
     expect(loadByIdSpy).toHaveBeenCalled()
   })
@@ -36,12 +37,12 @@ describe('LoadCategoriesController', () => {
     jest.spyOn(loadCategoryByIdStub, 'loadById').mockRejectedValueOnce(error)
     const response = await sut.handle({
       params: {
-        id: 'any_id'
-      }
+        id: 'any_id',
+      },
     })
     expect(response).toEqual({
       statusCode: 400,
-      body: error
+      body: error,
     })
   })
 
@@ -51,12 +52,12 @@ describe('LoadCategoriesController', () => {
     jest.spyOn(loadCategoryByIdStub, 'loadById').mockRejectedValueOnce(error)
     const response = await sut.handle({
       params: {
-        id: 'any_id'
-      }
+        id: 'any_id',
+      },
     })
     expect(response).toEqual({
       statusCode: 500,
-      body: error
+      body: error,
     })
   })
 
@@ -64,12 +65,12 @@ describe('LoadCategoriesController', () => {
     const { sut } = makeSut()
     const response = await sut.handle({
       params: {
-        id: 'any_id'
-      }
+        id: 'any_id',
+      },
     })
     expect(response).toEqual({
       statusCode: 200,
-      body: mockCategoryModel
+      body: mockCategoryModel,
     })
   })
 })
