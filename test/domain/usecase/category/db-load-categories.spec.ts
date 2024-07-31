@@ -1,6 +1,7 @@
 import { type LoadCategoriesRepository } from '@/domain/protocols/infra/db'
 import { DbLoadCategories } from '@/domain/usecase/category'
-import { makeLoadCategoriesRepository, mockArrayCategoryModel } from '../../mock/mock-category'
+import { mockArrayCategoryModel } from '../../../helper/mock-category-model'
+import { makeLoadCategoriesRepository } from '../../mock/mock-category'
 
 interface SutTypes {
   sut: DbLoadCategories
@@ -13,7 +14,7 @@ const makeSut = (): SutTypes => {
 
   return {
     sut,
-    loadCategoriesRepositoryStub
+    loadCategoriesRepositoryStub,
   }
 }
 
@@ -28,7 +29,9 @@ describe('DbLoadCategories', () => {
   test('should throw if LoadServicesRepository throws', async () => {
     const error = new Error()
     const { sut, loadCategoriesRepositoryStub } = makeSut()
-    jest.spyOn(loadCategoriesRepositoryStub, 'load').mockRejectedValueOnce(error)
+    jest
+      .spyOn(loadCategoriesRepositoryStub, 'load')
+      .mockRejectedValueOnce(error)
     const response = sut.load()
     await expect(response).rejects.toThrow()
   })

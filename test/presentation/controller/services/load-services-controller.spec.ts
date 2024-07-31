@@ -1,7 +1,7 @@
 import { LoadServicesController } from '@/presentation/controller'
 import { type LoadServices } from '@/domain/protocols/presentation'
-import { mockArrayServiceModel } from '../../../domain/mock/mock-service'
 import { makeLoadServicesStub } from '../../mocks'
+import { mockArrayServiceModel } from '../../../helper/mock-service-model'
 
 interface SutTypes {
   sut: LoadServicesController
@@ -14,7 +14,7 @@ const makeSut = (): SutTypes => {
 
   return {
     sut,
-    loadServicesStub
+    loadServicesStub,
   }
 }
 
@@ -32,7 +32,7 @@ describe('LoadServicesController', () => {
     const httpResponse = await sut.handle({})
     expect(httpResponse).toEqual({
       statusCode: 204,
-      body: []
+      body: [],
     })
   })
 
@@ -43,7 +43,7 @@ describe('LoadServicesController', () => {
     const httpResponse = await sut.handle({})
     expect(httpResponse).toEqual({
       statusCode: 500,
-      body: error
+      body: error,
     })
   })
 
@@ -54,7 +54,7 @@ describe('LoadServicesController', () => {
     const httpResponse = await sut.handle({})
     expect(httpResponse).toEqual({
       statusCode: 500,
-      body: error
+      body: error,
     })
   })
 
@@ -63,7 +63,7 @@ describe('LoadServicesController', () => {
     const httpResponse = await sut.handle({})
     expect(httpResponse).toEqual({
       statusCode: 200,
-      body: mockArrayServiceModel
+      body: mockArrayServiceModel,
     })
   })
 })

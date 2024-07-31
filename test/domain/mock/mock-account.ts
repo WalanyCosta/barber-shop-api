@@ -1,36 +1,17 @@
 import { type AccountModel } from '@/domain/model/account-model'
 import {
+  type LoadAccountByTokenRepository,
   type AddAccountModel,
   type AddAccountRepository,
   type LoadAccountByIdOrEmailRepository,
-  type UpdateAccessTokenGenerator
+  type UpdateAccessTokenGenerator,
 } from '@/domain/protocols/infra/db'
 import { type Encrypter } from '@/domain/protocols/infra/crypto'
-
-export const mockAccountModel: AccountModel = {
-  id: 'any_id',
-  name: 'any_name',
-  email: 'any_email',
-  password: 'hashed',
-  phone: 'any_phone',
-  accessToken: 'any_value'
-}
-
-export const mockAddAccountParams = {
-  name: 'any_name',
-  email: 'any_email',
-  password: 'any_password',
-  phone: 'any_phone'
-}
-
-export const mockAuthenticationParams = {
-  email: 'any_email',
-  password: 'any_password'
-}
+import { mockAccountModel } from '../../helper/mock-account-model'
 
 export const makeAddAccountRepositoryStub = (): AddAccountRepository => {
   class AddAccountRepositoryStub implements AddAccountRepository {
-    async add (addAccountModel: AddAccountModel): Promise<AccountModel> {
+    async add(addAccountModel: AddAccountModel): Promise<AccountModel> {
       return mockAccountModel
     }
   }
@@ -38,19 +19,24 @@ export const makeAddAccountRepositoryStub = (): AddAccountRepository => {
   return new AddAccountRepositoryStub()
 }
 
-export const makeUpdateAccessTokenGeneratorStub = (): UpdateAccessTokenGenerator => {
-  class UpdateAccessTokenGeneratorStub implements UpdateAccessTokenGenerator {
-    async updateAccessToken (id: string, accessToken: string): Promise<void> {
-      Promise.resolve()
+export const makeUpdateAccessTokenGeneratorStub =
+  (): UpdateAccessTokenGenerator => {
+    class UpdateAccessTokenGeneratorStub implements UpdateAccessTokenGenerator {
+      async updateAccessToken(id: string, accessToken: string): Promise<void> {
+        Promise.resolve()
+      }
     }
+
+    return new UpdateAccessTokenGeneratorStub()
   }
 
-  return new UpdateAccessTokenGeneratorStub()
-}
-
-export const makeLoadAccountByIdOrEmailRepositoryStub = (result: any = null): LoadAccountByIdOrEmailRepository => {
-  class LoadAccountByIdOrEmailRepositoryStub implements LoadAccountByIdOrEmailRepository {
-    async load (email: string): Promise<AccountModel | null> {
+export const makeLoadAccountByIdOrEmailRepositoryStub = (
+  result: any = null,
+): LoadAccountByIdOrEmailRepository => {
+  class LoadAccountByIdOrEmailRepositoryStub
+    implements LoadAccountByIdOrEmailRepository
+  {
+    async load(email: string): Promise<AccountModel | null> {
       return await Promise.resolve(result)
     }
   }
@@ -60,10 +46,22 @@ export const makeLoadAccountByIdOrEmailRepositoryStub = (result: any = null): Lo
 
 export const makeEncrypterStub = (): Encrypter => {
   class EncrypterStub implements Encrypter {
-    async encrypt (value: string): Promise<string> {
+    async encrypt(value: string): Promise<string> {
       return 'any_token'
     }
   }
 
   return new EncrypterStub()
 }
+
+export const makeLoadAccountByTokenRepository =
+  (): LoadAccountByTokenRepository => {
+    class LoadAccountByTokenRepositoryStub
+      implements LoadAccountByTokenRepository
+    {
+      async loadByToken(account: string): Promise<AccountModel> {
+        return await Promise.resolve(mockAccountModel)
+      }
+    }
+    return new LoadAccountByTokenRepositoryStub()
+  }
