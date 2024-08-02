@@ -16,7 +16,7 @@ export const makeLoadBarberByIdStub = (): LoadBarberById => {
 export const makeLoadBarbersStub = (): LoadBarbers => {
   class LoadBarbersStub implements LoadBarbers {
     async load(): Promise<BarberModel[]> {
-      return await Promise.resolve([])
+      return await Promise.resolve([mockBarberModel, mockBarberModel])
     }
   }
 
