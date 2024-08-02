@@ -24,4 +24,15 @@ describe('LoadBarbersController', () => {
     await sut.handle({})
     expect(loadSpy).toHaveBeenCalled()
   })
+
+  test('should return 500 if LoadBarbers throws', async () => {
+    const error = new Error()
+    const { sut, loadBarbersStub } = makeSut()
+    jest.spyOn(loadBarbersStub, 'load').mockRejectedValueOnce(error)
+    const response = await sut.handle({})
+    expect(response).toEqual({
+      statusCode: 500,
+      body: error,
+    })
+  })
 })
