@@ -3,6 +3,7 @@ import { cleanData, disconnect } from '@/infra/db/prisma/helpers/prisma-helper'
 import request from 'supertest'
 import app from '@/main/config/app'
 import prisma from '@/infra/db/prisma/helpers/client'
+import { mockBarberModel } from '../../helpers/mock-barber-model'
 
 const mockAccessToken = async (): Promise<string> => {
   const account = await prisma.account.create({
@@ -11,19 +12,19 @@ const mockAccessToken = async (): Promise<string> => {
       email: 'any_email',
       password: 'any_password',
       phone: 'any_number_phone',
-      accessToken: ''
-    }
+      accessToken: '',
+    },
   })
 
   const token = jwt.sign({ id: account.id }, String(process.env.PRIVATE_KEY))
 
   await prisma.account.update({
     where: {
-      id: account.id
+      id: account.id,
     },
     data: {
-      accessToken: token
-    }
+      accessToken: token,
+    },
   })
 
   return token
@@ -31,18 +32,7 @@ const mockAccessToken = async (): Promise<string> => {
 
 const mockCreateBarber = async (): Promise<any> => {
   return await prisma.barber.create({
-    data: {
-      id: 'any_id',
-      name: 'any_id',
-      birthday: 'any_birthday',
-      email: 'any_email',
-      phone: 'any_phone',
-      experience: 'any_experience',
-      experience_year: 3,
-      start: 5,
-      status: 'any_status',
-      image_url: 'any_image_url'
-    }
+    data: mockBarberModel,
   })
 }
 
@@ -61,6 +51,26 @@ describe('Get /barbers/:id', () => {
     const { id } = await mockCreateBarber()
     await request(app)
       .get(`/api/barbers/${id}`)
+      .set('x-access-token', accessToken)
+      .expect(200)
+  })
+})
+
+describe('Get /barbers', () => {
+  beforeEach(async () => {
+    await cleanData()
+  })
+
+  afterAll(async () => {
+    await cleanData()
+    await disconnect()
+  })
+
+  test('should return 200 on success', async () => {
+    const accessToken = await mockAccessToken()
+    await mockCreateBarber()
+    await request(app)
+      .get(`/api/barbers`)
       .set('x-access-token', accessToken)
       .expect(200)
   })
