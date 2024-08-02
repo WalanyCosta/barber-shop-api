@@ -16,7 +16,7 @@ import {
 import {
   mockAccountModel,
   mockAuthenticationParams,
-} from '../../../helper/mock-account-model'
+} from '../../../helpers/mock-account-model'
 
 interface SutTypes {
   sut: DbAuthentication

@@ -2,7 +2,7 @@ import { LoadCategoryByIdController } from '@/presentation/controller'
 import { type LoadCategoryById } from '@/domain/protocols/presentation'
 import { makeLoadCategoryByIdStub } from '../../mocks/mock-category'
 import { NotExistsRegister } from '@/presentation/errors'
-import { mockCategoryModel } from '../../../helper/mock-category-model'
+import { mockCategoryModel } from '../../../helpers/mock-category-model'
 
 interface SutTypes {
   sut: LoadCategoryByIdController

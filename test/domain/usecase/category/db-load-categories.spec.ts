@@ -1,6 +1,6 @@
 import { type LoadCategoriesRepository } from '@/domain/protocols/infra/db'
 import { DbLoadCategories } from '@/domain/usecase/category'
-import { mockArrayCategoryModel } from '../../../helper/mock-category-model'
+import { mockArrayCategoryModel } from '../../../helpers/mock-category-model'
 import { makeLoadCategoriesRepository } from '../../mock/mock-category'
 
 interface SutTypes {

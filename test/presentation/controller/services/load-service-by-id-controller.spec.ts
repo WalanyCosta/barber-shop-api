@@ -1,7 +1,7 @@
 import { type LoadServiceById } from '@/domain/protocols/presentation/service/load-service-by-id'
 import { makeLoadServiceByIdStub } from '../../mocks'
 import { LoadServiceByIdController } from '@/presentation/controller'
-import { mockServiceModel } from '../../../helper/mock-service-model'
+import { mockServiceModel } from '../../../helpers/mock-service-model'
 
 interface SutType {
   sut: LoadServiceByIdController

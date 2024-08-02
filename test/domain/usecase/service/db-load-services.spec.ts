@@ -1,6 +1,6 @@
 import { DbLoadServices } from '@/domain/usecase/service'
 import { type LoadServicesRepository } from '@/domain/protocols/infra/db'
-import { mockArrayServiceModel } from '../../../helper/mock-service-model'
+import { mockArrayServiceModel } from '../../../helpers/mock-service-model'
 import { makeLoadServicesRepository } from '../../mock/mock-service'
 
 interface SutTypes {

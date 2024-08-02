@@ -4,7 +4,7 @@ import { CategoryRepository } from '@/infra/db/prisma/'
 import {
   mockArrayCategoryModel,
   mockCategoryModel,
-} from '../../helper/mock-category-model'
+} from '../../helpers/mock-category-model'
 
 const createFakeCategoriesData = async (): Promise<any> => {
   return await prisma.category.createMany({

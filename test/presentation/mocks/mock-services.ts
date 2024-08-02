@@ -7,7 +7,7 @@ import {
 import {
   mockArrayServiceModel,
   mockServiceModel,
-} from '../../helper/mock-service-model'
+} from '../../helpers/mock-service-model'
 
 export const makeLoadServicesStub = (): LoadServices => {
   class LoadServicesStub implements LoadServices {

@@ -6,7 +6,7 @@ import {
   type AuthenticationParam,
   type LoadAccountByIdOrEmail,
 } from '@/domain/protocols/presentation'
-import { mockAccountModel } from '../../helper/mock-account-model'
+import { mockAccountModel } from '../../helpers/mock-account-model'
 
 export const makeAuthentication = (): Authentication => {
   class AuthenticationStub implements Authentication {

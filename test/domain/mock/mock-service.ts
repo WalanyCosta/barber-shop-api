@@ -4,7 +4,7 @@ import { type SearchServicesRepository } from '../protocols/infra/db/services/se
 import {
   mockArrayServiceModel,
   mockServiceModel,
-} from '../../helper/mock-service-model'
+} from '../../helpers/mock-service-model'
 import { type LoadServicesRepository } from '../protocols/infra/db'
 
 export const makeLoadServiceByIdRepositoryStub =

@@ -1,7 +1,7 @@
 import { LoadServicesController } from '@/presentation/controller'
 import { type LoadServices } from '@/domain/protocols/presentation'
 import { makeLoadServicesStub } from '../../mocks'
-import { mockArrayServiceModel } from '../../../helper/mock-service-model'
+import { mockArrayServiceModel } from '../../../helpers/mock-service-model'
 
 interface SutTypes {
   sut: LoadServicesController

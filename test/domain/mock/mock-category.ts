@@ -1,7 +1,7 @@
 import {
   mockArrayCategoryModel,
   mockCategoryModel,
-} from '../../helper/mock-category-model'
+} from '../../helpers/mock-category-model'
 import { type CategoryModel } from '../model/category-model'
 import {
   type LoadCategoriesRepository,

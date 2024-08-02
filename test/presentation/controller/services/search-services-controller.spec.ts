@@ -3,7 +3,7 @@ import { makeSearchServicesStub, makeValidatorStub } from '../../mocks'
 import { SearchServicesController } from '@/presentation/controller'
 import { type Validator } from '@/presentation/protocols/validator'
 import { type SearchServices } from '@/domain/protocols/presentation/service/search-service'
-import { mockArrayServiceModel } from '../../../helper/mock-service-model'
+import { mockArrayServiceModel } from '../../../helpers/mock-service-model'
 
 interface SutTypes {
   sut: SearchServicesController

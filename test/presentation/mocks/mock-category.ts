@@ -6,7 +6,7 @@ import {
 import {
   mockArrayCategoryModel,
   mockCategoryModel,
-} from '../../helper/mock-category-model'
+} from '../../helpers/mock-category-model'
 
 export const makeLoadCategoriesStub = (): LoadCategories => {
   class LoadCategoriesStub implements LoadCategories {

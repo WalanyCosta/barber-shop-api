@@ -14,7 +14,7 @@ import {
 import {
   mockAccountModel,
   mockAddAccountParams,
-} from '../../../helper/mock-account-model'
+} from '../../../helpers/mock-account-model'
 
 interface SutTypes {
   sut: DbAddAccount

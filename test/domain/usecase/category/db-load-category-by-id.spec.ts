@@ -1,7 +1,7 @@
 import { DbLoadCategoryById } from '@/domain/usecase'
 import { makeLoadCategoryByIdRepositoryStub } from '../../mock/mock-category'
 import { type LoadCategoryByIdRepository } from '@/domain/protocols/infra/db/category/load-category-by-id-repository'
-import { mockCategoryModel } from '../../../helper/mock-category-model'
+import { mockCategoryModel } from '../../../helpers/mock-category-model'
 
 interface SutTypes {
   sut: DbLoadCategoryById

@@ -1,7 +1,7 @@
 import { type SearchServicesRepository } from '@/domain/protocols/infra/db'
 import { makeSearchServicesRepositoryStub } from '../../mock/mock-service'
 import { DbSearchServices } from '@/domain/usecase/service/db-search-services'
-import { mockArrayServiceModel } from '../../../helper/mock-service-model'
+import { mockArrayServiceModel } from '../../../helpers/mock-service-model'
 
 interface SutTypes {
   sut: DbSearchServices

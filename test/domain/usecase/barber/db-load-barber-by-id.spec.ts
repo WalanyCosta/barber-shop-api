@@ -1,6 +1,7 @@
 import { type LoadBarberByIdRepository } from '@/domain/protocols/infra/db'
 import { DbLoadBarberById } from '@/domain/usecase'
-import { makeLoadBarberByIdRepositoryStub, mockBarberModel } from '../../mock/mock-barber'
+import { makeLoadBarberByIdRepositoryStub } from '../../mock/mock-barber'
+import { mockBarberModel } from '../../../helpers/mock-barber-model'
 
 interface SutTypes {
   sut: DbLoadBarberById
@@ -13,7 +14,7 @@ const makeSut = (): SutTypes => {
 
   return {
     sut,
-    loadBarberByIdRepositoryStub
+    loadBarberByIdRepositoryStub,
   }
 }
 
@@ -29,7 +30,9 @@ describe('DbLoadBarberById', () => {
   test('should throw if LoadBarberByIdRepository returns null', async () => {
     const id = 'any_id'
     const { sut, loadBarberByIdRepositoryStub } = makeSut()
-    jest.spyOn(loadBarberByIdRepositoryStub, 'loadById').mockResolvedValueOnce(null)
+    jest
+      .spyOn(loadBarberByIdRepositoryStub, 'loadById')
+      .mockResolvedValueOnce(null)
     const response = sut.loadById(id)
     expect(response).rejects.toThrow()
   })
@@ -37,7 +40,9 @@ describe('DbLoadBarberById', () => {
   test('should throw if LoadBarberByIdRepository throws', async () => {
     const id = 'any_id'
     const { sut, loadBarberByIdRepositoryStub } = makeSut()
-    jest.spyOn(loadBarberByIdRepositoryStub, 'loadById').mockRejectedValueOnce(new Error())
+    jest
+      .spyOn(loadBarberByIdRepositoryStub, 'loadById')
+      .mockRejectedValueOnce(new Error())
     const response = sut.loadById(id)
     expect(response).rejects.toThrow()
   })

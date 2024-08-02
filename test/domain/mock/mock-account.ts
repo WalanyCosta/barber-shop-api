@@ -7,7 +7,7 @@ import {
   type UpdateAccessTokenGenerator,
 } from '@/domain/protocols/infra/db'
 import { type Encrypter } from '@/domain/protocols/infra/crypto'
-import { mockAccountModel } from '../../helper/mock-account-model'
+import { mockAccountModel } from '../../helpers/mock-account-model'
 
 export const makeAddAccountRepositoryStub = (): AddAccountRepository => {
   class AddAccountRepositoryStub implements AddAccountRepository {

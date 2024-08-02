@@ -1,7 +1,7 @@
 import { LoadCategoriesController } from '@/presentation/controller'
 import { type LoadCategories } from '@/domain/protocols/presentation'
 import { makeLoadCategoriesStub } from '../../mocks/mock-category'
-import { mockArrayCategoryModel } from '../../../helper/mock-category-model'
+import { mockArrayCategoryModel } from '../../../helpers/mock-category-model'
 
 interface SutTypes {
   sut: LoadCategoriesController

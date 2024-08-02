@@ -1,7 +1,8 @@
 import { type LoadBarberById } from '@/domain/protocols/presentation/barber'
 import { LoadBarberByIdController } from '@/presentation/controller'
-import { makeLoadBarberByIdStub, mockBarberModel } from '../../mocks/mock-barber'
+import { makeLoadBarberByIdStub } from '../../mocks/mock-barber'
 import { NotExistsRegister } from '@/presentation/errors'
+import { mockBarberModel } from '../../../helpers/mock-barber-model'
 
 interface SutTypes {
   sut: LoadBarberByIdController
@@ -14,7 +15,7 @@ const makeSut = (): SutTypes => {
 
   return {
     sut,
-    loadBarberByIdStub
+    loadBarberByIdStub,
   }
 }
 
@@ -24,8 +25,8 @@ describe('LoadBarberByIdController', () => {
     const loadByIdSpy = jest.spyOn(loadBarberByIdStub, 'loadById')
     await sut.handle({
       params: {
-        id: 'any_id'
-      }
+        id: 'any_id',
+      },
     })
     expect(loadByIdSpy).toHaveBeenCalled()
   })
@@ -36,12 +37,12 @@ describe('LoadBarberByIdController', () => {
     jest.spyOn(loadBarberByIdStub, 'loadById').mockRejectedValueOnce(error)
     const response = await sut.handle({
       params: {
-        id: 'any_id'
-      }
+        id: 'any_id',
+      },
     })
     expect(response).toEqual({
       statusCode: 400,
-      body: error
+      body: error,
     })
   })
 
@@ -51,12 +52,12 @@ describe('LoadBarberByIdController', () => {
     jest.spyOn(loadBarberByIdStub, 'loadById').mockRejectedValueOnce(error)
     const response = await sut.handle({
       params: {
-        id: 'any_id'
-      }
+        id: 'any_id',
+      },
     })
     expect(response).toEqual({
       statusCode: 500,
-      body: error
+      body: error,
     })
   })
 
@@ -64,12 +65,12 @@ describe('LoadBarberByIdController', () => {
     const { sut } = makeSut()
     const response = await sut.handle({
       params: {
-        id: 'any_id'
-      }
+        id: 'any_id',
+      },
     })
     expect(response).toEqual({
       statusCode: 200,
-      body: mockBarberModel
+      body: mockBarberModel,
     })
   })
 })
