@@ -9,10 +9,17 @@ export class LoadBarbersController implements Controller {
   constructor(private readonly loadBarbers: LoadBarbers) {}
 
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
-    await this.loadBarbers.load()
-    return await Promise.resolve({
-      statusCode: 400,
-      body: [],
-    })
+    try {
+      await this.loadBarbers.load()
+      return await Promise.resolve({
+        statusCode: 400,
+        body: [],
+      })
+    } catch (error) {
+      return {
+        statusCode: 500,
+        body: error,
+      }
+    }
   }
 }
