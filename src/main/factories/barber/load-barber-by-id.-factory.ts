@@ -6,7 +6,9 @@ import { LoadBarberByIdController } from '@/presentation/controller'
 export const makeLoadBarberByIdFactory = (): Controller => {
   const barberRepository = new BarberRepository()
   const dbLoadBarberById = new DbLoadBarberById(barberRepository)
-  const loadBarberByIdController = new LoadBarberByIdController(dbLoadBarberById)
+  const loadBarberByIdController = new LoadBarberByIdController(
+    dbLoadBarberById,
+  )
 
   return loadBarberByIdController
 }
