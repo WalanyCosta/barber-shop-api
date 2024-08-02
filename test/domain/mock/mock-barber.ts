@@ -1,6 +1,9 @@
 import { mockBarberModel } from '../../helpers/mock-barber-model'
 import { type BarberModel } from '../model/barber-model'
-import { type LoadBarberByIdRepository } from '../protocols/infra/db'
+import {
+  type LoadBarbersRepository,
+  type LoadBarberByIdRepository,
+} from '../protocols/infra/db'
 
 export const makeLoadBarberByIdRepositoryStub =
   (): LoadBarberByIdRepository => {
@@ -12,3 +15,13 @@ export const makeLoadBarberByIdRepositoryStub =
 
     return new LoadBarberByIdRepositoryStub()
   }
+
+export const makeLoadBarbersRepositoryStub = (): LoadBarbersRepository => {
+  class LoadBarbersRepositoryStub implements LoadBarbersRepository {
+    async load(): Promise<BarberModel[]> {
+      return await Promise.resolve([mockBarberModel, mockBarberModel])
+    }
+  }
+
+  return new LoadBarbersRepositoryStub()
+}
