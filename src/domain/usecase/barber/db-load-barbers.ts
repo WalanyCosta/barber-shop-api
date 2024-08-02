@@ -5,7 +5,7 @@ import { type LoadBarbers } from '@/domain/protocols/presentation/barber'
 export class DbLoadBarbers implements LoadBarbers {
   constructor(private readonly loadBarbersRepository: LoadBarbersRepository) {}
   async load(): Promise<BarberModel[]> {
-    await this.loadBarbersRepository.load(StatusBarber.active)
-    return []
+    const barbers = await this.loadBarbersRepository.load(StatusBarber.active)
+    return barbers
   }
 }
