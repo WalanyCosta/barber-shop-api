@@ -10,11 +10,11 @@ export class LoadBarbersController implements Controller {
 
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
-      await this.loadBarbers.load()
-      return await Promise.resolve({
-        statusCode: 400,
-        body: [],
-      })
+      const response = await this.loadBarbers.load()
+      return {
+        statusCode: 200,
+        body: response,
+      }
     } catch (error) {
       return {
         statusCode: 500,
