@@ -2,6 +2,7 @@ import { type LoadBarbersRepository } from '@/domain/protocols/infra/db'
 import { DbLoadBarbers } from '@/domain/usecase'
 import { makeLoadBarbersRepositoryStub } from '../../mock/mock-barber'
 import { StatusBarber } from '@/domain/model/barber-model'
+import { mockBarberModel } from '../../../helpers/mock-barber-model'
 
 interface SutTypes {
   sut: DbLoadBarbers
@@ -32,5 +33,11 @@ describe('DbLoadBarbers', () => {
     jest.spyOn(loadBarbersRepositoryStub, 'load').mockRejectedValueOnce(error)
     const response = sut.load()
     expect(response).rejects.toThrow()
+  })
+
+  test('should return array BarberModel on success', async () => {
+    const { sut } = makeSut()
+    const barbers = await sut.load()
+    expect(barbers).toEqual([mockBarberModel, mockBarberModel])
   })
 })
