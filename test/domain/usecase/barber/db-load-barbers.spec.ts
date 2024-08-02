@@ -25,4 +25,12 @@ describe('DbLoadBarbers', () => {
     await sut.load()
     expect(loadSpy).toHaveBeenCalledWith(StatusBarber.active)
   })
+
+  test('should throw if LoadBarbersRepository throws', async () => {
+    const error = new Error()
+    const { sut, loadBarbersRepositoryStub } = makeSut()
+    jest.spyOn(loadBarbersRepositoryStub, 'load').mockRejectedValueOnce(error)
+    const response = sut.load()
+    expect(response).rejects.toThrow()
+  })
 })
