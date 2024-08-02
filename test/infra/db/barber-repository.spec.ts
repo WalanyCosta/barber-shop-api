@@ -45,4 +45,18 @@ describe('BarberRepository', () => {
     expect(barbers.length).toBe(0)
     expect(barbers).toEqual([])
   })
+
+  test('should return barbers on success', async () => {
+    await createFakeBarbersData()
+    const sut = new BarberRepository()
+    const barbers = await sut.load(StatusBarber.active)
+
+    expect(barbers.length).toBe(1)
+    expect(barbers[0]?.id).toBeTruthy()
+    expect(barbers[0]?.id).toBe('any_id')
+    expect(barbers[0]?.name).toBe('any_name')
+    expect(barbers[0]?.birthday).toBe('any_birthday')
+    expect(barbers[0]?.start).toBe(5)
+    expect(barbers[0]?.email).toBe('any_email')
+  })
 })
