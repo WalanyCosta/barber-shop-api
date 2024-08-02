@@ -10,3 +10,9 @@ export interface BarberModel {
   status: string
   image_url: string
 }
+
+export enum StatusBarber {
+  active = 'active',
+  disable = 'disable',
+  holiday = 'holiday',
+}
