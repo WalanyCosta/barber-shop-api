@@ -46,6 +46,15 @@ describe('DbLoadTimeSchedules', () => {
     expect(response).rejects.toThrow()
   })
 
+  test('should throw if LoadBarberByIdRepository returns null', async () => {
+    const { sut, loadBarberByIdRepositoryStub } = makeSut()
+    jest
+      .spyOn(loadBarberByIdRepositoryStub, 'loadById')
+      .mockResolvedValueOnce(null)
+    const response = sut.loadByBarberIDAndDate('any_barberId')
+    expect(response).rejects.toThrow()
+  })
+
   test('should call LoadSchedulesByBarberIDRepository with correct params', async () => {
     const { sut, loadSchedulesByBarberIDRepositoryStub } = makeSut()
     const loadByBarberIdStub = jest.spyOn(
