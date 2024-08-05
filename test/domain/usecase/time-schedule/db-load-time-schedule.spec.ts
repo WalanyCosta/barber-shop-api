@@ -44,4 +44,15 @@ describe('DbLoadTimeSchedules', () => {
       StatusSchedule.WAITING,
     )
   })
+
+  test('should throw if LoadSchedulesByBarberIDRepository throws', async () => {
+    const loadSchedulesByBarberIDRepositoryStub =
+      new LoadSchedulesByBarberIdRepositoryStub()
+    const sut = new DbLoadTimeSchedules(loadSchedulesByBarberIDRepositoryStub)
+    jest
+      .spyOn(loadSchedulesByBarberIDRepositoryStub, 'loadByBarberId')
+      .mockRejectedValueOnce(new Error())
+    const response = sut.loadByBarberIDAndDate('any_barberId')
+    expect(response).rejects.toThrow()
+  })
 })
