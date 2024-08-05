@@ -1,5 +1,5 @@
-import { type ServiceModel } from '@/domain/model/service-model'
+import { type Option, type ServiceModel } from '@/domain/model/service-model'
 
 export interface LoadServicesRepository {
-  load: () => Promise<ServiceModel[]>
+  load: (option: Option) => Promise<ServiceModel[]>
 }

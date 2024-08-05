@@ -1,3 +1,4 @@
+import { StatusService } from '../../src/domain/model/service-model';
 import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
@@ -7,42 +8,25 @@ const categoriesDatas = [
     {category: 'cortes de barber'}
 ]
 
-const servicesDatas = [
-    {
-        service: 'Francês',
-        price: 700,
-        stars: 3,
-        status: 'active',
-        categoryId: 1,
-        discount: 0.0,
-        duraction: 900
-    },
-    {
-        service: 'careca',
-        price: 2000,
-        stars: 3,
-        discount: 0.0,
-        status: 'active',
-        categoryId: 1,
-        duraction: 900
-    },
-    {
-        service: 'sombra',
-        price: 1000,
-        stars: 3,
-        discount: 0.0,
-        status: 'active',
-        categoryId: 2,
-        duraction: 900
-    },
-]
 
 async function main() {
   await prisma.category.createMany({
     data: categoriesDatas
   }),
-  await prisma.service.createMany({
-    data: servicesDatas
+  await prisma.service.create({
+    data:{
+        service: 'Francês',
+        price: 700,
+        stars: 3,
+        status: StatusService.ACTIVE,
+        discount: 0.0,
+        duraction: 900,
+        category:{
+            create:{
+                category: 'apertar dreids'
+            }
+        }
+    }
   })
 }
   

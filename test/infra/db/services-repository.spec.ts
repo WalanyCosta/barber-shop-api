@@ -1,6 +1,7 @@
 import { ServicesRepository } from '@/infra/db/prisma'
 import { cleanData } from '@/infra/db/prisma/helpers/prisma-helper'
 import prisma from '@/infra/db/prisma/helpers/client'
+import { StatusService } from '@/domain/model/service-model'
 
 const createFakeServiceData = async (): Promise<any> => {
   return await prisma.service.create({
@@ -10,13 +11,13 @@ const createFakeServiceData = async (): Promise<any> => {
       duraction: 900,
       price: 30.3,
       stars: 3,
-      status: 'active',
+      status: StatusService.ACTIVE,
       category: {
         create: {
-          category: 'any_category'
-        }
-      }
-    }
+          category: 'any_category',
+        },
+      },
+    },
   })
 }
 
@@ -25,22 +26,28 @@ describe('AccountRepository', () => {
     await cleanData()
   })
 
-  test('should return services on load success', async () => {
+  test.only('should return services on load success', async () => {
     const sut = new ServicesRepository()
     await createFakeServiceData()
-    const services = await sut.load()
+    const services = await sut.load({
+      status: StatusService.ACTIVE,
+      orStatus: StatusService.PROMOTION,
+    })
     expect(services[0]).toBeTruthy()
     expect(services[0]?.id).toBeTruthy()
     expect(services[0]?.service).toBe('any_name')
     expect(services[0]?.price).toBe(30.3)
-    expect(services[0]?.status).toBe('active')
+    expect(services[0]?.status).toBe(StatusService.ACTIVE)
     expect(services[0]?.stars).toBe(3)
     expect(services[0]?.category).toBe('any_category')
   })
 
   test('should return empty array if load returns empty', async () => {
     const sut = new ServicesRepository()
-    const services = await sut.load()
+    const services = await sut.load({
+      status: StatusService.ACTIVE,
+      orStatus: StatusService.PROMOTION,
+    })
     expect(services).toEqual([])
   })
 
@@ -52,7 +59,7 @@ describe('AccountRepository', () => {
     expect(service?.id).toBeTruthy()
     expect(service?.service).toBe('any_name')
     expect(service?.price).toBe(30.3)
-    expect(service?.status).toBe('active')
+    expect(service?.status).toBe(StatusService.ACTIVE)
     expect(service?.stars).toBe(3)
     expect(service?.category).toBe('any_category')
   })
@@ -65,7 +72,7 @@ describe('AccountRepository', () => {
     expect(services[0]?.id).toBeTruthy()
     expect(services[0]?.service).toBe('any_name')
     expect(services[0]?.price).toBe(30.3)
-    expect(services[0]?.status).toBe('active')
+    expect(services[0]?.status).toBe(StatusService.ACTIVE)
     expect(services[0]?.stars).toBe(3)
     expect(services[0]?.category).toBe('any_category')
   })

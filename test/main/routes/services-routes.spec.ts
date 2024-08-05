@@ -3,6 +3,7 @@ import { cleanData, disconnect } from '@/infra/db/prisma/helpers/prisma-helper'
 import request from 'supertest'
 import app from '@/main/config/app'
 import prisma from '@/infra/db/prisma/helpers/client'
+import { StatusService } from '@/domain/model/service-model'
 
 const mockAccessToken = async (): Promise<string> => {
   const account = await prisma.account.create({
@@ -11,19 +12,19 @@ const mockAccessToken = async (): Promise<string> => {
       email: 'any_email',
       password: 'any_password',
       phone: 'any_number_phone',
-      accessToken: ''
-    }
+      accessToken: '',
+    },
   })
 
   const token = jwt.sign({ id: account.id }, String(process.env.PRIVATE_KEY))
 
   await prisma.account.update({
     where: {
-      id: account.id
+      id: account.id,
     },
     data: {
-      accessToken: token
-    }
+      accessToken: token,
+    },
   })
 
   return token
@@ -37,13 +38,13 @@ const mockCreateService = async (): Promise<any> => {
       duraction: 900,
       price: 30.3,
       stars: 3,
-      status: 'active',
+      status: StatusService.ACTIVE,
       category: {
         create: {
-          category: 'any_category'
-        }
-      }
-    }
+          category: 'any_category',
+        },
+      },
+    },
   })
 }
 
@@ -75,9 +76,7 @@ describe('Get /services', () => {
   })
 
   test('should return 403 on load services without accessToken', async () => {
-    await request(app)
-      .get('/api/services')
-      .expect(403)
+    await request(app).get('/api/services').expect(403)
   })
 })
 

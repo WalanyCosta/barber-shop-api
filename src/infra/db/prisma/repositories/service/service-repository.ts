@@ -1,4 +1,4 @@
-import { TypeQueryService, type ServiceModel } from '@/domain/model/service-model'
+import { Option, StatusService, TypeQueryService, type ServiceModel } from '@/domain/model/service-model'
 import { 
     type LoadServicesRepository, 
     LoadServiceByIdRepository, 
@@ -11,7 +11,7 @@ LoadServicesRepository,
 LoadServiceByIdRepository,
 SearchServicesRepository
 {
-  async load (): Promise<ServiceModel[]> {
+  async load (option: Option): Promise<ServiceModel[]> {
     const services = await prisma.service.findMany({
       include: {
         category: {
@@ -22,10 +22,8 @@ SearchServicesRepository
       },
       where: {
         OR: [
-          { status: 'active' },
-          {
-            status: 'promotion'
-          }
+          { status: option.status },
+          { status: option.orStatus }
         ]
       }
     })
@@ -36,7 +34,7 @@ SearchServicesRepository
         service: service.service,
         price: service.price,
         stars: service.stars,
-        status: 'active',
+        status: service.status,
         category: service.category.category,
         duraction: service.duraction,
         discount: service.discount
@@ -76,7 +74,7 @@ SearchServicesRepository
           service: service.service,
           price: service.price,
           stars: service.stars,
-          status: 'active',
+          status: service.status,
           category: service.category.category,
           duraction: service.duraction,
           discount: service.discount
