@@ -44,6 +44,21 @@ describe('DbLoadTimeSchedules', () => {
     expect(loadByIdStub).toHaveBeenCalledWith('any_barberId')
   })
 
+  test('should throw if LoadBarberByIdRepository throws', async () => {
+    const loadSchedulesByBarberIDRepositoryStub =
+      new LoadSchedulesByBarberIdRepositoryStub()
+    const loadBarberByIdRepositoryStub = makeLoadBarberByIdRepositoryStub()
+    const sut = new DbLoadTimeSchedules(
+      loadSchedulesByBarberIDRepositoryStub,
+      loadBarberByIdRepositoryStub,
+    )
+    jest
+      .spyOn(loadBarberByIdRepositoryStub, 'loadById')
+      .mockRejectedValueOnce(new Error())
+    const response = sut.loadByBarberIDAndDate('any_barberId')
+    expect(response).rejects.toThrow()
+  })
+
   test('should call LoadSchedulesByBarberIDRepository with correct params', async () => {
     const loadSchedulesByBarberIDRepositoryStub =
       new LoadSchedulesByBarberIdRepositoryStub()
