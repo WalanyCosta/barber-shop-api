@@ -6,10 +6,15 @@ export class DbLoadTimeSchedules {
     private readonly loadSchedulesByBarberIdRepository: LoadSchedulesByBarberIdRepository,
   ) {}
 
-  async loadByBarberIDAndDate(barberId: string): Promise<void> {
+  async loadByBarberIDAndDate(barberId: string): Promise<any> {
     await this.loadSchedulesByBarberIdRepository.loadByBarberId(
       barberId,
       StatusSchedule.WAITING,
     )
+
+    return [
+      { times: '08:00', disabled: false },
+      { times: '08:00', disabled: false },
+    ]
   }
 }
