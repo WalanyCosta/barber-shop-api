@@ -4,6 +4,7 @@ import {
 } from '@/domain/model/schedule-model'
 import { type LoadSchedulesByBarberIdRepository } from '@/domain/protocols/infra/db'
 import { DbLoadTimeSchedules } from '@/domain/usecase'
+import { makeLoadBarberByIdRepositoryStub } from '../../mock/mock-barber'
 
 class LoadSchedulesByBarberIdRepositoryStub
   implements LoadSchedulesByBarberIdRepository
@@ -30,10 +31,27 @@ class LoadSchedulesByBarberIdRepositoryStub
 }
 
 describe('DbLoadTimeSchedules', () => {
-  test('should call LoadSchedulesByBarberIDRepository with params correct', async () => {
+  test('should call LoadBarberByIdRepository with correct id', async () => {
     const loadSchedulesByBarberIDRepositoryStub =
       new LoadSchedulesByBarberIdRepositoryStub()
-    const sut = new DbLoadTimeSchedules(loadSchedulesByBarberIDRepositoryStub)
+    const loadBarberByIdRepositoryStub = makeLoadBarberByIdRepositoryStub()
+    const sut = new DbLoadTimeSchedules(
+      loadSchedulesByBarberIDRepositoryStub,
+      loadBarberByIdRepositoryStub,
+    )
+    const loadByIdStub = jest.spyOn(loadBarberByIdRepositoryStub, 'loadById')
+    await sut.loadByBarberIDAndDate('any_barberId')
+    expect(loadByIdStub).toHaveBeenCalledWith('any_barberId')
+  })
+
+  test('should call LoadSchedulesByBarberIDRepository with correct params', async () => {
+    const loadSchedulesByBarberIDRepositoryStub =
+      new LoadSchedulesByBarberIdRepositoryStub()
+    const loadBarberByIdRepositoryStub = makeLoadBarberByIdRepositoryStub()
+    const sut = new DbLoadTimeSchedules(
+      loadSchedulesByBarberIDRepositoryStub,
+      loadBarberByIdRepositoryStub,
+    )
     const loadByBarberIdStub = jest.spyOn(
       loadSchedulesByBarberIDRepositoryStub,
       'loadByBarberId',
@@ -48,7 +66,11 @@ describe('DbLoadTimeSchedules', () => {
   test('should throw if LoadSchedulesByBarberIDRepository throws', async () => {
     const loadSchedulesByBarberIDRepositoryStub =
       new LoadSchedulesByBarberIdRepositoryStub()
-    const sut = new DbLoadTimeSchedules(loadSchedulesByBarberIDRepositoryStub)
+    const loadBarberByIdRepositoryStub = makeLoadBarberByIdRepositoryStub()
+    const sut = new DbLoadTimeSchedules(
+      loadSchedulesByBarberIDRepositoryStub,
+      loadBarberByIdRepositoryStub,
+    )
     jest
       .spyOn(loadSchedulesByBarberIDRepositoryStub, 'loadByBarberId')
       .mockRejectedValueOnce(new Error())
@@ -59,7 +81,11 @@ describe('DbLoadTimeSchedules', () => {
   test('should return times if LoadSchedulesByBarberIDRepository no return', async () => {
     const loadSchedulesByBarberIDRepositoryStub =
       new LoadSchedulesByBarberIdRepositoryStub()
-    const sut = new DbLoadTimeSchedules(loadSchedulesByBarberIDRepositoryStub)
+    const loadBarberByIdRepositoryStub = makeLoadBarberByIdRepositoryStub()
+    const sut = new DbLoadTimeSchedules(
+      loadSchedulesByBarberIDRepositoryStub,
+      loadBarberByIdRepositoryStub,
+    )
     jest
       .spyOn(loadSchedulesByBarberIDRepositoryStub, 'loadByBarberId')
       .mockResolvedValueOnce([])
