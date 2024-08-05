@@ -55,4 +55,18 @@ describe('DbLoadTimeSchedules', () => {
     const response = sut.loadByBarberIDAndDate('any_barberId')
     expect(response).rejects.toThrow()
   })
+
+  test('should return times if LoadSchedulesByBarberIDRepository no return', async () => {
+    const loadSchedulesByBarberIDRepositoryStub =
+      new LoadSchedulesByBarberIdRepositoryStub()
+    const sut = new DbLoadTimeSchedules(loadSchedulesByBarberIDRepositoryStub)
+    jest
+      .spyOn(loadSchedulesByBarberIDRepositoryStub, 'loadByBarberId')
+      .mockResolvedValueOnce([])
+    const response = await sut.loadByBarberIDAndDate('any_barberId')
+    expect(response).toEqual([
+      { times: '08:00', disabled: false },
+      { times: '08:00', disabled: false },
+    ])
+  })
 })
