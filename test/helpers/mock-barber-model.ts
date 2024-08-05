@@ -3,7 +3,7 @@ import { type BarberModel } from '@/domain/model/barber-model'
 export const mockBarberModel: BarberModel = {
   id: 'any_id',
   name: 'any_name',
-  birthday: 'any_birthday',
+  birthday: new Date().toISOString(),
   email: 'any_email',
   phone: 'any_phone',
   experience: 'any_experience',

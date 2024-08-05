@@ -4,17 +4,11 @@ import { BarberRepository } from '@/infra/db/prisma'
 import { mockBarberModel } from '../../helpers/mock-barber-model'
 import { StatusBarber } from '@/domain/model/barber-model'
 
-const createFakeBarberData = async (): Promise<any> => {
-  return await prisma.barber.create({
-    data: mockBarberModel,
-  })
-}
-
 const createFakeBarbersData = async (
   status: StatusBarber = StatusBarber.active,
 ): Promise<any> => {
   return await prisma.barber.create({
-    data: { ...mockBarberModel, status },
+    data: { ...mockBarberModel, status, birthday: '2024-08-05T12:57:18.446Z' },
   })
 }
 
@@ -24,7 +18,7 @@ describe('BarberRepository', () => {
   })
 
   test('should return barber on success', async () => {
-    const { id } = await createFakeBarberData()
+    const { id } = await createFakeBarbersData()
     const sut = new BarberRepository()
     const barber = await sut.loadById(id)
 
@@ -32,7 +26,7 @@ describe('BarberRepository', () => {
     expect(barber?.id).toBeTruthy()
     expect(barber?.id).toBe('any_id')
     expect(barber?.name).toBe('any_name')
-    expect(barber?.birthday).toBe('any_birthday')
+    expect(barber?.birthday).toBe('2024-08-05T12:57:18.446Z')
     expect(barber?.start).toBe(5)
     expect(barber?.email).toBe('any_email')
   })
@@ -55,7 +49,7 @@ describe('BarberRepository', () => {
     expect(barbers[0]?.id).toBeTruthy()
     expect(barbers[0]?.id).toBe('any_id')
     expect(barbers[0]?.name).toBe('any_name')
-    expect(barbers[0]?.birthday).toBe('any_birthday')
+    expect(barbers[0]?.birthday).toBe('2024-08-05T12:57:18.446Z')
     expect(barbers[0]?.start).toBe(5)
     expect(barbers[0]?.email).toBe('any_email')
   })

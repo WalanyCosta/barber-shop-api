@@ -8,13 +8,15 @@ datasource db {
 }
 
 model account {
-    id                    String  @id @default(uuid())
+    id                    String   @id @default(uuid())
     name                  String
     email                 String
     password              String
     phone                 String
     accessToken           String
-    subscribeNotification Boolean @default(false)
+    subscribeNotification Boolean  @default(false)
+    createdAt             DateTime @default(now())
+    updatedAt             DateTime @updatedAt
 
     notification notification[]
     schedule     schedule[]
@@ -43,10 +45,10 @@ model service {
 }
 
 model notification {
-    id        String  @id @default(uuid())
+    id        String   @id @default(uuid())
     title     String
     body      String
-    date      String
+    date      DateTime
     status    String
     reference String?
 
@@ -55,9 +57,9 @@ model notification {
 }
 
 model barber {
-    id              String @id @default(uuid())
+    id              String   @id @default(uuid())
     name            String
-    birthday        String
+    birthday        DateTime
     email           String
     phone           String
     experience      String
@@ -88,9 +90,9 @@ model schedule {
 }
 
 model time_schedule {
-    id           String @id @default(uuid())
-    dateSchedule String
-    timeSchedule String
+    id           String   @id @default(uuid())
+    dateSchedule DateTime
+    timeSchedule Int
 
     scheduleId String
     schedule   schedule @relation(fields: [scheduleId], references: [id])

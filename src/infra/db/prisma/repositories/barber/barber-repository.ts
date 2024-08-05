@@ -6,12 +6,16 @@ export class BarberRepository implements
 LoadBarberByIdRepository,
 LoadBarbersRepository
 {
+   private convertInFormatIso(barber: any):string{
+     return barber?.birthday.toISOString()
+    }
   async loadById(id: string): Promise<BarberModel | null>{
     const barber = await prisma.barber.findUnique({
         where:{id}
     })
 
-    return barber
+
+    return barber ? Object.assign(barber, {birthday: this.convertInFormatIso(barber)}) : null
   }
 
   async load(statusBarber: StatusBarber): Promise<BarberModel[]>{
@@ -21,6 +25,8 @@ LoadBarbersRepository
         }
     })
 
-    return barbers
+    return barbers.map(barber => {
+        return Object.assign(barber, {birthday: this.convertInFormatIso(barber)})
+    })
   }
 }

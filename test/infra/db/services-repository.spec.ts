@@ -26,7 +26,7 @@ describe('AccountRepository', () => {
     await cleanData()
   })
 
-  test.only('should return services on load success', async () => {
+  test('should return services on load success', async () => {
     const sut = new ServicesRepository()
     await createFakeServiceData()
     const services = await sut.load({
