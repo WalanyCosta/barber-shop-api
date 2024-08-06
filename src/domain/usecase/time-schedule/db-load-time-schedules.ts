@@ -1,3 +1,4 @@
+import { DateInvalidError } from '@/domain/errors/date-invalid-error'
 import { StatusSchedule } from '@/domain/model/schedule-model'
 import { TimeScheduleModel } from '@/domain/model/time-schedule-model'
 import { type VerifyDateIsCurrentOrPast } from '@/domain/protocols/infra/date'
@@ -31,7 +32,14 @@ export class DbLoadTimeSchedules {
   ): Promise<DbLoadTimeSchedulesResponse> {
     let timesSchedules: TimeScheduleModel[] = []
 
-    await this.verifyDateIsCurrentOrPast.isCurrentOrPast(dateSchedule)
+    const isDateValid =
+      await this.verifyDateIsCurrentOrPast.isCurrentOrPast(dateSchedule)
+
+    if (!isDateValid) {
+      throw new DateInvalidError(
+        'Não é possivel trazer horas com datas antigas',
+      )
+    }
 
     const barber = await this.loadBarberByIdRepository.loadById(barberId)
 
