@@ -15,4 +15,15 @@ describe('TimeScheduleModel', () => {
     const hours = TimeScheduleModel.convertHoursMinutesToHoursString(495)
     expect(hours).toBe('08:15')
   })
+
+  test('should return true if verifyIfTimeExists times are sames', () => {
+    const timeSchedule = new TimeScheduleModel(
+      'any_id',
+      'any_date',
+      495,
+      'any_scheduleId',
+    )
+    const result = timeSchedule.verifyIfTimeExists(495)
+    expect(result).toBeTruthy()
+  })
 })
