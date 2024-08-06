@@ -16,6 +16,11 @@ describe('TimeScheduleModel', () => {
     expect(hours).toBe('08:15')
   })
 
+  test('should return 00:00 if convertHoursMinutesToHoursString not receive', () => {
+    const hours = TimeScheduleModel.convertHoursMinutesToHoursString()
+    expect(hours).toBe('00:00')
+  })
+
   test('should return true if verifyIfTimeExists times are sames', () => {
     const timeSchedule = new TimeScheduleModel(
       'any_id',
