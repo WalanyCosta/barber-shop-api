@@ -114,8 +114,8 @@ describe('DbLoadTimeSchedules', () => {
       .mockResolvedValueOnce([])
     const response = await sut.loadByBarberIDAndDate('any_barberId', 'any_date')
     expect(response).toEqual([
-      { times: '08:00', disabled: false },
-      { times: '08:15', disabled: false },
+      { times: '08:00', disabled: true },
+      { times: '08:15', disabled: true },
     ])
   })
 
@@ -124,8 +124,19 @@ describe('DbLoadTimeSchedules', () => {
     const response = await sut.loadByBarberIDAndDate('any_barberId', 'any_date')
     console.log(response)
     expect(response).toEqual([
-      { times: '08:00', disabled: false },
-      { times: '08:15', disabled: false },
+      { times: '08:00', disabled: true },
+      { times: '08:15', disabled: true },
+    ])
+  })
+
+  test('should generates hours if LoadSchedulesByBarberIDRepository return', async () => {
+    const { sut } = makeSut(480, 525)
+    const response = await sut.loadByBarberIDAndDate('any_barberId', 'any_date')
+    expect(response).toEqual([
+      { times: '08:00', disabled: true },
+      { times: '08:15', disabled: true },
+      { times: '08:30', disabled: false },
+      { times: '08:45', disabled: false },
     ])
   })
 })

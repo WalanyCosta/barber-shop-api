@@ -46,13 +46,10 @@ export const makeLoadTimeSchedulesByDateAndIdsRepositoryStub =
         date: string,
         ids: string[],
       ): Promise<TimeScheduleModel[]> {
-        const timeSchedule = new TimeScheduleModel(
-          'any_id',
-          'any_date',
-          950,
-          'any_scheduleId',
-        )
-        return await Promise.resolve(new Array(timeSchedule))
+        return await Promise.resolve([
+          new TimeScheduleModel('any_id', 'any_date', 480, 'any_scheduleId'),
+          new TimeScheduleModel('any_id', 'any_date', 495, 'any_scheduleId'),
+        ])
       }
     }
 
