@@ -52,7 +52,6 @@ describe('DbLoadTimeSchedules', () => {
       .spyOn(loadBarberByIdRepositoryStub, 'loadById')
       .mockRejectedValueOnce(new Error())
     const response = sut.loadByBarberIDAndDate('any_barberId', 'any_date')
-
     expect(response).rejects.toThrow()
   })
 
@@ -73,6 +72,15 @@ describe('DbLoadTimeSchedules', () => {
     )
     await sut.loadByBarberIDAndDate('any_barberId', 'any_date')
     expect(loadByIdStub).toHaveBeenCalledWith('any_date', ['any_id', 'any_id'])
+  })
+
+  test('should throw if LoadTimeSchedulesByDateAndIdsRepository throws', async () => {
+    const { sut, loadTimeSchedulesByDateAndIdsRepositoryStub } = makeSut()
+    jest
+      .spyOn(loadTimeSchedulesByDateAndIdsRepositoryStub, 'loadByDateAndIds')
+      .mockRejectedValueOnce(new Error())
+    const response = sut.loadByBarberIDAndDate('any_barberId', 'any_date')
+    expect(response).rejects.toThrow()
   })
 
   test('should call LoadSchedulesByBarberIDRepository with correct params', async () => {
