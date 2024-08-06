@@ -32,37 +32,40 @@ export class DbLoadTimeSchedules {
     if (!barber) {
       throw new NotExistsRegister('No exists register with id')
     }
-    const barbers = await this.loadSchedulesByBarberIdRepository.loadByBarberId(
-      barberId,
-      StatusSchedule.WAITING,
-    )
+    const schedules =
+      await this.loadSchedulesByBarberIdRepository.loadByBarberId(
+        barberId,
+        StatusSchedule.WAITING,
+      )
 
-    const barberIds = barbers.map((barber) => barber.id)
+    const scheduleIds = schedules.map((schedule) => schedule.id)
 
-    await this.loadTimeSchedulesByDateAndIdsRepository.loadByDateAndIds(
-      dateSchedule,
-      barberIds,
-    )
+    const timesSchedules =
+      await this.loadTimeSchedulesByDateAndIdsRepository.loadByDateAndIds(
+        dateSchedule,
+        scheduleIds,
+      )
 
-    return this.generate()
+    return this.generate(timesSchedules)
   }
 
-  private generate(): any {
+  private generate(timeSchedules: TimeScheduleModel[]): any {
     const INTERVALES = 15
     const hours = []
-    const timeSchedule = new TimeScheduleModel(
-      'any_id',
-      'any_date',
-      0,
-      'any_scheduleId',
-    )
 
     while (this.hourStart <= this.hourEnd) {
       hours.push({
-        times: timeSchedule.convertHoursMinutesToHoursString(this.hourStart),
-        disabled: false,
+        times: TimeScheduleModel.convertHoursMinutesToHoursString(
+          this.hourStart,
+        ),
+        disabled: timeSchedules.some((timeSchedule) =>
+          timeSchedule.verifyIfTimeExists(this.hourStart),
+        ),
       })
-      this.hourStart = timeSchedule.calculateTime(INTERVALES, this.hourStart)
+      this.hourStart = TimeScheduleModel.calculateTime(
+        INTERVALES,
+        this.hourStart,
+      )
     }
 
     return hours
