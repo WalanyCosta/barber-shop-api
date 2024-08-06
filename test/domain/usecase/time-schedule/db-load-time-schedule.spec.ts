@@ -18,7 +18,7 @@ interface SutTypes {
   loadTimeSchedulesByDateAndIdsRepositoryStub: LoadTimeSchedulesByDateAndIdsRepository
 }
 
-const makeSut = (): SutTypes => {
+const makeSut = (hourStart: number = 480, hourEnd: number = 495): SutTypes => {
   const loadTimeSchedulesByDateAndIdsRepositoryStub =
     makeLoadTimeSchedulesByDateAndIdsRepositoryStub()
   const loadSchedulesByBarberIDRepositoryStub =
@@ -28,6 +28,8 @@ const makeSut = (): SutTypes => {
     loadSchedulesByBarberIDRepositoryStub,
     loadBarberByIdRepositoryStub,
     loadTimeSchedulesByDateAndIdsRepositoryStub,
+    hourStart,
+    hourEnd,
   )
 
   return {
@@ -113,7 +115,17 @@ describe('DbLoadTimeSchedules', () => {
     const response = await sut.loadByBarberIDAndDate('any_barberId', 'any_date')
     expect(response).toEqual([
       { times: '08:00', disabled: false },
+      { times: '08:15', disabled: false },
+    ])
+  })
+
+  test('should generate hours on success', async () => {
+    const { sut } = makeSut()
+    const response = await sut.loadByBarberIDAndDate('any_barberId', 'any_date')
+    console.log(response)
+    expect(response).toEqual([
       { times: '08:00', disabled: false },
+      { times: '08:15', disabled: false },
     ])
   })
 })
