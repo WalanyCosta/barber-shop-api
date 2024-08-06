@@ -9,16 +9,20 @@ import { makeLoadBarberByIdRepositoryStub } from '../../mock/mock-barber'
 import {
   makeLoadSchedulesByBarberIdRepositoryStub,
   makeLoadTimeSchedulesByDateAndIdsRepositoryStub,
+  makeVerifyDateIsCurrentOrPastStub,
 } from '../../mock/mock-time-schedule'
+import { type VerifyDateIsCurrentOrPast } from '@/domain/protocols/infra/date'
 
 interface SutTypes {
   sut: DbLoadTimeSchedules
   loadSchedulesByBarberIDRepositoryStub: LoadSchedulesByBarberIdRepository
   loadBarberByIdRepositoryStub: LoadBarberByIdRepository
   loadTimeSchedulesByDateAndIdsRepositoryStub: LoadTimeSchedulesByDateAndIdsRepository
+  verifyDateIsCurrentOrPastStub: VerifyDateIsCurrentOrPast
 }
 
 const makeSut = (hourStart: number = 480, hourEnd: number = 495): SutTypes => {
+  const verifyDateIsCurrentOrPastStub = makeVerifyDateIsCurrentOrPastStub()
   const loadTimeSchedulesByDateAndIdsRepositoryStub =
     makeLoadTimeSchedulesByDateAndIdsRepositoryStub()
   const loadSchedulesByBarberIDRepositoryStub =
@@ -30,6 +34,7 @@ const makeSut = (hourStart: number = 480, hourEnd: number = 495): SutTypes => {
     loadTimeSchedulesByDateAndIdsRepositoryStub,
     hourStart,
     hourEnd,
+    verifyDateIsCurrentOrPastStub,
   )
 
   return {
@@ -37,6 +42,7 @@ const makeSut = (hourStart: number = 480, hourEnd: number = 495): SutTypes => {
     loadBarberByIdRepositoryStub,
     loadSchedulesByBarberIDRepositoryStub,
     loadTimeSchedulesByDateAndIdsRepositoryStub,
+    verifyDateIsCurrentOrPastStub,
   }
 }
 
@@ -117,6 +123,16 @@ describe('DbLoadTimeSchedules', () => {
       { times: '08:00', disabled: false },
       { times: '08:15', disabled: false },
     ])
+  })
+
+  test('should call VerifyDateIsCurrentOrPast with correct date', async () => {
+    const { sut, verifyDateIsCurrentOrPastStub } = makeSut()
+    const isCurrentOrPastSpy = jest.spyOn(
+      verifyDateIsCurrentOrPastStub,
+      'isCurrentOrPast',
+    )
+    await sut.loadByBarberIDAndDate('any_barberId', 'any_date')
+    expect(isCurrentOrPastSpy).toHaveBeenCalledWith('any_date')
   })
 
   test('should generate hours on success', async () => {

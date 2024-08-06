@@ -7,6 +7,7 @@ import {
   type LoadTimeSchedulesByDateAndIdsRepository,
   type LoadSchedulesByBarberIdRepository,
 } from '@/domain/protocols/infra/db'
+import { type VerifyDateIsCurrentOrPast } from '../protocols/infra/date'
 
 export const makeLoadSchedulesByBarberIdRepositoryStub =
   (): LoadSchedulesByBarberIdRepository => {
@@ -54,4 +55,15 @@ export const makeLoadTimeSchedulesByDateAndIdsRepositoryStub =
     }
 
     return new LoadTimeSchedulesByDateAndIdsRepositoryStub()
+  }
+
+export const makeVerifyDateIsCurrentOrPastStub =
+  (): VerifyDateIsCurrentOrPast => {
+    class VerifyDateIsCurrentOrPastStub implements VerifyDateIsCurrentOrPast {
+      isCurrentOrPast(date: string): boolean {
+        return true
+      }
+    }
+
+    return new VerifyDateIsCurrentOrPastStub()
   }
