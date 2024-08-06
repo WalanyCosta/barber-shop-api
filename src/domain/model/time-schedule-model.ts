@@ -18,4 +18,15 @@ export class TimeScheduleModel {
     this.timeSchedule = timeSchedule
     this.scheduleId = scheduleId
   }
+
+  calculateTime(intervale: number, hourStart: number): number {
+    return hourStart + intervale
+  }
+
+  convertHoursMinutesToHoursString(minutesAmount: number = 0): string {
+    const hours = Math.floor(minutesAmount / 60)
+    const minutes = minutesAmount % 60
+
+    return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`
+  }
 }
