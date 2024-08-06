@@ -48,6 +48,15 @@ const makeSut = (hourStart: number = 480, hourEnd: number = 495): SutTypes => {
 }
 
 describe('DbLoadTimeSchedules', () => {
+  beforeAll(() => {
+    const mockedDate = new Date('2024-08-06T05:30:40.450Z') // Janeiro é o mês 0, 15:00:00 horas
+    jest.spyOn(global, 'Date').mockImplementation(() => mockedDate)
+  })
+
+  afterAll(() => {
+    jest.restoreAllMocks()
+  })
+
   test('should call LoadBarberByIdRepository with correct id', async () => {
     const { sut, loadBarberByIdRepositoryStub } = makeSut()
     const loadByIdStub = jest.spyOn(loadBarberByIdRepositoryStub, 'loadById')
