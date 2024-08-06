@@ -34,6 +34,8 @@ export class TimeScheduleModel {
   }
 
   verifyIfTimeExists(time: number): boolean {
-    return this.timeSchedule === time
+    const date = new Date()
+    const minutesCurrent = date.getHours() * 60 + date.getMinutes()
+    return this.timeSchedule === time && minutesCurrent < time
   }
 }
