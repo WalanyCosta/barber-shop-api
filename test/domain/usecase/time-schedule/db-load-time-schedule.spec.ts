@@ -12,6 +12,7 @@ import {
   makeVerifyDateIsCurrentOrPastStub,
 } from '../../mock/mock-time-schedule'
 import { type VerifyDateIsCurrentOrPast } from '@/domain/protocols/infra/date'
+import { DateInvalidError } from '@/domain/errors/date-invalid-error'
 
 interface SutTypes {
   sut: DbLoadTimeSchedules
@@ -142,6 +143,17 @@ describe('DbLoadTimeSchedules', () => {
       .mockRejectedValueOnce(new Error())
     const response = sut.loadByBarberIDAndDate('any_barberId', 'any_date')
     await expect(response).rejects.toThrow()
+  })
+
+  test('should throw if VerifyDateIsCurrentOrPast throws DateInvalidError', async () => {
+    const { sut, verifyDateIsCurrentOrPastStub } = makeSut()
+    jest
+      .spyOn(verifyDateIsCurrentOrPastStub, 'isCurrentOrPast')
+      .mockResolvedValueOnce(false)
+    const response = sut.loadByBarberIDAndDate('any_barberId', 'any_date')
+    expect(response).rejects.toThrow(
+      new DateInvalidError('Não é possivel trazer horas com datas antigas'),
+    )
   })
 
   test('should generate hours on success', async () => {
