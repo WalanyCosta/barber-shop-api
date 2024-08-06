@@ -5,4 +5,9 @@ describe('TimeScheduleModel', () => {
     const result = TimeScheduleModel.calculateTime(30, 420)
     expect(result).toBe(450)
   })
+
+  test('Should return 495 if calculateTime no receive values', () => {
+    const result = TimeScheduleModel.calculateTime()
+    expect(result).toBe(495)
+  })
 })
