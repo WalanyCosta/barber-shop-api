@@ -114,8 +114,8 @@ describe('DbLoadTimeSchedules', () => {
       .mockResolvedValueOnce([])
     const response = await sut.loadByBarberIDAndDate('any_barberId', 'any_date')
     expect(response).toEqual([
-      { times: '08:00', disabled: true },
-      { times: '08:15', disabled: true },
+      { times: '08:00', disabled: false },
+      { times: '08:15', disabled: false },
     ])
   })
 

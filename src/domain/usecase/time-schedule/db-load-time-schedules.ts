@@ -27,6 +27,7 @@ export class DbLoadTimeSchedules {
     barberId: string,
     dateSchedule: string,
   ): Promise<DbLoadTimeSchedulesResponse> {
+    let timesSchedules: TimeScheduleModel[] = []
     const barber = await this.loadBarberByIdRepository.loadById(barberId)
 
     if (!barber) {
@@ -38,13 +39,15 @@ export class DbLoadTimeSchedules {
         StatusSchedule.WAITING,
       )
 
-    const scheduleIds = schedules.map((schedule) => schedule.id)
+    if (schedules.length !== 0) {
+      const scheduleIds = schedules.map((schedule) => schedule.id)
 
-    const timesSchedules =
-      await this.loadTimeSchedulesByDateAndIdsRepository.loadByDateAndIds(
-        dateSchedule,
-        scheduleIds,
-      )
+      timesSchedules =
+        await this.loadTimeSchedulesByDateAndIdsRepository.loadByDateAndIds(
+          dateSchedule,
+          scheduleIds,
+        )
+    }
 
     return this.generate(timesSchedules)
   }
