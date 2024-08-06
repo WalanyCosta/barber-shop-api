@@ -10,4 +10,9 @@ describe('TimeScheduleModel', () => {
     const result = TimeScheduleModel.calculateTime()
     expect(result).toBe(495)
   })
+
+  test('should return 08:15 if convertHoursMinutesToHoursString receive 495', () => {
+    const hours = TimeScheduleModel.convertHoursMinutesToHoursString(495)
+    expect(hours).toBe('08:15')
+  })
 })
