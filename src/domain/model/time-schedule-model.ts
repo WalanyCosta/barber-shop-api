@@ -19,7 +19,10 @@ export class TimeScheduleModel {
     this.scheduleId = scheduleId
   }
 
-  static calculateTime(intervale: number, hourStart: number): number {
+  static calculateTime(
+    intervale: number = 15,
+    hourStart: number = 480,
+  ): number {
     return hourStart + intervale
   }
 
