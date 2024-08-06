@@ -31,7 +31,8 @@ export class DbLoadTimeSchedules {
   ): Promise<DbLoadTimeSchedulesResponse> {
     let timesSchedules: TimeScheduleModel[] = []
 
-    this.verifyDateIsCurrentOrPast.isCurrentOrPast(dateSchedule)
+    await this.verifyDateIsCurrentOrPast.isCurrentOrPast(dateSchedule)
+
     const barber = await this.loadBarberByIdRepository.loadById(barberId)
 
     if (!barber) {

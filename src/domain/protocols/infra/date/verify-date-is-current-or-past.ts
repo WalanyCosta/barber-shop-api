@@ -1,3 +1,3 @@
 export interface VerifyDateIsCurrentOrPast {
-  isCurrentOrPast: (date: string) => boolean
+  isCurrentOrPast: (date: string) => Promise<boolean>
 }
