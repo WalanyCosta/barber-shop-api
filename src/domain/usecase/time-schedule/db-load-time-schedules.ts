@@ -2,14 +2,14 @@ import { StatusSchedule } from '@/domain/model/schedule-model'
 import {
   type LoadTimeSchedulesByDateAndIdsRepository,
   type LoadSchedulesByBarberIdRepository,
+  type LoadBarberByIdRepository,
 } from '@/domain/protocols/infra/db'
-import { type LoadBarberById } from '@/domain/protocols/presentation'
 import { NotExistsRegister } from '@/presentation/errors'
 
 export class DbLoadTimeSchedules {
   constructor(
     private readonly loadSchedulesByBarberIdRepository: LoadSchedulesByBarberIdRepository,
-    private readonly loadBarberById: LoadBarberById,
+    private readonly loadBarberByIdRepository: LoadBarberByIdRepository,
     private readonly loadTimeSchedulesByDateAndIdsRepository: LoadTimeSchedulesByDateAndIdsRepository,
   ) {}
 
@@ -17,7 +17,7 @@ export class DbLoadTimeSchedules {
     barberId: string,
     dateSchedule: string,
   ): Promise<any> {
-    const barber = await this.loadBarberById.loadById(barberId)
+    const barber = await this.loadBarberByIdRepository.loadById(barberId)
 
     if (!barber) {
       throw new NotExistsRegister('No exists register with id')
