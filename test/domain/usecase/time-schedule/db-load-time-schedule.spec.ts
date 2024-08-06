@@ -135,6 +135,15 @@ describe('DbLoadTimeSchedules', () => {
     expect(isCurrentOrPastSpy).toHaveBeenCalledWith('any_date')
   })
 
+  test('should throw if VerifyDateIsCurrentOrPast throws', async () => {
+    const { sut, verifyDateIsCurrentOrPastStub } = makeSut()
+    jest
+      .spyOn(verifyDateIsCurrentOrPastStub, 'isCurrentOrPast')
+      .mockRejectedValueOnce(new Error())
+    const response = sut.loadByBarberIDAndDate('any_barberId', 'any_date')
+    await expect(response).rejects.toThrow()
+  })
+
   test('should generate hours on success', async () => {
     const { sut } = makeSut(480, 525)
     const response = await sut.loadByBarberIDAndDate('any_barberId', 'any_date')

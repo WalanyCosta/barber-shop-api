@@ -60,8 +60,8 @@ export const makeLoadTimeSchedulesByDateAndIdsRepositoryStub =
 export const makeVerifyDateIsCurrentOrPastStub =
   (): VerifyDateIsCurrentOrPast => {
     class VerifyDateIsCurrentOrPastStub implements VerifyDateIsCurrentOrPast {
-      isCurrentOrPast(date: string): boolean {
-        return true
+      async isCurrentOrPast(date: string): Promise<boolean> {
+        return await Promise.resolve(true)
       }
     }
 
