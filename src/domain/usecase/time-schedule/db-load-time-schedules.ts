@@ -1,5 +1,6 @@
 import { StatusSchedule } from '@/domain/model/schedule-model'
 import { TimeScheduleModel } from '@/domain/model/time-schedule-model'
+import { type VerifyDateIsCurrentOrPast } from '@/domain/protocols/infra/date'
 import {
   type LoadTimeSchedulesByDateAndIdsRepository,
   type LoadSchedulesByBarberIdRepository,
@@ -21,6 +22,7 @@ export class DbLoadTimeSchedules {
     private readonly loadTimeSchedulesByDateAndIdsRepository: LoadTimeSchedulesByDateAndIdsRepository,
     private hourStart: number,
     private readonly hourEnd: number,
+    private readonly verifyDateIsCurrentOrPast: VerifyDateIsCurrentOrPast,
   ) {}
 
   async loadByBarberIDAndDate(
@@ -28,6 +30,8 @@ export class DbLoadTimeSchedules {
     dateSchedule: string,
   ): Promise<DbLoadTimeSchedulesResponse> {
     let timesSchedules: TimeScheduleModel[] = []
+
+    this.verifyDateIsCurrentOrPast.isCurrentOrPast(dateSchedule)
     const barber = await this.loadBarberByIdRepository.loadById(barberId)
 
     if (!barber) {
