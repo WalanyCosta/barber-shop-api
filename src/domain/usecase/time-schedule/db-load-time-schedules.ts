@@ -38,6 +38,8 @@ export class DbLoadTimeSchedules {
 
     const isDateValid = await this.verifyDateIsPassed.isPassed(dateSchedule)
 
+    await this.verifyDateIsCurrent.isCurrent(dateSchedule)
+
     if (!isDateValid) {
       throw new DateInvalidError(
         'Não é possivel trazer horas com datas antigas',
@@ -65,10 +67,12 @@ export class DbLoadTimeSchedules {
         )
     }
 
-    return this.generateTimes(timesSchedules, dateSchedule)
+    return await this.generateTimes(timesSchedules)
   }
 
-  private generateTimes(timeSchedules: TimeScheduleModel[], date: string): any {
+  private async generateTimes(
+    timeSchedules: TimeScheduleModel[],
+  ): Promise<any> {
     const INTERVALES = 15
     const timesContainer = []
 
@@ -78,8 +82,6 @@ export class DbLoadTimeSchedules {
           this.hourStart,
         ),
         disabled: timeSchedules.some(async (timeSchedule) => {
-          await this.verifyDateIsCurrent.isCurrent(date)
-
           return timeSchedule.verifyTimeExists(this.hourStart)
         }),
       })
