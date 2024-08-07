@@ -82,9 +82,12 @@ export class DbLoadTimeSchedules {
         times: TimeScheduleModel.convertHoursMinutesToHoursString(
           this.hourStart,
         ),
-        disabled: timeSchedules.some(async (timeSchedule) => {
+        disabled: timeSchedules.some((timeSchedule) => {
           if (isCurrent) {
-            return timeSchedule.verifyIsBeforeCurrent(this.hourStart)
+            return (
+              timeSchedule.verifyIsBeforeCurrent(this.hourStart) ||
+              timeSchedule.verifyTimeExists(this.hourStart)
+            )
           }
           return timeSchedule.verifyTimeExists(this.hourStart)
         }),

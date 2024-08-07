@@ -27,6 +27,15 @@ interface SutTypes {
   verifyDateIsCurrentStub: VerifyDateIsCurrent
 }
 
+const mockDate = (date: string = '2024-08-06T05:30:40.450Z'): void => {
+  const mockedDate = new Date(date)
+  jest.spyOn(global, 'Date').mockImplementationOnce(() => mockedDate)
+}
+
+const ResetMock = (): void => {
+  jest.restoreAllMocks()
+}
+
 const makeSut = (hourStart: number = 480, hourEnd: number = 495): SutTypes => {
   const verifyDateIsPassedStub = makeVerifyDateIsPassedStub()
   const loadTimeSchedulesByDateAndIdsRepositoryStub =
@@ -58,12 +67,11 @@ const makeSut = (hourStart: number = 480, hourEnd: number = 495): SutTypes => {
 
 describe('DbLoadTimeSchedules', () => {
   beforeAll(() => {
-    const mockedDate = new Date('2024-08-06T05:30:40.450Z') // Janeiro é o mês 0, 15:00:00 horas
-    jest.spyOn(global, 'Date').mockImplementation(() => mockedDate)
+    mockDate()
   })
 
   afterAll(() => {
-    jest.restoreAllMocks()
+    ResetMock()
   })
 
   test('should call LoadBarberByIdRepository with correct id', async () => {
@@ -185,7 +193,33 @@ describe('DbLoadTimeSchedules', () => {
     await expect(response).rejects.toThrow()
   })
 
-  test.skip('should generate hours on success', async () => {
+  test.failing(
+    'should return time disabled if VerifyDateIsCurrent return true and time is Passed',
+    async () => {
+      const {
+        sut,
+        verifyDateIsCurrentStub,
+        loadSchedulesByBarberIDRepositoryStub,
+      } = makeSut()
+      jest
+        .spyOn(verifyDateIsCurrentStub, 'isCurrent')
+        .mockResolvedValueOnce(true)
+      jest
+        .spyOn(loadSchedulesByBarberIDRepositoryStub, 'loadByBarberId')
+        .mockResolvedValueOnce([])
+      const response = await sut.loadByBarberIDAndDate(
+        'any_barberId',
+        'any_date',
+      )
+      expect(response).toEqual([
+        { times: '08:00', disabled: true },
+        { times: '08:15', disabled: true },
+      ])
+      jest.restoreAllMocks()
+    },
+  )
+
+  test('should generate hours on success', async () => {
     const { sut } = makeSut(480, 525)
     const response = await sut.loadByBarberIDAndDate('any_barberId', 'any_date')
     expect(response).toEqual([
