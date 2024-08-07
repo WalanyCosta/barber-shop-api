@@ -1,1 +1,1 @@
-export * from './verify-date-is-current-or-past'
+export * from './verify-date-is-passed'

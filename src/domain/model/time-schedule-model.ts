@@ -33,7 +33,7 @@ export class TimeScheduleModel {
     return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`
   }
 
-  verifyIfTimeExists(time: number): boolean {
+  verifyTimeExistsAndBeforeCurrent(time: number): boolean {
     const date = new Date()
     const minutesCurrent = date.getHours() * 60 + date.getMinutes()
     return this.timeSchedule === time && minutesCurrent < time

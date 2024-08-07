@@ -1,7 +1,7 @@
 import { DateInvalidError } from '@/domain/errors/date-invalid-error'
 import { StatusSchedule } from '@/domain/model/schedule-model'
 import { TimeScheduleModel } from '@/domain/model/time-schedule-model'
-import { type VerifyDateIsCurrentOrPast } from '@/domain/protocols/infra/date'
+import { type VerifyDateIsPassed } from '@/domain/protocols/infra/date'
 import {
   type LoadTimeSchedulesByDateAndIdsRepository,
   type LoadSchedulesByBarberIdRepository,
@@ -23,7 +23,7 @@ export class DbLoadTimeSchedules {
     private readonly loadTimeSchedulesByDateAndIdsRepository: LoadTimeSchedulesByDateAndIdsRepository,
     private hourStart: number,
     private readonly hourEnd: number,
-    private readonly verifyDateIsCurrentOrPast: VerifyDateIsCurrentOrPast,
+    private readonly verifyDateIsPassed: VerifyDateIsPassed,
   ) {}
 
   async loadByBarberIDAndDate(
@@ -32,8 +32,7 @@ export class DbLoadTimeSchedules {
   ): Promise<DbLoadTimeSchedulesResponse> {
     let timesSchedules: TimeScheduleModel[] = []
 
-    const isDateValid =
-      await this.verifyDateIsCurrentOrPast.isCurrentOrPast(dateSchedule)
+    const isDateValid = await this.verifyDateIsPassed.isPassed(dateSchedule)
 
     if (!isDateValid) {
       throw new DateInvalidError(
@@ -62,20 +61,20 @@ export class DbLoadTimeSchedules {
         )
     }
 
-    return this.generate(timesSchedules)
+    return this.generateTimes(timesSchedules)
   }
 
-  private generate(timeSchedules: TimeScheduleModel[]): any {
+  private generateTimes(timeSchedules: TimeScheduleModel[]): any {
     const INTERVALES = 15
-    const hours = []
+    const timesContainer = []
 
     while (this.hourStart <= this.hourEnd) {
-      hours.push({
+      timesContainer.push({
         times: TimeScheduleModel.convertHoursMinutesToHoursString(
           this.hourStart,
         ),
         disabled: timeSchedules.some((timeSchedule) =>
-          timeSchedule.verifyIfTimeExists(this.hourStart),
+          timeSchedule.verifyTimeExistsAndBeforeCurrent(this.hourStart),
         ),
       })
       this.hourStart = TimeScheduleModel.calculateTime(
@@ -84,6 +83,6 @@ export class DbLoadTimeSchedules {
       )
     }
 
-    return hours
+    return timesContainer
   }
 }
