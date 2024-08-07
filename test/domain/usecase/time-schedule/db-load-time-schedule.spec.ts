@@ -176,6 +176,15 @@ describe('DbLoadTimeSchedules', () => {
     expect(isCurrentStub).toHaveBeenCalledWith('any_date')
   })
 
+  test('should throw if VerifyDateIsCurrent throws', async () => {
+    const { sut, verifyDateIsCurrentStub } = makeSut()
+    jest
+      .spyOn(verifyDateIsCurrentStub, 'isCurrent')
+      .mockRejectedValueOnce(new Error())
+    const response = sut.loadByBarberIDAndDate('any_barberId', 'any_date')
+    await expect(response).rejects.toThrow()
+  })
+
   test.skip('should generate hours on success', async () => {
     const { sut } = makeSut(480, 525)
     const response = await sut.loadByBarberIDAndDate('any_barberId', 'any_date')
