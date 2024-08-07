@@ -74,7 +74,7 @@ export class DbLoadTimeSchedules {
           this.hourStart,
         ),
         disabled: timeSchedules.some((timeSchedule) =>
-          timeSchedule.verifyTimeExistsAndBeforeCurrent(this.hourStart),
+          timeSchedule.verifyTimeExists(this.hourStart),
         ),
       })
       this.hourStart = TimeScheduleModel.calculateTime(

@@ -21,7 +21,7 @@ describe('TimeScheduleModel', () => {
     expect(hours).toBe('00:00')
   })
 
-  test('should return true if verifyTimeExistsAndBeforeCurrent times are sames', () => {
+  test('should return true if verifyTimeExists times are sames', () => {
     const mockedDate = new Date('2024-08-06T05:30:40.450Z') // Janeiro é o mês 0, 15:00:00 horas
     jest.spyOn(global, 'Date').mockImplementation(() => mockedDate)
 
@@ -31,13 +31,13 @@ describe('TimeScheduleModel', () => {
       495,
       'any_scheduleId',
     )
-    const result = timeSchedule.verifyTimeExistsAndBeforeCurrent(495)
+    const result = timeSchedule.verifyTimeExists(495)
     expect(result).toBeTruthy()
 
     jest.restoreAllMocks()
   })
 
-  test('should return false if verifyTimeExistsAndBeforeCurrent times is old', () => {
+  test('should return false if verifyTimeIsBeforeCurrent times is old', () => {
     const mockedDate = new Date('2024-08-06T17:55:37.450Z') // Janeiro é o mês 0, 15:00:00 horas
     jest.spyOn(global, 'Date').mockImplementation(() => mockedDate)
 
@@ -47,7 +47,7 @@ describe('TimeScheduleModel', () => {
       495,
       'any_scheduleId',
     )
-    const result = timeSchedule.verifyTimeExistsAndBeforeCurrent(495)
+    const result = timeSchedule.verifyIsBeforeCurrent(495)
     expect(result).toBeFalsy()
 
     jest.restoreAllMocks()
