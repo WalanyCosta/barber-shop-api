@@ -1,7 +1,10 @@
 import { DateInvalidError } from '@/domain/errors/date-invalid-error'
 import { StatusSchedule } from '@/domain/model/schedule-model'
 import { TimeScheduleModel } from '@/domain/model/time-schedule-model'
-import { type VerifyDateIsPassed } from '@/domain/protocols/infra/date'
+import {
+  type VerifyDateIsCurrent,
+  type VerifyDateIsPassed,
+} from '@/domain/protocols/infra/date'
 import {
   type LoadTimeSchedulesByDateAndIdsRepository,
   type LoadSchedulesByBarberIdRepository,
@@ -24,6 +27,7 @@ export class DbLoadTimeSchedules {
     private hourStart: number,
     private readonly hourEnd: number,
     private readonly verifyDateIsPassed: VerifyDateIsPassed,
+    private readonly verifyDateIsCurrent: VerifyDateIsCurrent,
   ) {}
 
   async loadByBarberIDAndDate(
@@ -61,10 +65,10 @@ export class DbLoadTimeSchedules {
         )
     }
 
-    return this.generateTimes(timesSchedules)
+    return this.generateTimes(timesSchedules, dateSchedule)
   }
 
-  private generateTimes(timeSchedules: TimeScheduleModel[]): any {
+  private generateTimes(timeSchedules: TimeScheduleModel[], date: string): any {
     const INTERVALES = 15
     const timesContainer = []
 
@@ -73,9 +77,11 @@ export class DbLoadTimeSchedules {
         times: TimeScheduleModel.convertHoursMinutesToHoursString(
           this.hourStart,
         ),
-        disabled: timeSchedules.some((timeSchedule) =>
-          timeSchedule.verifyTimeExists(this.hourStart),
-        ),
+        disabled: timeSchedules.some(async (timeSchedule) => {
+          await this.verifyDateIsCurrent.isCurrent(date)
+
+          return timeSchedule.verifyTimeExists(this.hourStart)
+        }),
       })
       this.hourStart = TimeScheduleModel.calculateTime(
         INTERVALES,
