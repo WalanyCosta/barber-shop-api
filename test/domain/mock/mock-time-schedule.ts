@@ -7,10 +7,7 @@ import {
   type LoadTimeSchedulesByDateAndIdsRepository,
   type LoadSchedulesByBarberIdRepository,
 } from '@/domain/protocols/infra/db'
-import {
-  type VerifyDateIsCurrent,
-  type VerifyDateIsPassed,
-} from '../protocols/infra/date'
+import { type VerifyDateIsCurrentOrPassed } from '../protocols/infra/date'
 
 export const makeLoadSchedulesByBarberIdRepositoryStub =
   (): LoadSchedulesByBarberIdRepository => {
@@ -60,22 +57,17 @@ export const makeLoadTimeSchedulesByDateAndIdsRepositoryStub =
     return new LoadTimeSchedulesByDateAndIdsRepositoryStub()
   }
 
-export const makeVerifyDateIsPassedStub = (): VerifyDateIsPassed => {
-  class VerifyDateIsPassedStub implements VerifyDateIsPassed {
-    async isPassed(date: string): Promise<boolean> {
-      return await Promise.resolve(true)
+export const makeVerifyDateIsCurrentOrPassedStub =
+  (): VerifyDateIsCurrentOrPassed => {
+    class VerifyDateIsPassedStub implements VerifyDateIsCurrentOrPassed {
+      async isPassed(date: string): Promise<boolean> {
+        return await Promise.resolve(true)
+      }
+
+      async isCurrent(date: string): Promise<boolean> {
+        return await Promise.resolve(false)
+      }
     }
+
+    return new VerifyDateIsPassedStub()
   }
-
-  return new VerifyDateIsPassedStub()
-}
-
-export const makeVerifyDateIsCurrentStub = (): VerifyDateIsCurrent => {
-  class VerifyDateIsCurrentStub implements VerifyDateIsCurrent {
-    async isCurrent(date: string): Promise<boolean> {
-      return await Promise.resolve(false)
-    }
-  }
-
-  return new VerifyDateIsCurrentStub()
-}

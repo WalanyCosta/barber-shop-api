@@ -1,10 +1,7 @@
 import { DateInvalidError } from '@/domain/errors/date-invalid-error'
 import { StatusSchedule } from '@/domain/model/schedule-model'
 import { TimeScheduleModel } from '@/domain/model/time-schedule-model'
-import {
-  type VerifyDateIsCurrent,
-  type VerifyDateIsPassed,
-} from '@/domain/protocols/infra/date'
+import { type VerifyDateIsCurrentOrPassed } from '@/domain/protocols/infra/date'
 import {
   type LoadTimeSchedulesByDateAndIdsRepository,
   type LoadSchedulesByBarberIdRepository,
@@ -26,8 +23,7 @@ export class DbLoadTimeSchedules {
     private readonly loadTimeSchedulesByDateAndIdsRepository: LoadTimeSchedulesByDateAndIdsRepository,
     private hourStart: number,
     private readonly hourEnd: number,
-    private readonly verifyDateIsPassed: VerifyDateIsPassed,
-    private readonly verifyDateIsCurrent: VerifyDateIsCurrent,
+    private readonly VerifyDateIsCurrentOrPassed: VerifyDateIsCurrentOrPassed,
   ) {}
 
   async loadByBarberIDAndDate(
@@ -36,9 +32,11 @@ export class DbLoadTimeSchedules {
   ): Promise<DbLoadTimeSchedulesResponse> {
     let timesSchedules: TimeScheduleModel[] = []
 
-    const isDateValid = await this.verifyDateIsPassed.isPassed(dateSchedule)
+    const isDateValid =
+      await this.VerifyDateIsCurrentOrPassed.isPassed(dateSchedule)
 
-    const isCurrent = await this.verifyDateIsCurrent.isCurrent(dateSchedule)
+    const isCurrent =
+      await this.VerifyDateIsCurrentOrPassed.isCurrent(dateSchedule)
 
     if (!isDateValid) {
       throw new DateInvalidError(

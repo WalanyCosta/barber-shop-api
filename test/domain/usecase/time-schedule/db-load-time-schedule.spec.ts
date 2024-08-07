@@ -9,13 +9,9 @@ import { makeLoadBarberByIdRepositoryStub } from '../../mock/mock-barber'
 import {
   makeLoadSchedulesByBarberIdRepositoryStub,
   makeLoadTimeSchedulesByDateAndIdsRepositoryStub,
-  makeVerifyDateIsCurrentStub,
-  makeVerifyDateIsPassedStub,
+  makeVerifyDateIsCurrentOrPassedStub,
 } from '../../mock/mock-time-schedule'
-import {
-  type VerifyDateIsCurrent,
-  type VerifyDateIsPassed,
-} from '@/domain/protocols/infra/date'
+import { type VerifyDateIsCurrentOrPassed } from '@/domain/protocols/infra/date'
 import { DateInvalidError } from '@/domain/errors/date-invalid-error'
 
 interface SutTypes {
@@ -23,8 +19,7 @@ interface SutTypes {
   loadSchedulesByBarberIDRepositoryStub: LoadSchedulesByBarberIdRepository
   loadBarberByIdRepositoryStub: LoadBarberByIdRepository
   loadTimeSchedulesByDateAndIdsRepositoryStub: LoadTimeSchedulesByDateAndIdsRepository
-  verifyDateIsPassedStub: VerifyDateIsPassed
-  verifyDateIsCurrentStub: VerifyDateIsCurrent
+  verifyDateIsCurrentOrPassedStub: VerifyDateIsCurrentOrPassed
 }
 
 const mockDate = (date: string = '2024-08-06T05:30:40.450Z'): void => {
@@ -37,13 +32,12 @@ const ResetMock = (): void => {
 }
 
 const makeSut = (hourStart: number = 480, hourEnd: number = 495): SutTypes => {
-  const verifyDateIsPassedStub = makeVerifyDateIsPassedStub()
+  const verifyDateIsCurrentOrPassedStub = makeVerifyDateIsCurrentOrPassedStub()
   const loadTimeSchedulesByDateAndIdsRepositoryStub =
     makeLoadTimeSchedulesByDateAndIdsRepositoryStub()
   const loadSchedulesByBarberIDRepositoryStub =
     makeLoadSchedulesByBarberIdRepositoryStub()
   const loadBarberByIdRepositoryStub = makeLoadBarberByIdRepositoryStub()
-  const verifyDateIsCurrentStub = makeVerifyDateIsCurrentStub()
 
   const sut = new DbLoadTimeSchedules(
     loadSchedulesByBarberIDRepositoryStub,
@@ -51,8 +45,7 @@ const makeSut = (hourStart: number = 480, hourEnd: number = 495): SutTypes => {
     loadTimeSchedulesByDateAndIdsRepositoryStub,
     hourStart,
     hourEnd,
-    verifyDateIsPassedStub,
-    verifyDateIsCurrentStub,
+    verifyDateIsCurrentOrPassedStub,
   )
 
   return {
@@ -60,8 +53,7 @@ const makeSut = (hourStart: number = 480, hourEnd: number = 495): SutTypes => {
     loadBarberByIdRepositoryStub,
     loadSchedulesByBarberIDRepositoryStub,
     loadTimeSchedulesByDateAndIdsRepositoryStub,
-    verifyDateIsPassedStub,
-    verifyDateIsCurrentStub,
+    verifyDateIsCurrentOrPassedStub,
   }
 }
 
@@ -152,25 +144,30 @@ describe('DbLoadTimeSchedules', () => {
     ])
   })
 
-  test('should call verifyDateIsPassedStub with correct date', async () => {
-    const { sut, verifyDateIsPassedStub } = makeSut()
-    const isCurrentOrPastSpy = jest.spyOn(verifyDateIsPassedStub, 'isPassed')
+  test('should call verifyDateIsCurrentOrPassedStub with correct date', async () => {
+    const { sut, verifyDateIsCurrentOrPassedStub } = makeSut()
+    const isCurrentOrPastSpy = jest.spyOn(
+      verifyDateIsCurrentOrPassedStub,
+      'isPassed',
+    )
     await sut.loadByBarberIDAndDate('any_barberId', 'any_date')
     expect(isCurrentOrPastSpy).toHaveBeenCalledWith('any_date')
   })
 
-  test('should throw if verifyDateIsPassedStub throws', async () => {
-    const { sut, verifyDateIsPassedStub } = makeSut()
+  test('should throw if verifyDateIsCurrentOrPassedStub throws', async () => {
+    const { sut, verifyDateIsCurrentOrPassedStub } = makeSut()
     jest
-      .spyOn(verifyDateIsPassedStub, 'isPassed')
+      .spyOn(verifyDateIsCurrentOrPassedStub, 'isPassed')
       .mockRejectedValueOnce(new Error())
     const response = sut.loadByBarberIDAndDate('any_barberId', 'any_date')
     await expect(response).rejects.toThrow()
   })
 
-  test('should throw if verifyDateIsPassedStub throws DateInvalidError', async () => {
-    const { sut, verifyDateIsPassedStub } = makeSut()
-    jest.spyOn(verifyDateIsPassedStub, 'isPassed').mockResolvedValueOnce(false)
+  test('should throw if verifyDateIsCurrentOrPassedStub throws DateInvalidError', async () => {
+    const { sut, verifyDateIsCurrentOrPassedStub } = makeSut()
+    jest
+      .spyOn(verifyDateIsCurrentOrPassedStub, 'isPassed')
+      .mockResolvedValueOnce(false)
     const response = sut.loadByBarberIDAndDate('any_barberId', 'any_date')
     expect(response).rejects.toThrow(
       new DateInvalidError('Não é possivel trazer horas com datas antigas'),
@@ -178,16 +175,19 @@ describe('DbLoadTimeSchedules', () => {
   })
 
   test('should call VerifyDateIsCurrent with correct date', async () => {
-    const { sut, verifyDateIsCurrentStub } = makeSut()
-    const isCurrentStub = jest.spyOn(verifyDateIsCurrentStub, 'isCurrent')
+    const { sut, verifyDateIsCurrentOrPassedStub } = makeSut()
+    const isCurrentStub = jest.spyOn(
+      verifyDateIsCurrentOrPassedStub,
+      'isCurrent',
+    )
     await sut.loadByBarberIDAndDate('any_barberId', 'any_date')
     expect(isCurrentStub).toHaveBeenCalledWith('any_date')
   })
 
   test('should throw if VerifyDateIsCurrent throws', async () => {
-    const { sut, verifyDateIsCurrentStub } = makeSut()
+    const { sut, verifyDateIsCurrentOrPassedStub } = makeSut()
     jest
-      .spyOn(verifyDateIsCurrentStub, 'isCurrent')
+      .spyOn(verifyDateIsCurrentOrPassedStub, 'isCurrent')
       .mockRejectedValueOnce(new Error())
     const response = sut.loadByBarberIDAndDate('any_barberId', 'any_date')
     await expect(response).rejects.toThrow()
@@ -198,11 +198,11 @@ describe('DbLoadTimeSchedules', () => {
     async () => {
       const {
         sut,
-        verifyDateIsCurrentStub,
+        verifyDateIsCurrentOrPassedStub,
         loadSchedulesByBarberIDRepositoryStub,
       } = makeSut()
       jest
-        .spyOn(verifyDateIsCurrentStub, 'isCurrent')
+        .spyOn(verifyDateIsCurrentOrPassedStub, 'isCurrent')
         .mockResolvedValueOnce(true)
       jest
         .spyOn(loadSchedulesByBarberIDRepositoryStub, 'loadByBarberId')
