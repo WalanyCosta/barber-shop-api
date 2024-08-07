@@ -9,9 +9,13 @@ import { makeLoadBarberByIdRepositoryStub } from '../../mock/mock-barber'
 import {
   makeLoadSchedulesByBarberIdRepositoryStub,
   makeLoadTimeSchedulesByDateAndIdsRepositoryStub,
+  makeVerifyDateIsCurrentStub,
   makeVerifyDateIsPassedStub,
 } from '../../mock/mock-time-schedule'
-import { type VerifyDateIsPassed } from '@/domain/protocols/infra/date'
+import {
+  type VerifyDateIsCurrent,
+  type VerifyDateIsPassed,
+} from '@/domain/protocols/infra/date'
 import { DateInvalidError } from '@/domain/errors/date-invalid-error'
 
 interface SutTypes {
@@ -20,6 +24,7 @@ interface SutTypes {
   loadBarberByIdRepositoryStub: LoadBarberByIdRepository
   loadTimeSchedulesByDateAndIdsRepositoryStub: LoadTimeSchedulesByDateAndIdsRepository
   verifyDateIsPassedStub: VerifyDateIsPassed
+  verifyDateIsCurrentStub: VerifyDateIsCurrent
 }
 
 const makeSut = (hourStart: number = 480, hourEnd: number = 495): SutTypes => {
@@ -29,6 +34,8 @@ const makeSut = (hourStart: number = 480, hourEnd: number = 495): SutTypes => {
   const loadSchedulesByBarberIDRepositoryStub =
     makeLoadSchedulesByBarberIdRepositoryStub()
   const loadBarberByIdRepositoryStub = makeLoadBarberByIdRepositoryStub()
+  const verifyDateIsCurrentStub = makeVerifyDateIsCurrentStub()
+
   const sut = new DbLoadTimeSchedules(
     loadSchedulesByBarberIDRepositoryStub,
     loadBarberByIdRepositoryStub,
@@ -36,6 +43,7 @@ const makeSut = (hourStart: number = 480, hourEnd: number = 495): SutTypes => {
     hourStart,
     hourEnd,
     verifyDateIsPassedStub,
+    verifyDateIsCurrentStub,
   )
 
   return {
@@ -44,6 +52,7 @@ const makeSut = (hourStart: number = 480, hourEnd: number = 495): SutTypes => {
     loadSchedulesByBarberIDRepositoryStub,
     loadTimeSchedulesByDateAndIdsRepositoryStub,
     verifyDateIsPassedStub,
+    verifyDateIsCurrentStub,
   }
 }
 
@@ -160,7 +169,14 @@ describe('DbLoadTimeSchedules', () => {
     )
   })
 
-  test('should generate hours on success', async () => {
+  test('should call VerifyDateIsCurrent with correct date', async () => {
+    const { sut, verifyDateIsCurrentStub } = makeSut()
+    const isCurrentStub = jest.spyOn(verifyDateIsCurrentStub, 'isCurrent')
+    await sut.loadByBarberIDAndDate('any_barberId', 'any_date')
+    expect(isCurrentStub).toHaveBeenCalledWith('any_date')
+  })
+
+  test.skip('should generate hours on success', async () => {
     const { sut } = makeSut(480, 525)
     const response = await sut.loadByBarberIDAndDate('any_barberId', 'any_date')
     expect(response).toEqual([

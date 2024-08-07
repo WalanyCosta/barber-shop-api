@@ -7,7 +7,10 @@ import {
   type LoadTimeSchedulesByDateAndIdsRepository,
   type LoadSchedulesByBarberIdRepository,
 } from '@/domain/protocols/infra/db'
-import { type VerifyDateIsPassed } from '../protocols/infra/date'
+import {
+  type VerifyDateIsCurrent,
+  type VerifyDateIsPassed,
+} from '../protocols/infra/date'
 
 export const makeLoadSchedulesByBarberIdRepositoryStub =
   (): LoadSchedulesByBarberIdRepository => {
@@ -65,4 +68,14 @@ export const makeVerifyDateIsPassedStub = (): VerifyDateIsPassed => {
   }
 
   return new VerifyDateIsPassedStub()
+}
+
+export const makeVerifyDateIsCurrentStub = (): VerifyDateIsCurrent => {
+  class VerifyDateIsCurrentStub implements VerifyDateIsCurrent {
+    async isCurrent(date: string): Promise<boolean> {
+      return await Promise.resolve(false)
+    }
+  }
+
+  return new VerifyDateIsCurrentStub()
 }
