@@ -4,9 +4,12 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "build": "rimraf dist && tsc -p tsconfig.build.json && prisma migrate deploy",
+        "migrate:deploy": "prisma migrate deploy",
+        "build": "rimraf dist && tsc -p tsconfig.build.json && npm migrate:deploy",
         "start": "node -r module-alias/register dist/main/server.js",
         "start:dev": "tsx watch src/main/server.ts",
+        "migrate:dev": "prisma migrate dev",
+        "migrate:reset": "prisma migrate reset",
         "test": "jest --passWithNoTests --silent --noStackTrace --runInBand",
         "test:watch": "npm test -- --watch",
         "test:staged": "npm test -- --findRelatedTests",
