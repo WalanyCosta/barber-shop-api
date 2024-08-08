@@ -14,7 +14,6 @@ LoadBarbersRepository
         where:{id}
     })
 
-
     return barber ? Object.assign(barber, {birthday: this.convertInFormatIso(barber)}) : null
   }
 

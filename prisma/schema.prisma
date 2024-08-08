@@ -78,8 +78,8 @@ model schedule {
     createAt   DateTime @default(now())
     updateAt   DateTime @updatedAt
 
-    accountId String
-    account   account @relation(fields: [accountId], references: [id])
+    accountId String?
+    account   account? @relation(fields: [accountId], references: [id])
 
     barberId String
     barber   barber @relation(fields: [barberId], references: [id])
