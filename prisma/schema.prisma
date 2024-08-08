@@ -78,11 +78,11 @@ model schedule {
     createAt   DateTime @default(now())
     updateAt   DateTime @updatedAt
 
-    accountId String?
-    account   account? @relation(fields: [accountId], references: [id])
+    account_id String?
+    account    account? @relation(fields: [account_id], references: [id])
 
-    barberId String
-    barber   barber @relation(fields: [barberId], references: [id])
+    barber_id String
+    barber    barber @relation(fields: [barber_id], references: [id])
 
     time_schedule    time_schedule[]
     payment          payment[]
@@ -90,12 +90,12 @@ model schedule {
 }
 
 model time_schedule {
-    id           String   @id @default(uuid())
-    dateSchedule DateTime
-    timeSchedule Int
+    id            String   @id @default(uuid())
+    date_schedule DateTime
+    time_schedule Int
 
-    scheduleId String
-    schedule   schedule @relation(fields: [scheduleId], references: [id])
+    schedule_id String
+    schedule    schedule @relation(fields: [schedule_id], references: [id])
 }
 
 model payment {
@@ -107,8 +107,8 @@ model payment {
     create_at DateTime @default(now())
     update_at DateTime @updatedAt
 
-    scheduleId String
-    schedule   schedule @relation(fields: [scheduleId], references: [id])
+    schedule_id String
+    schedule    schedule @relation(fields: [schedule_id], references: [id])
 }
 
 model schedule_service {

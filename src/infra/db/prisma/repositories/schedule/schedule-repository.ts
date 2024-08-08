@@ -7,7 +7,7 @@ export class ScheduleRepository implements LoadSchedulesByBarberIdRepository{
         const schedules = await prisma.schedule.findMany({
             where: {
                 AND:[
-                    {barberId: barberId},
+                    {barber_id: barberId},
                     {status: statusSchedule}
                 ]
             }
@@ -18,7 +18,7 @@ export class ScheduleRepository implements LoadSchedulesByBarberIdRepository{
                 id: schedule.id,
                 total_time: schedule.total_time,
                 status: schedule.status,
-                barberId: schedule.barberId
+                barberId: schedule.barber_id
             }
         })
     }

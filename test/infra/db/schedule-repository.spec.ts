@@ -20,7 +20,7 @@ const createFakeScheduleData = async (): Promise<any> => {
       data: {
         status: StatusSchedule.WAITING,
         total_time: 0,
-        barberId: barber.id,
+        barber_id: barber.id,
       },
     })
   })
