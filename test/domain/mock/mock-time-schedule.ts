@@ -8,6 +8,7 @@ import {
   type LoadSchedulesByBarberIdRepository,
 } from '@/domain/protocols/infra/db'
 import { type VerifyDateIsCurrentOrPassed } from '../protocols/infra/date'
+import { mockScheduleModel } from '../../helpers/mock-schedule-model'
 
 export const makeLoadSchedulesByBarberIdRepositoryStub =
   (): LoadSchedulesByBarberIdRepository => {
@@ -18,20 +19,7 @@ export const makeLoadSchedulesByBarberIdRepositoryStub =
         barberId: string,
         statusSchedule: StatusSchedule,
       ): Promise<ScheduleModel[]> {
-        return await Promise.resolve([
-          {
-            id: 'any_id',
-            status: 'WAITING',
-            total_time: 0,
-            barberId: 'any_barberId',
-          },
-          {
-            id: 'any_id',
-            status: 'WAITING',
-            total_time: 0,
-            barberId: 'any_barberId',
-          },
-        ])
+        return await Promise.resolve(mockScheduleModel)
       }
     }
 
