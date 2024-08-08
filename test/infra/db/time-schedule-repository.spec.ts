@@ -63,6 +63,7 @@ describe('TimeScheduleRepository', () => {
     const scheduleIds = schedules?.map((schedule) => schedule.id)
     const sut = new TimeScheduleRepository()
     const timeSchedules = await sut.loadByDateAndIds('2024-08-05', scheduleIds)
+    expect(timeSchedules.length).toBe(2)
     expect(timeSchedules[0]).toBeTruthy()
     expect(timeSchedules[0]?.id).toBeTruthy()
     expect(timeSchedules[0]?.dateSchedule).toBe(
@@ -70,5 +71,14 @@ describe('TimeScheduleRepository', () => {
     )
     expect(timeSchedules[0]?.timeSchedule).toBe(480)
     expect(timeSchedules[0]?.scheduleId).toBe(scheduleIds[0])
+  })
+
+  test('should return empty array if loadByDateAndIds return empty array', async () => {
+    const sut = new TimeScheduleRepository()
+    const timeSchedules = await sut.loadByDateAndIds('2024-08-05', [
+      'any_id',
+      'other_id',
+    ])
+    expect(timeSchedules.length).toBe(0)
   })
 })
