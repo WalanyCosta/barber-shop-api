@@ -1,11 +1,11 @@
 import { type ScheduleModel } from './schedule-model'
 
 export class TimeScheduleModel {
-  private readonly id: string
-  private readonly dateSchedule: string
-  private readonly timeSchedule: number
-  private readonly scheduleId: string
-  private readonly schedule?: ScheduleModel
+  readonly id: string
+  readonly dateSchedule: string
+  readonly timeSchedule: number
+  readonly scheduleId: string
+  readonly schedule?: ScheduleModel
 
   constructor(
     id: string,
