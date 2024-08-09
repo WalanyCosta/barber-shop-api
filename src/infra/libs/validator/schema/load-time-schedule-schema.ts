@@ -7,5 +7,8 @@ export const loadTimeScheduleSchema = z.object({
       invalid_type_error: 'barberId type is invalid',
     })
     .min(1, { message: 'barberId is empty' }),
-  dateSchedule: z.string({ required_error: 'dateSchedule is required' }),
+  dateSchedule: z.string({
+    required_error: 'dateSchedule is required',
+    invalid_type_error: 'dateSchedule type is invalid',
+  }),
 })
