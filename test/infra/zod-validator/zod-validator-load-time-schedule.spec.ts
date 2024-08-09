@@ -7,4 +7,12 @@ describe('ZodValidator - LoadTimeScheduleSchema', () => {
     const error = sut.validate({})
     expect(error).toEqual(new ValidationError('barberId is required'))
   })
+
+  test('should return error if barberId type is invalid', () => {
+    const sut = new ZodValidator(loadTimeScheduleSchema)
+    const error = sut.validate({
+      barberId: 30,
+    })
+    expect(error).toEqual(new ValidationError('barberId type is invalid'))
+  })
 })
