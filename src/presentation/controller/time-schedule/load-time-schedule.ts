@@ -28,11 +28,15 @@ export class LoadTimeScheduleController implements Controller {
         }
       }
 
-      await this.loadTimeSchedule.loadByBarberIDAndDate(barberId, dateSchedule)
-      return await Promise.resolve({
-        statusCode: 204,
-        body: null,
-      })
+      const result = await this.loadTimeSchedule.loadByBarberIDAndDate(
+        barberId,
+        dateSchedule,
+      )
+
+      return {
+        statusCode: 200,
+        body: result,
+      }
     } catch (error) {
       if (
         error instanceof DateInvalidError ||
