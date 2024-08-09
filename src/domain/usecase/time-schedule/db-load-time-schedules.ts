@@ -7,16 +7,13 @@ import {
   type LoadSchedulesByBarberIdRepository,
   type LoadBarberByIdRepository,
 } from '@/domain/protocols/infra/db'
+import {
+  type LoadTimeSchedule,
+  type DbLoadTimeSchedulesResponse,
+} from '@/domain/protocols/presentation'
 import { NotExistsRegister } from '@/presentation/errors'
 
-interface DbLoadTimeSchedulesResponse {
-  timesSchedulesArray: Array<{
-    times: number
-    disabled: boolean
-  }>
-}
-
-export class DbLoadTimeSchedules {
+export class DbLoadTimeSchedules implements LoadTimeSchedule {
   constructor(
     private readonly loadSchedulesByBarberIdRepository: LoadSchedulesByBarberIdRepository,
     private readonly loadBarberByIdRepository: LoadBarberByIdRepository,
@@ -71,7 +68,7 @@ export class DbLoadTimeSchedules {
   private async generateTimes(
     timeSchedules: TimeScheduleModel[],
     isCurrent: boolean,
-  ): Promise<any> {
+  ): Promise<DbLoadTimeSchedulesResponse> {
     const INTERVALES = 15
     const timesContainer = []
 
