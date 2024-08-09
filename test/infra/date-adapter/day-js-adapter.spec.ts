@@ -27,3 +27,13 @@ describe('DayjsAdapter', () => {
     expect(response).toBeTruthy()
   })
 })
+
+describe('DayjsAdapter IsSame', () => {
+  test('should dayjs.isSame call with correct date', async () => {
+    const date = new Date().toISOString()
+    const mockedIsSame = jest.spyOn(dayjs, 'isSame')
+    const sut = new DayjsAdapter()
+    await sut.isCurrent(date)
+    expect(mockedIsSame).toHaveBeenCalledWith(date)
+  })
+})
