@@ -49,4 +49,13 @@ describe('ZodValidator - LoadTimeScheduleSchema', () => {
     })
     expect(error).toEqual(new ValidationError('dateSchedule format is invalid'))
   })
+
+  test('should return error if dateSchedule is empty', () => {
+    const sut = new ZodValidator(loadTimeScheduleSchema)
+    const error = sut.validate({
+      barberId: 'any_barberId',
+      dateSchedule: '',
+    })
+    expect(error).toEqual(new ValidationError('dateSchedule is empty'))
+  })
 })
