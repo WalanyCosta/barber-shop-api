@@ -12,5 +12,6 @@ export const loadTimeScheduleSchema = z.object({
       required_error: 'dateSchedule is required',
       invalid_type_error: 'dateSchedule type is invalid',
     })
+    .min(1, { message: 'dateSchedule is empty' })
     .datetime({ message: 'dateSchedule format is invalid' }),
 })
