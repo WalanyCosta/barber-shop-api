@@ -1,7 +1,7 @@
 import { DayjsAdapter } from '@/infra/libs/'
 import * as dayjs from '@/infra/libs/date-adapter/config/instance-day-js'
 
-describe('DayjsAdapter', () => {
+describe('DayjsAdapter isBefore', () => {
   test('should dayjs.isBefore call with correct date', async () => {
     const date = new Date().toISOString()
     const mockedDayjs = jest.spyOn(dayjs, 'isBefore')
@@ -29,6 +29,14 @@ describe('DayjsAdapter', () => {
 })
 
 describe('DayjsAdapter IsSame', () => {
+  beforeAll(() => {
+    const mockedDate = new Date('2024-08-06T05:30:40.450Z')
+    jest.spyOn(global, 'Date').mockImplementation(() => mockedDate)
+  })
+
+  afterAll(() => {
+    jest.resetAllMocks()
+  })
   test('should dayjs.isSame call with correct date', async () => {
     const date = new Date().toISOString()
     const mockedIsSame = jest.spyOn(dayjs, 'isSame')
@@ -45,5 +53,11 @@ describe('DayjsAdapter IsSame', () => {
     const sut = new DayjsAdapter()
     const response = sut.isCurrent(date)
     expect(response).rejects.toThrow()
+  })
+
+  test('should return true on success', async () => {
+    const sut = new DayjsAdapter()
+    const response = await sut.isCurrent(new Date().toISOString())
+    expect(response).toBeTruthy()
   })
 })
