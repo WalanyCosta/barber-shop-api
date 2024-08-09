@@ -3,17 +3,35 @@ import { makeLoadTimeScheduleStub } from '../../mocks/mock-time-schedule'
 import { LoadTimeScheduleController } from '@/presentation/controller'
 import { NotExistsRegister } from '@/presentation/errors'
 import { makeValidatorStub } from '../../mocks'
+import { type LoadTimeSchedule } from '@/domain/protocols/presentation'
+import { type Validator } from '@/presentation/protocols/validator'
+
+interface SutTypes {
+  sut: LoadTimeScheduleController
+  loadTimeScheduleStub: LoadTimeSchedule
+  validatorStub: Validator
+}
+
+const makeSut = (): SutTypes => {
+  const loadTimeScheduleStub = makeLoadTimeScheduleStub()
+  const validatorStub = makeValidatorStub()
+  const sut = new LoadTimeScheduleController(
+    loadTimeScheduleStub,
+    validatorStub,
+  )
+
+  return {
+    sut,
+    loadTimeScheduleStub,
+    validatorStub,
+  }
+}
 
 describe('LoadTimeScheduleController', () => {
   test('should LoadTimeSchedule call with correct params', async () => {
     const date = 'any_date'
     const barberId = 'any_barberId'
-    const loadTimeScheduleStub = makeLoadTimeScheduleStub()
-    const validatorStub = makeValidatorStub()
-    const sut = new LoadTimeScheduleController(
-      loadTimeScheduleStub,
-      validatorStub,
-    )
+    const { sut, loadTimeScheduleStub } = makeSut()
     const loadByBarberIDAndDateSpy = jest.spyOn(
       loadTimeScheduleStub,
       'loadByBarberIDAndDate',
@@ -31,12 +49,7 @@ describe('LoadTimeScheduleController', () => {
 
   test('should throw if LoadTimeSchedule throws DateInvalidError', async () => {
     const error = new DateInvalidError('Essa data já passou!')
-    const loadTimeScheduleStub = makeLoadTimeScheduleStub()
-    const validatorStub = makeValidatorStub()
-    const sut = new LoadTimeScheduleController(
-      loadTimeScheduleStub,
-      validatorStub,
-    )
+    const { sut, loadTimeScheduleStub } = makeSut()
     jest
       .spyOn(loadTimeScheduleStub, 'loadByBarberIDAndDate')
       .mockRejectedValueOnce(error)
@@ -56,12 +69,7 @@ describe('LoadTimeScheduleController', () => {
 
   test('should throw if LoadTimeSchedule throws NotExistsRegister', async () => {
     const error = new NotExistsRegister('Not exists register with id')
-    const loadTimeScheduleStub = makeLoadTimeScheduleStub()
-    const validatorStub = makeValidatorStub()
-    const sut = new LoadTimeScheduleController(
-      loadTimeScheduleStub,
-      validatorStub,
-    )
+    const { sut, loadTimeScheduleStub } = makeSut()
     jest
       .spyOn(loadTimeScheduleStub, 'loadByBarberIDAndDate')
       .mockRejectedValueOnce(error)
@@ -81,12 +89,7 @@ describe('LoadTimeScheduleController', () => {
 
   test('should throw if LoadTimeSchedule throws error', async () => {
     const error = new Error()
-    const loadTimeScheduleStub = makeLoadTimeScheduleStub()
-    const validatorStub = makeValidatorStub()
-    const sut = new LoadTimeScheduleController(
-      loadTimeScheduleStub,
-      validatorStub,
-    )
+    const { sut, loadTimeScheduleStub } = makeSut()
     jest
       .spyOn(loadTimeScheduleStub, 'loadByBarberIDAndDate')
       .mockRejectedValueOnce(error)
@@ -107,12 +110,7 @@ describe('LoadTimeScheduleController', () => {
   test('should call Validator with correct params', async () => {
     const dateSchedule = 'any_date'
     const barberId = 'any_barberId'
-    const loadTimeScheduleStub = makeLoadTimeScheduleStub()
-    const validatorStub = makeValidatorStub()
-    const sut = new LoadTimeScheduleController(
-      loadTimeScheduleStub,
-      validatorStub,
-    )
+    const { sut, validatorStub } = makeSut()
     const validateSpy = jest.spyOn(validatorStub, 'validate')
     await sut.handle({
       params: {
