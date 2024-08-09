@@ -65,4 +65,25 @@ describe('LoadTimeScheduleController', () => {
       body: error,
     })
   })
+
+  test('should throw if LoadTimeSchedule throws error', async () => {
+    const error = new Error()
+    const loadTimeScheduleStub = makeLoadTimeScheduleStub()
+    const sut = new LoadTimeScheduleController(loadTimeScheduleStub)
+    jest
+      .spyOn(loadTimeScheduleStub, 'loadByBarberIDAndDate')
+      .mockRejectedValueOnce(error)
+    const response = await sut.handle({
+      params: {
+        barberId: 'any_accountId',
+      },
+      query: {
+        dateSchedule: 'yesterday_date',
+      },
+    })
+    expect(response).toEqual({
+      statusCode: 500,
+      body: error,
+    })
+  })
 })
