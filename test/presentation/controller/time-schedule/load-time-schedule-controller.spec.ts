@@ -1,5 +1,8 @@
 import { DateInvalidError } from '@/domain/errors/date-invalid-error'
-import { makeLoadTimeScheduleStub } from '../../mocks/mock-time-schedule'
+import {
+  makeLoadTimeScheduleStub,
+  mockResultTimes,
+} from '../../mocks/mock-time-schedule'
 import { LoadTimeScheduleController } from '@/presentation/controller'
 import { NotExistsRegister } from '@/presentation/errors'
 import { makeValidatorStub } from '../../mocks'
@@ -123,7 +126,7 @@ describe('LoadTimeScheduleController', () => {
     expect(validateSpy).toHaveBeenCalledWith({ dateSchedule, barberId })
   })
 
-  test('should throw if Validator throws', async () => {
+  test('should return 403 if Validator throws', async () => {
     const error = new Error()
     const { sut, validatorStub } = makeSut()
     jest.spyOn(validatorStub, 'validate').mockReturnValueOnce(error)
@@ -138,6 +141,22 @@ describe('LoadTimeScheduleController', () => {
     expect(response).toEqual({
       statusCode: 403,
       body: error,
+    })
+  })
+
+  test('should return 200 on success', async () => {
+    const { sut } = makeSut()
+    const response = await sut.handle({
+      params: {
+        barberId: 'any_date',
+      },
+      query: {
+        dateSchedule: 'any_barberId',
+      },
+    })
+    expect(response).toEqual({
+      statusCode: 200,
+      body: mockResultTimes,
     })
   })
 })
