@@ -19,4 +19,11 @@ describe('DayjsAdapter', () => {
     const response = sut.isPassed(date)
     expect(response).rejects.toThrow()
   })
+
+  test('should return true on success', async () => {
+    const date = new Date('2024-08-08').toISOString()
+    const sut = new DayjsAdapter()
+    const response = await sut.isPassed(date)
+    expect(response).toBeTruthy()
+  })
 })
