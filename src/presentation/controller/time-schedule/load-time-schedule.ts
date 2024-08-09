@@ -6,17 +6,21 @@ import {
   type HttpRequest,
   type HttpResponse,
 } from '@/presentation/protocols/http'
+import { type Validator } from '@/presentation/protocols/validator'
 
 export class LoadTimeScheduleController implements Controller {
-  constructor(private readonly loadTimeSchedule: LoadTimeSchedule) {}
+  constructor(
+    private readonly loadTimeSchedule: LoadTimeSchedule,
+    private readonly validator: Validator,
+  ) {}
 
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
-      const { params, query } = httpRequest
-      await this.loadTimeSchedule.loadByBarberIDAndDate(
-        params.barberId,
-        query.dateSchedule,
-      )
+      const barberId = httpRequest.params.barberId
+      const dateSchedule = httpRequest.query.dateSchedule
+
+      this.validator.validate({ barberId, dateSchedule })
+      await this.loadTimeSchedule.loadByBarberIDAndDate(barberId, dateSchedule)
       return await Promise.resolve({
         statusCode: 204,
         body: null,
