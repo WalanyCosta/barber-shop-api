@@ -31,4 +31,13 @@ describe('ZodValidator - LoadTimeScheduleSchema', () => {
     })
     expect(error).toEqual(new ValidationError('dateSchedule is required'))
   })
+
+  test('should return error if dateSchedule type is invalid', () => {
+    const sut = new ZodValidator(loadTimeScheduleSchema)
+    const error = sut.validate({
+      barberId: 'any_barberId',
+      dateSchedule: null,
+    })
+    expect(error).toEqual(new ValidationError('dateSchedule type is invalid'))
+  })
 })
