@@ -36,4 +36,14 @@ describe('DayjsAdapter IsSame', () => {
     await sut.isCurrent(date)
     expect(mockedIsSame).toHaveBeenCalledWith(date)
   })
+
+  test('should throw if dayjs.isSame throws', async () => {
+    const date = new Date().toISOString()
+    jest.spyOn(dayjs, 'isSame').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const sut = new DayjsAdapter()
+    const response = sut.isCurrent(date)
+    expect(response).rejects.toThrow()
+  })
 })
