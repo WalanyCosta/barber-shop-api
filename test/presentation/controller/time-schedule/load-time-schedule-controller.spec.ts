@@ -122,4 +122,22 @@ describe('LoadTimeScheduleController', () => {
     })
     expect(validateSpy).toHaveBeenCalledWith({ dateSchedule, barberId })
   })
+
+  test('should throw if Validator throws', async () => {
+    const error = new Error()
+    const { sut, validatorStub } = makeSut()
+    jest.spyOn(validatorStub, 'validate').mockReturnValueOnce(error)
+    const response = await sut.handle({
+      params: {
+        barberId: 'any_date',
+      },
+      query: {
+        dateSchedule: 'any_barberId',
+      },
+    })
+    expect(response).toEqual({
+      statusCode: 403,
+      body: error,
+    })
+  })
 })
