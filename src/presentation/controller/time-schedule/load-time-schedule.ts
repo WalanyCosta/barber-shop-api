@@ -9,14 +9,21 @@ export class LoadTimeScheduleController implements Controller {
   constructor(private readonly loadTimeSchedule: LoadTimeSchedule) {}
 
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
-    const { params, query } = httpRequest
-    await this.loadTimeSchedule.loadByBarberIDAndDate(
-      params.barberId,
-      query.dateSchedule,
-    )
-    return await Promise.resolve({
-      statusCode: 204,
-      body: null,
-    })
+    try {
+      const { params, query } = httpRequest
+      await this.loadTimeSchedule.loadByBarberIDAndDate(
+        params.barberId,
+        query.dateSchedule,
+      )
+      return await Promise.resolve({
+        statusCode: 204,
+        body: null,
+      })
+    } catch (error) {
+      return {
+        statusCode: 400,
+        body: error,
+      }
+    }
   }
 }
