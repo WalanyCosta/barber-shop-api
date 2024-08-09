@@ -15,4 +15,12 @@ describe('ZodValidator - LoadTimeScheduleSchema', () => {
     })
     expect(error).toEqual(new ValidationError('barberId type is invalid'))
   })
+
+  test('should return error if barberId is empty', () => {
+    const sut = new ZodValidator(loadTimeScheduleSchema)
+    const error = sut.validate({
+      barberId: '',
+    })
+    expect(error).toEqual(new ValidationError('barberId is empty'))
+  })
 })
