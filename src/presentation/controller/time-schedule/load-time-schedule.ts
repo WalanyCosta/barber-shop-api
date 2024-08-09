@@ -19,7 +19,15 @@ export class LoadTimeScheduleController implements Controller {
       const barberId = httpRequest.params.barberId
       const dateSchedule = httpRequest.query.dateSchedule
 
-      this.validator.validate({ barberId, dateSchedule })
+      const error = this.validator.validate({ barberId, dateSchedule })
+
+      if (error) {
+        return {
+          statusCode: 403,
+          body: error,
+        }
+      }
+
       await this.loadTimeSchedule.loadByBarberIDAndDate(barberId, dateSchedule)
       return await Promise.resolve({
         statusCode: 204,
