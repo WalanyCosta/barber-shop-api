@@ -1,4 +1,6 @@
+import { DateInvalidError } from '@/domain/errors/date-invalid-error'
 import { type LoadTimeSchedule } from '@/domain/protocols/presentation'
+import { NotExistsRegister } from '@/presentation/errors'
 import { type Controller } from '@/presentation/protocols/controller'
 import {
   type HttpRequest,
@@ -20,8 +22,17 @@ export class LoadTimeScheduleController implements Controller {
         body: null,
       })
     } catch (error) {
+      if (
+        error instanceof DateInvalidError ||
+        error instanceof NotExistsRegister
+      ) {
+        return {
+          statusCode: 400,
+          body: error,
+        }
+      }
       return {
-        statusCode: 400,
+        statusCode: 500,
         body: error,
       }
     }
