@@ -40,6 +40,10 @@ _Nota:lembrando que o servidor deve estar rodando_
 -   [x] feat: signUp
 -   [x] feat: login
 -   [x] feat: buscar todos os servicos
+-   [x] feat: buscar por id um serviço
+-   [x] feat: buscar todas a categorias
+-   [x] feat: buscar por id uma categoria
+-   [x] feat: buscar as horas consoante o barbeiro e a data escolhida
 
 **Acessa API por esta url** : https://barber-shop-api.onrender.com/api/
 
@@ -112,22 +116,27 @@ _Nota:lembrando que o servidor deve estar rodando_
 -   [husky](https://github.com/typicode/husky)
 -   [typescript](https://www.typescriptlang.org/)
 -   [lint-staged](https://github.com/lint-staged/lint-staged)
--   [rimraf](#)
--   [semantic-release](#)
--   [supertest](#)
--   [tsx](#)
--   [prisma](#)
--   [git-commit-msg-linter](#)
--   [dotenv](#)
+-   [rimraf](https://www.npmjs.com/package/rimraf)
+-   [semantic-release](https://github.com/semantic-release/semantic-release)
+-   [supertest](https://www.npmjs.com/package/supertest)
+-   [tsx](https://www.npmjs.com/package/tsx)
+-   [prisma](https://www.prisma.io/)
+-   [git-commit-msg-linter](https://www.npmjs.com/package/git-commit-msg-linter)
+-   [dotenv](https://www.npmjs.com/package/dotenv)
+-   [prettier](https://prettier.io/)
+-   [mockdate](https://www.npmjs.com/package/mockdate)
+
 
 #### Dependencia de produção
 
--   [module-alias](#)
+-   [module-alias](https://www.npmjs.com/package/module-alias)
 -   [express](https://expressjs.com/en/starter/installing.html)
 -   [bcrypt](https://github.com/kelektiv/node.bcrypt.js)
 -   [jwt](https://github.com/auth0/node-jsonwebtoken)
--   [zod](#)
--   [@prisma/client](#)
+-   [zod](https://github.com/colinhacks/zod)
+-   [swagger-ui-express](https://swagger.io/)
+-   [dayjs](https://day.js.org/docs/en/installation/installation)
+
 
 ## ✒️ Autores
 
