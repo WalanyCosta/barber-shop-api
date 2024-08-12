@@ -14,6 +14,8 @@ import {
 import { type VerifyDateIsCurrentOrPassed } from '@/domain/protocols/infra/date'
 import { DateInvalidError } from '@/domain/errors/date-invalid-error'
 
+import MockDate from 'mockdate'
+
 interface SutTypes {
   sut: DbLoadTimeSchedules
   loadSchedulesByBarberIDRepositoryStub: LoadSchedulesByBarberIdRepository
@@ -22,13 +24,8 @@ interface SutTypes {
   verifyDateIsCurrentOrPassedStub: VerifyDateIsCurrentOrPassed
 }
 
-const mockDate = (date: string = '2024-08-06T05:30:40.450Z'): void => {
-  const mockedDate = new Date(date)
-  jest.spyOn(global, 'Date').mockImplementationOnce(() => mockedDate)
-}
-
-const ResetMock = (): void => {
-  jest.restoreAllMocks()
+const mockDate = (date: string = '2024-08-14T00:00:00.000Z'): void => {
+  MockDate.set(date)
 }
 
 const makeSut = (hourStart: number = 480, hourEnd: number = 495): SutTypes => {
@@ -63,7 +60,7 @@ describe('DbLoadTimeSchedules', () => {
   })
 
   afterAll(() => {
-    ResetMock()
+    MockDate.reset()
   })
 
   test('should call LoadBarberByIdRepository with correct id', async () => {

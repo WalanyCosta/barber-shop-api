@@ -18,7 +18,7 @@ export class DbLoadTimeSchedules implements LoadTimeSchedule {
     private readonly loadSchedulesByBarberIdRepository: LoadSchedulesByBarberIdRepository,
     private readonly loadBarberByIdRepository: LoadBarberByIdRepository,
     private readonly loadTimeSchedulesByDateAndIdsRepository: LoadTimeSchedulesByDateAndIdsRepository,
-    private hourStart: number,
+    private readonly hourStart: number,
     private readonly hourEnd: number,
     private readonly VerifyDateIsCurrentOrPassed: VerifyDateIsCurrentOrPassed,
   ) {}
@@ -62,35 +62,27 @@ export class DbLoadTimeSchedules implements LoadTimeSchedule {
         )
     }
 
-    return await this.generateTimes(timesSchedules, isCurrent)
+    return this.generateTimes(timesSchedules, isCurrent)
   }
 
-  private async generateTimes(
+  private generateTimes(
     timeSchedules: TimeScheduleModel[],
     isCurrent: boolean,
-  ): Promise<DbLoadTimeSchedulesResponse> {
+  ): DbLoadTimeSchedulesResponse {
     const INTERVALES = 15
     const timesContainer = []
+    let hour = this.hourStart
 
-    while (this.hourStart <= this.hourEnd) {
+    while (hour <= this.hourEnd) {
       timesContainer.push({
-        times: TimeScheduleModel.convertHoursMinutesToHoursString(
-          this.hourStart,
-        ),
-        disabled: timeSchedules.some((timeSchedule) => {
-          if (isCurrent) {
-            return (
-              timeSchedule.verifyIsBeforeCurrent(this.hourStart) ||
-              timeSchedule.verifyTimeExists(this.hourStart)
-            )
-          }
-          return timeSchedule.verifyTimeExists(this.hourStart)
-        }),
+        times: TimeScheduleModel.convertHoursMinutesToHoursString(hour),
+        disabled:
+          TimeScheduleModel.verifyIsBeforeCurrent(hour) ||
+          timeSchedules.some((timeSchedule) =>
+            timeSchedule.verifyTimeExists(hour),
+          ),
       })
-      this.hourStart = TimeScheduleModel.calculateTime(
-        INTERVALES,
-        this.hourStart,
-      )
+      hour = TimeScheduleModel.calculateTime(INTERVALES, hour)
     }
 
     return timesContainer

@@ -9,6 +9,6 @@ export class DayjsAdapter implements VerifyDateIsCurrentOrPassed {
 
   async isPassed(date: string): Promise<boolean> {
     const dateInFormatIso = new Date(date).toISOString()
-    return isBefore(dateInFormatIso)
+    return isBefore(dateInFormatIso) || isSame(dateInFormatIso)
   }
 }

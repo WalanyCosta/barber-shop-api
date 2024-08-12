@@ -37,9 +37,9 @@ export class TimeScheduleModel {
     return this.timeSchedule === time
   }
 
-  verifyIsBeforeCurrent(time: number): boolean {
+  static verifyIsBeforeCurrent(time: number): boolean {
     const date = new Date()
     const minutesCurrent = date.getHours() * 60 + date.getMinutes()
-    return minutesCurrent < time
+    return minutesCurrent > time
   }
 }

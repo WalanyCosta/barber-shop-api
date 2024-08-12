@@ -38,16 +38,10 @@ describe('TimeScheduleModel', () => {
   })
 
   test('should return false if verifyTimeIsBeforeCurrent times is old', () => {
-    const mockedDate = new Date('2024-08-06T17:55:37.450Z') // Janeiro é o mês 0, 15:00:00 horas
+    const mockedDate = new Date('2024-08-06T05:30:37.450Z') // Janeiro é o mês 0, 15:00:00 horas
     jest.spyOn(global, 'Date').mockImplementation(() => mockedDate)
 
-    const timeSchedule = new TimeScheduleModel(
-      'any_id',
-      'any_date',
-      495,
-      'any_scheduleId',
-    )
-    const result = timeSchedule.verifyIsBeforeCurrent(495)
+    const result = TimeScheduleModel.verifyIsBeforeCurrent(495)
     expect(result).toBeFalsy()
 
     jest.restoreAllMocks()
