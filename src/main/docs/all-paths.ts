@@ -6,9 +6,10 @@ import {
   serviceSearchPath,
   categoriesByIdPath,
   categoriesPath,
-  accountByIdPath
+  accountByIdPath,
+  barberByIdPath,
+  barbersPath,
 } from './paths'
-import { barberByIdPath } from './paths/barber'
 
 export default {
   '/login': loginPath,
@@ -19,5 +20,6 @@ export default {
   '/services/search}': serviceSearchPath,
   '/categories': categoriesPath,
   '/categories/{id}': categoriesByIdPath,
-  '/barber/{id}': barberByIdPath
+  '/barber/{id}': barberByIdPath,
+  '/barbers': barbersPath,
 }
