@@ -111,4 +111,22 @@ describe('Get /timeschedules/:barber/times?dateSchedule', () => {
 
     MockDate.reset()
   })
+
+  test('should return 400 if date is passed', async () => {
+    const mockDate = '2024-08-14T00:00:00.000Z'
+
+    MockDate.set(mockDate)
+
+    const accessToken = await mockAccessToken()
+    const barber = await createFakeScheduleAndBarberData()
+    await createFakeTimeScheduleData()
+    await request(app)
+      .get(
+        `/api/timeschedules/${barber.id}/times?dateSchedule=${new Date('2023-08-15').toISOString()}`,
+      )
+      .set('x-access-token', accessToken)
+      .expect(400)
+
+    MockDate.reset()
+  })
 })
