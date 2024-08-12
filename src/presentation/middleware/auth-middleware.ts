@@ -1,11 +1,14 @@
 import { type LoadAccountByToken } from '@/domain/protocols/presentation'
 import { AccessDeniedError } from '@/presentation/errors/access-denied-error'
-import { type HttpRequest, type HttpResponse } from '@/presentation/protocols/http'
+import {
+  type HttpRequest,
+  type HttpResponse,
+} from '@/presentation/protocols/http'
 import { type Middleware } from '@/presentation/protocols/middleware'
 
 export class AuthMiddleware implements Middleware {
-  constructor (private readonly loadAccountByToken: LoadAccountByToken) {}
-  async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
+  constructor(private readonly loadAccountByToken: LoadAccountByToken) {}
+  async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       const accessToken = httpRequest.headers?.['x-access-token']
       if (accessToken) {
@@ -14,19 +17,19 @@ export class AuthMiddleware implements Middleware {
         if (id) {
           return {
             statusCode: 200,
-            body: id
+            body: id,
           }
         }
       }
 
       return {
         statusCode: 403,
-        body: new AccessDeniedError()
+        body: new AccessDeniedError(),
       }
     } catch (error) {
       return {
         statusCode: 500,
-        body: error
+        body: error,
       }
     }
   }

@@ -2,17 +2,17 @@ export const signupParamsSchema = {
   type: 'object',
   properties: {
     name: {
-      type: 'string'
+      type: 'string',
     },
     email: {
-      type: 'string'
+      type: 'string',
     },
     phone: {
-      type: 'string'
+      type: 'string',
     },
     password: {
-      type: 'string'
-    }
+      type: 'string',
+    },
   },
-  required: ['name', 'email', 'password', 'phone']
+  required: ['name', 'email', 'password', 'phone'],
 }

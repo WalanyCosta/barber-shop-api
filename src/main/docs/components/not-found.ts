@@ -1,3 +1,3 @@
 export const notFound = {
-  description: 'rota não encontrada'
+  description: 'rota não encontrada',
 }

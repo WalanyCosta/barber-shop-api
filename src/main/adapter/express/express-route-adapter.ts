@@ -6,7 +6,7 @@ export default (controller: Controller) => {
     const httpRequest = {
       body: req.body,
       params: req.params,
-      query: req.query
+      query: req.query,
     }
     const httpResponse = await controller.handle(httpRequest)
     if (httpResponse.statusCode === 200) {

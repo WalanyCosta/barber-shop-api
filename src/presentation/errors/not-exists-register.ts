@@ -1,5 +1,5 @@
 export class NotExistsRegister extends Error {
-  constructor (mensagem: string) {
+  constructor(mensagem: string) {
     super(mensagem)
     this.name = 'NotExistsRegister'
   }

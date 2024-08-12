@@ -6,7 +6,7 @@ import {
   JwtAdapter,
   BcryptAdapter,
   ZodValidator,
-  LoginSchema
+  LoginSchema,
 } from '@/infra/libs'
 
 export const makeLoginController = (): Controller => {
@@ -18,9 +18,12 @@ export const makeLoginController = (): Controller => {
     makeAccountRepository,
     makeBcryptAdapter,
     makeJwtAdapter,
-    makeAccountRepository
+    makeAccountRepository,
   )
   const makeZodValidator = new ZodValidator(LoginSchema)
-  const loginController = new LoginController(makeZodValidator, makeDbAuthentication)
+  const loginController = new LoginController(
+    makeZodValidator,
+    makeDbAuthentication,
+  )
   return loginController
 }

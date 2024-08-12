@@ -3,12 +3,12 @@ import { type LoadAccountByTokenRepository } from '../../protocols/infra/db/acco
 import { type LoadAccountByToken } from '../../protocols/presentation/account/load-account-by-token'
 
 export class DbLoadAccountByToken implements LoadAccountByToken {
-  constructor (
+  constructor(
     private readonly decryptor: Decryptor,
-    private readonly loadAccountByTokenRepository: LoadAccountByTokenRepository
+    private readonly loadAccountByTokenRepository: LoadAccountByTokenRepository,
   ) {}
 
-  async load (accessToken: string): Promise<string | null> {
+  async load(accessToken: string): Promise<string | null> {
     let token: string | null = null
     try {
       token = await this.decryptor.decrypt(accessToken)
@@ -17,7 +17,8 @@ export class DbLoadAccountByToken implements LoadAccountByToken {
     }
 
     if (token) {
-      const account = await this.loadAccountByTokenRepository.loadByToken(accessToken)
+      const account =
+        await this.loadAccountByTokenRepository.loadByToken(accessToken)
       if (account) {
         return account.id
       }

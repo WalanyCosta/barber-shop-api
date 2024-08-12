@@ -6,7 +6,9 @@ import { LoadCategoryByIdController } from '@/presentation/controller'
 export const makeLoadCategoryByIdRepositoryFactory = (): Controller => {
   const categoryRepository = new CategoryRepository()
   const dbLoadCategoryById = new DbLoadCategoryById(categoryRepository)
-  const loadCategoryByIdController = new LoadCategoryByIdController(dbLoadCategoryById)
+  const loadCategoryByIdController = new LoadCategoryByIdController(
+    dbLoadCategoryById,
+  )
 
   return loadCategoryByIdController
 }

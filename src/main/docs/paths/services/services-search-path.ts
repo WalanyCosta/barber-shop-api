@@ -1,8 +1,10 @@
 export const serviceSearchPath = {
   get: {
-    security: [{
-      apiKeyAuth: []
-    }],
+    security: [
+      {
+        apiKeyAuth: [],
+      },
+    ],
     tags: ['Serviço'],
     summary: 'Rota para listar todas as serviços',
     parameters: [
@@ -12,19 +14,21 @@ export const serviceSearchPath = {
         required: true,
         schema: {
           type: 'string',
-          enum: ['service', 'category']
+          enum: ['service', 'category'],
         },
-        description: 'Esse typeQuery é propriedade para escolher o tipo de filtro'
+        description:
+          'Esse typeQuery é propriedade para escolher o tipo de filtro',
       },
       {
         in: 'query',
         name: 'query',
         required: true,
         schema: {
-          type: 'string'
+          type: 'string',
         },
-        description: 'Esse query é valor do filtro ou que se pretende pesquisar'
-      }
+        description:
+          'Esse query é valor do filtro ou que se pretende pesquisar',
+      },
     ],
     responses: {
       200: {
@@ -34,21 +38,21 @@ export const serviceSearchPath = {
             schema: {
               type: 'array',
               items: {
-                $ref: '#/schemas/service'
-              }
-            }
-          }
-        }
+                $ref: '#/schemas/service',
+              },
+            },
+          },
+        },
       },
       400: {
-        $ref: '#/components/badRequest'
+        $ref: '#/components/badRequest',
       },
       404: {
-        $ref: '#/components/notFound'
+        $ref: '#/components/notFound',
       },
       500: {
-        $ref: '#/components/serverError'
-      }
-    }
-  }
+        $ref: '#/components/serverError',
+      },
+    },
+  },
 }

@@ -6,5 +6,9 @@ import { makeLoadCategoryByIdRepositoryFactory } from '../factories/category/loa
 
 export default (router: Router): void => {
   router.get('/categories', auth, adapterRoute(makeLoadCategoriesFactory()))
-  router.get('/categories/:id', auth, adapterRoute(makeLoadCategoryByIdRepositoryFactory()))
+  router.get(
+    '/categories/:id',
+    auth,
+    adapterRoute(makeLoadCategoryByIdRepositoryFactory()),
+  )
 }

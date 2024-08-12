@@ -1,8 +1,10 @@
 export const servicesPath = {
   get: {
-    security: [{
-      apiKeyAuth: []
-    }],
+    security: [
+      {
+        apiKeyAuth: [],
+      },
+    ],
     tags: ['Serviço'],
     summary: 'Rota para listar todas as serviços',
     responses: {
@@ -13,21 +15,21 @@ export const servicesPath = {
             schema: {
               type: 'array',
               items: {
-                $ref: '#/schemas/service'
-              }
-            }
-          }
-        }
+                $ref: '#/schemas/service',
+              },
+            },
+          },
+        },
       },
       403: {
-        $ref: '#/components/forbidden'
+        $ref: '#/components/forbidden',
       },
       404: {
-        $ref: '#/components/notFound'
+        $ref: '#/components/notFound',
       },
       500: {
-        $ref: '#/components/serverError'
-      }
-    }
-  }
+        $ref: '#/components/serverError',
+      },
+    },
+  },
 }

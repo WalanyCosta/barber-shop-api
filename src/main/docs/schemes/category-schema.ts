@@ -2,14 +2,11 @@ export const categorySchema = {
   type: 'object',
   properties: {
     id: {
-      type: 'string'
+      type: 'string',
     },
     category: {
-      type: 'string'
-    }
+      type: 'string',
+    },
   },
-  required: [
-    'id',
-    'category'
-  ]
+  required: ['id', 'category'],
 }

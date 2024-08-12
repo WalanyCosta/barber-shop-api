@@ -5,7 +5,11 @@ import { DbLoadAccountByIdOrEmail } from '@/domain/usecase/account/db-load-accou
 
 export const makeLoadAccountByIdFactory = (): Controller => {
   const makeAccountRepository = new AccountRepository()
-  const dbLoadAccountByIdOrEmail = new DbLoadAccountByIdOrEmail(makeAccountRepository)
-  const loadAccountByIdController = new LoadAccountByIdController(dbLoadAccountByIdOrEmail)
+  const dbLoadAccountByIdOrEmail = new DbLoadAccountByIdOrEmail(
+    makeAccountRepository,
+  )
+  const loadAccountByIdController = new LoadAccountByIdController(
+    dbLoadAccountByIdOrEmail,
+  )
   return loadAccountByIdController
 }

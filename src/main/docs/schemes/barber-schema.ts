@@ -2,35 +2,35 @@ export const barberSchema = {
   type: 'object',
   properties: {
     id: {
-      type: 'string'
+      type: 'string',
     },
     name: {
-      type: 'string'
+      type: 'string',
     },
     birthday: {
-      type: 'string'
+      type: 'string',
     },
     email: {
-      type: 'string'
+      type: 'string',
     },
     phone: {
-      type: 'string'
+      type: 'string',
     },
     experience: {
-      type: 'string'
+      type: 'string',
     },
     experience_year: {
-      type: 'number'
+      type: 'number',
     },
     start: {
-      type: 'number'
+      type: 'number',
     },
     status: {
-      type: 'string'
+      type: 'string',
     },
     image_url: {
-      type: 'string'
-    }
+      type: 'string',
+    },
   },
   required: [
     'id',
@@ -42,6 +42,6 @@ export const barberSchema = {
     'experience_year',
     'start',
     'status',
-    'image_url'
-  ]
+    'image_url',
+  ],
 }

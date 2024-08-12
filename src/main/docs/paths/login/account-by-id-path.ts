@@ -1,8 +1,10 @@
 export const accountByIdPath = {
   get: {
-    security: [{
-      apiKeyAuth: []
-    }],
+    security: [
+      {
+        apiKeyAuth: [],
+      },
+    ],
     tags: ['Login'],
     summary: 'Rota para buscar categoria por id',
     responses: {
@@ -11,23 +13,23 @@ export const accountByIdPath = {
         content: {
           'application/json': {
             schema: {
-              $ref: '#/schemas/account'
-            }
-          }
-        }
+              $ref: '#/schemas/account',
+            },
+          },
+        },
       },
       400: {
-        $ref: '#/components/badRequest'
+        $ref: '#/components/badRequest',
       },
       403: {
-        $ref: '#/components/notFound'
+        $ref: '#/components/notFound',
       },
       404: {
-        $ref: '#/components/notFound'
+        $ref: '#/components/notFound',
       },
       500: {
-        $ref: '#/components/serverError'
-      }
-    }
-  }
+        $ref: '#/components/serverError',
+      },
+    },
+  },
 }

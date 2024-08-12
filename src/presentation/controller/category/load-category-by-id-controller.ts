@@ -1,29 +1,32 @@
 import { type LoadCategoryById } from '@/domain/protocols/presentation'
 import { NotExistsRegister } from '@/presentation/errors'
 import { type Controller } from '@/presentation/protocols/controller'
-import { type HttpRequest, type HttpResponse } from '@/presentation/protocols/http'
+import {
+  type HttpRequest,
+  type HttpResponse,
+} from '@/presentation/protocols/http'
 
 export class LoadCategoryByIdController implements Controller {
-  constructor (private readonly loadCategoryById: LoadCategoryById) {}
+  constructor(private readonly loadCategoryById: LoadCategoryById) {}
 
-  async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
+  async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       const { id } = httpRequest.params
       const category = await this.loadCategoryById.loadById(id)
       return {
         statusCode: 200,
-        body: category
+        body: category,
       }
     } catch (error) {
       if (error instanceof NotExistsRegister) {
         return {
           statusCode: 400,
-          body: error
+          body: error,
         }
       }
       return {
         statusCode: 500,
-        body: error
+        body: error,
       }
     }
   }

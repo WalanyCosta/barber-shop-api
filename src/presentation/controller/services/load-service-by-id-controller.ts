@@ -1,11 +1,14 @@
 import { type LoadServiceById } from '@/domain/protocols/presentation/service/load-service-by-id'
 import { type Controller } from '@/presentation/protocols/controller'
-import { type HttpRequest, type HttpResponse } from '@/presentation/protocols/http'
+import {
+  type HttpRequest,
+  type HttpResponse,
+} from '@/presentation/protocols/http'
 
 export class LoadServiceByIdController implements Controller {
-  constructor (private readonly loadServiceById: LoadServiceById) {}
+  constructor(private readonly loadServiceById: LoadServiceById) {}
 
-  async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
+  async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       const { id } = httpRequest.params
       const service = await this.loadServiceById.loadById(id)
@@ -14,20 +17,20 @@ export class LoadServiceByIdController implements Controller {
         return {
           statusCode: 400,
           body: {
-            error: 'Serviço não encontrado!'
-          }
+            error: 'Serviço não encontrado!',
+          },
         }
       }
       return {
         statusCode: 200,
-        body: service
+        body: service,
       }
     } catch (error) {
       return {
         statusCode: 500,
         body: {
-          error
-        }
+          error,
+        },
       }
     }
   }

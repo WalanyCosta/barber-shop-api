@@ -9,7 +9,10 @@ export const makeSearchServicesFactory = (): Controller => {
   const servicesRepository = new ServicesRepository()
   const dbSearchServices = new DbSearchServices(servicesRepository)
   const zodValidator = new ZodValidator(searchServiceSchema)
-  const loadServicesController = new SearchServicesController(dbSearchServices, zodValidator)
+  const loadServicesController = new SearchServicesController(
+    dbSearchServices,
+    zodValidator,
+  )
 
   return loadServicesController
 }

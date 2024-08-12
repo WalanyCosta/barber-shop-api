@@ -1,6 +1,11 @@
 import { DbAddAccount } from '@/domain/usecase/account/db-add-account'
 import { AccountRepository } from '@/infra/db/prisma'
-import { JwtAdapter, signupSchema, BcryptAdapter, ZodValidator } from '@/infra/libs'
+import {
+  JwtAdapter,
+  signupSchema,
+  BcryptAdapter,
+  ZodValidator,
+} from '@/infra/libs'
 import { SignUpController } from '@/presentation/controller/signup/signup-controller'
 import { type Controller } from '@/presentation/protocols/controller'
 
@@ -14,9 +19,12 @@ export const makeSignUpController = (): Controller => {
     makeBcryptAdapter,
     makeAccountRepository,
     makeJwtAdapter,
-    makeAccountRepository
+    makeAccountRepository,
   )
   const makeZodValidator = new ZodValidator(signupSchema)
-  const signUpController = new SignUpController(makeDbAddAccount, makeZodValidator)
+  const signUpController = new SignUpController(
+    makeDbAddAccount,
+    makeZodValidator,
+  )
   return signUpController
 }

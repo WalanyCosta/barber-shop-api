@@ -2,22 +2,25 @@ import { type AddAccount } from '@/domain/protocols/presentation'
 import { type Controller } from '@/presentation/protocols/controller'
 import { EmailInUseError } from '@/presentation/errors/email-in-use-error'
 import { type Validator } from '@/presentation/protocols/validator'
-import { type HttpRequest, type HttpResponse } from '@/presentation/protocols/http'
+import {
+  type HttpRequest,
+  type HttpResponse,
+} from '@/presentation/protocols/http'
 
 export class SignUpController implements Controller {
-  constructor (
+  constructor(
     private readonly addAccount: AddAccount,
-    private readonly validator: Validator
+    private readonly validator: Validator,
   ) {}
 
-  async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
+  async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       const error = this.validator.validate(httpRequest.body)
 
       if (error) {
         return {
           statusCode: 400,
-          body: error
+          body: error,
         }
       }
 
@@ -26,17 +29,17 @@ export class SignUpController implements Controller {
       if (!accessToken) {
         return {
           statusCode: 403,
-          body: new EmailInUseError()
+          body: new EmailInUseError(),
         }
       }
       return {
         statusCode: 200,
-        body: accessToken
+        body: accessToken,
       }
     } catch (error) {
       return {
         statusCode: 500,
-        body: error
+        body: error,
       }
     }
   }

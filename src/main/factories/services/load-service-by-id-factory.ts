@@ -6,7 +6,9 @@ import { DbLoadServiceById } from '@/domain/usecase/service/db-load-service-by-i
 export const makeLoadServiceByIdController = (): Controller => {
   const servicesRepository = new ServicesRepository()
   const dbLoadServiceById = new DbLoadServiceById(servicesRepository)
-  const loadServiceByIdController = new LoadServiceByIdController(dbLoadServiceById)
+  const loadServiceByIdController = new LoadServiceByIdController(
+    dbLoadServiceById,
+  )
 
   return loadServiceByIdController
 }

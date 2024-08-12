@@ -2,29 +2,29 @@ export const serviceSchema = {
   type: 'object',
   properties: {
     id: {
-      type: 'string'
+      type: 'string',
     },
     service: {
-      type: 'string'
+      type: 'string',
     },
     price: {
-      type: 'number'
+      type: 'number',
     },
     start: {
-      type: 'number'
+      type: 'number',
     },
     status: {
-      type: 'number'
+      type: 'number',
     },
     category: {
-      type: 'string'
+      type: 'string',
     },
     discount: {
-      type: 'number'
+      type: 'number',
     },
     duraction: {
-      type: 'number'
-    }
+      type: 'number',
+    },
   },
   required: [
     'service',
@@ -33,6 +33,6 @@ export const serviceSchema = {
     'status',
     'category',
     'discount',
-    'duraction'
-  ]
+    'duraction',
+  ],
 }

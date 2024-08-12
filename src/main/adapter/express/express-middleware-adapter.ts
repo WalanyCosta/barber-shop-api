@@ -5,7 +5,7 @@ import { type HttpRequest } from '@/presentation/protocols/http'
 export const adaptMiddleware = (middleware: Middleware) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     const request: HttpRequest = {
-      headers: req.headers
+      headers: req.headers,
     }
     const httpResponse = await middleware.handle(request)
     if (httpResponse.statusCode === 200) {
@@ -13,7 +13,7 @@ export const adaptMiddleware = (middleware: Middleware) => {
       next()
     } else {
       res.status(httpResponse.statusCode).json({
-        error: httpResponse.body.message
+        error: httpResponse.body.message,
       })
     }
   }
