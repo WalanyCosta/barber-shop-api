@@ -5,7 +5,8 @@ import {
   serviceSchema,
   signupParamsSchema,
   categorySchema,
-  barberSchema
+  barberSchema,
+  timeSchema,
 } from './schemes'
 
 export default {
@@ -15,5 +16,6 @@ export default {
   service: serviceSchema,
   signupParams: signupParamsSchema,
   category: categorySchema,
-  barber: barberSchema
+  barber: barberSchema,
+  time: timeSchema,
 }

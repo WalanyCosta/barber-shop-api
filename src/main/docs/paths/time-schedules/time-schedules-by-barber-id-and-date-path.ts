@@ -1,21 +1,31 @@
-export const barberByIdPath = {
+export const timeschedulesByBarberIdAndDatePath = {
   get: {
     security: [
       {
         apiKeyAuth: [],
       },
     ],
-    tags: ['Barbeiro'],
-    summary: 'Rota para buscar barbeiro por id',
+    tags: ['Horas livres'],
+    summary: 'Rota para buscar Todos os barbeiros',
     parameters: [
       {
         in: 'path',
-        name: 'id',
+        name: 'barberId',
         required: true,
         schema: {
           type: 'string',
         },
-        description: 'Esse ID requisitado é do serviço',
+        description: 'Esse é requisitado para buscar horas livres',
+      },
+      {
+        in: 'query',
+        name: 'dateSchedule',
+        required: true,
+        schema: {
+          type: 'string',
+        },
+        description:
+          'Esse ID requisitado é do dateSchedule e deve ser de formato iso',
       },
     ],
     responses: {
@@ -24,7 +34,10 @@ export const barberByIdPath = {
         content: {
           'application/json': {
             schema: {
-              $ref: '#/schemas/barber',
+              type: 'array',
+              items: {
+                $ref: '#/schemas/time',
+              },
             },
           },
         },

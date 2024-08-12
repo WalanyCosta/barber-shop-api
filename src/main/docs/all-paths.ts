@@ -9,6 +9,7 @@ import {
   accountByIdPath,
   barberByIdPath,
   barbersPath,
+  timeschedulesByBarberIdAndDatePath,
 } from './paths'
 
 export default {
@@ -22,4 +23,5 @@ export default {
   '/categories/{id}': categoriesByIdPath,
   '/barber/{id}': barberByIdPath,
   '/barbers': barbersPath,
+  '/timeschedules/{barberId}/times': timeschedulesByBarberIdAndDatePath,
 }
